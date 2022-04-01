@@ -1,8 +1,17 @@
 import {html, css, LitElement} from "https://unpkg.com/lit-element/lit-element.js?module"
 
+function getIndexes(char, string) {
+    const indexes = [];
+    for (let i = 0; i < string.length; i++) {
+        if (string[i] === char) indexes.push(i)
+    }
+    return indexes;
+}
+
 class SelectionPuzzle extends LitElement {
 
     static properties = {
+        complete: Boolean,
         question: String,
         answer: String,
         options: {
@@ -14,39 +23,50 @@ class SelectionPuzzle extends LitElement {
                 }));
             },
         },
-        chosen: {
-            type: String,
-            reflect: true,
-            converter: {
-                fromAttribute: (value, type) => {
-                    return value.split('');
-                },
-                toAttribute: (value, type) => {
-                    return value.join('');
-                }
-            },
-        },
+        attempts: Array,
+        attempt: Object,
     }
 
     constructor() {
         super();
         this.question = '';
-        this.chosen = [];
+        this.complete = false;
+        this.attempt = { options: [] };
+        this.attempts = [this.attempt];
+    }
+
+    check(attempt, answer) {
+        attempt.options.forEach(option => option.disabled = false);
+        attempt.found = attempt.options.map(option => answer.includes(option.text))
+        attempt.correct = attempt.options.map((option, index) => {
+            return getIndexes(option.text, answer).includes(index);
+        })
+        attempt.checked = true;
+        return attempt.options.map(option => option.text).join('') == answer;
     }
 
     choose(option) {
         option.disabled = true;
-        this.chosen = [...this.chosen, option];
-        option.found = this.answer.includes(option.text);
-        option.correct = this.answer.indexOf(option.text) == (this.chosen.indexOf(option) % 4)
+        const attempt = this.attempt;
+        attempt.options.push(option);
+        if (attempt.options.length == 4) {
+            this.correct = this.check(attempt, this.answer);
+            if (this.attempts.length == 4) {
+                this.options.forEach(option => option.disabled = true);
+                this.complete = true;
+            }
+            this.attempt = { options: [] };
+            this.attempts.push(this.attempt);
+        }
+        this.requestUpdate();
     }
     remove(option) {
         option.disabled = false;
-        this.chosen.splice(this.chosen.indexOf(option), 1);
-        this.chosen = [...this.chosen];
+        this.attempt.options.splice(this.attempt.options.indexOf(option), 1);
+        this.requestUpdate();
     }
     static styles = css`
-        #options, #chosen {
+        #options, #attempts {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-column-gap: 0.5em;
@@ -55,7 +75,8 @@ class SelectionPuzzle extends LitElement {
             margin: 1em;
         }
         .option {
-            // width: 1em;
+            width: 70px;
+            height: max-content;
         }
         .option[found] {
             background: yellow;
@@ -65,27 +86,31 @@ class SelectionPuzzle extends LitElement {
         }
     `;
 
+
     render() {
-        const { answer, options, chosen, question } = this;
+        const { answer, options, question, attempts, attempt } = this;
+        console.log({
+            attempts, attempt
+        })
         return html`
             <p>${question}</p>
-            <p>${answer}</p>
             <div id="options">
             ${options.map(option => {
                 const { text, disabled } = option;
                 return html`<button ?disabled=${disabled} class="option" type="button" @click=${() => this.choose(option)}>${text}</button>`
             })}
             </div>
-            <div id="chosen">
-            ${chosen.map((option, index) => {
-                if (Math.floor(index/4) == Math.floor(chosen.length/4)) {
-                    return html`<button class="option" type="button" @click=${() => this.remove(option)}>${option.text}</button>`
-                } else {
-                    return html`<button disabled ?found=${option.found} ?correct=${option.correct} class="option" type="button" @click=${() => this.remove(option)}>${option.text}</button>`
-                }
+            <div id="attempts">
+            ${attempts.filter(attempt => attempt.checked).map((attempt) => {
+                return attempt.options.map((option, i) => {
+                    return html`<button disabled ?found=${attempt.found[i]} ?correct=${attempt.correct[i]} class="option" type="button" @click=${() => this.remove(option)}>${option.text}</button>`
+                })
+            })}
+            ${attempt.options.map(option => {
+                return html`<button class="option" type="button" @click=${() => this.remove(option)}>${option.text}</button>`
             })}
             </div>
-
+            ${this.correct ? html`<p>Nice work</p>` : ''}
         `
     }
 }
