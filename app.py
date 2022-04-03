@@ -11,5 +11,10 @@ def chegnyu():
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template('index.html')
+    chengyu = [select() for _ in range(4)]
+    return render_template('index.html',
+        options="".join([c["chinese"] for c in chengyu]),
+        answer=chengyu[0]["chinese"],
+        question=chengyu[0]["english"]
+    )
 
