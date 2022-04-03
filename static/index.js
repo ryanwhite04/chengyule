@@ -1,5 +1,4 @@
-
-async function select(path, secret=0) {
+export default async function select(path, secret=0) {
     // const period = 1000*60*60*24;
     const period = 1000*10;
     const key = Math.floor(Date.now()/period)+secret;
@@ -19,13 +18,6 @@ async function select(path, secret=0) {
         options,
     }
 }
-
-select('chengyu.json').then(({ answer, options }) => {
-    const puzzle = document.getElementById('puzzle');
-    puzzle.setAttribute('answer', answer.chinese);
-    puzzle.setAttribute('options', options);
-    puzzle.setAttribute('question', answer.english);
-}).catch(console.error)
 
 
 

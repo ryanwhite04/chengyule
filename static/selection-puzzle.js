@@ -8,7 +8,7 @@ function getIndexes(char, string) {
     return indexes;
 }
 
-class SelectionPuzzle extends LitElement {
+export default class SelectionPuzzle extends LitElement {
 
     static properties = {
         complete: Boolean,

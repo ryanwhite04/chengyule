@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1>成语了</h1>
+        <selection-puzzle id="puzzle" options="aacdefghijklmnop" answer="aanc" question="whatever"></selection-puzzle>
+        <script type="module">
+            import "./static/selection-puzzle.js";
+            import select from "./static/index.js";
+            select('./static/chengyu.json').then(({ answer, options }) => {
+                const puzzle = document.getElementById('puzzle');
+                puzzle.setAttribute('answer', answer.chinese);
+                puzzle.setAttribute('options', options);
+                puzzle.setAttribute('question', answer.english);
+            }).catch(console.error)
+        </script>
+    </body>
+</html>
