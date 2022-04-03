@@ -11,7 +11,7 @@ def chegnyu():
 @app.route("/")
 @app.route("/index")
 def index():
-    chengyu = [select() for _ in range(4)]
+    chengyu = select('static/chengyu.json')
     return render_template('index.html',
         options="".join([c["chinese"] for c in chengyu]),
         answer=chengyu[0]["chinese"],
