@@ -14,6 +14,10 @@ export default class SelectionPuzzle extends LitElement {
         complete: Boolean,
         question: String,
         answer: String,
+        disableIncorrect: {
+            type: Boolean,
+            attribute: 'disable-incorrect',
+        },
         options: {
             type: Array,
             converter: (value, type) => {
@@ -49,15 +53,28 @@ export default class SelectionPuzzle extends LitElement {
         option.disabled = true;
         const attempt = this.attempt;
         attempt.options.push(option);
+
+        // If this attempt should be checked
         if (attempt.options.length == 4) {
             this.correct = this.check(attempt, this.answer);
+
+            // Hide disable options that were selected but not found
+            this.disableIncorrect &&
+                this.attempt.options
+                    .forEach((option, i) => option.disabled = !this.attempt.found[i])
+
+            // If 4 attempts have been made, end the puzzle
             if (this.attempts.length == 4) {
                 this.options.forEach(option => option.disabled = true);
                 this.complete = true;
             }
+
+            // Start a new attempt
             this.attempt = { options: [] };
             this.attempts.push(this.attempt);
         }
+
+        // Update the gui
         this.requestUpdate();
     }
     remove(option) {
