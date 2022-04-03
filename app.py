@@ -14,7 +14,7 @@ def getPuzzle(chengyu):
 
 @app.route("/chengyu")
 def chegnyu():
-    return select()
+    return getPuzzle(select('static/chengyu.json'))
 
 @app.route("/")
 @app.route("/index")
