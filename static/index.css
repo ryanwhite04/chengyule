@@ -1,0 +1,12 @@
+body {
+    margin: auto;
+    text-align: center;
+}
+
+#puzzles {
+    display: flex;
+    justify-content: center;
+    --puzzle-background-found: #F57F17;
+    --puzzle-background-correct: #1B5E20;
+}
+

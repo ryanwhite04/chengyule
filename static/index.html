@@ -2,10 +2,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <title>成语了</title>
+        <link rel="stylesheet" href="index.css">
     </head>
     <body>
         <h1>成语了</h1>
-        <selection-puzzle id="puzzle" disable-incorrect options="aacdefghijklmnop" answer="aanc" question="whatever"></selection-puzzle>
+        <div id="puzzles">
+            <selection-puzzle id="puzzle" disable-incorrect options="aacdefghijklmnop" answer="aanc" question="whatever"></selection-puzzle>
+        </div>
         <script type="module">
             import "./selection-puzzle.js";
             import select from "./index.js";

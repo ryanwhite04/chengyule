@@ -96,10 +96,12 @@ export default class SelectionPuzzle extends LitElement {
             height: max-content;
         }
         .option[found] {
-            background: yellow;
+            background: var(--puzzle-background-found, yellow);
+            color: var(--puzzle-color-found, black);
         }
         .option[correct] {
-            background: green;
+            background: var(--puzzle-background-correct, green);
+            color: var(--puzzle-color-correct, black);
         }
     `;
 

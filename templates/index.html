@@ -2,16 +2,20 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <title>{{title}}</title>
+        <link rel="stylesheet" href="static/index.css">
     </head>
     <body>
         <h1>成语了</h1>
-        {% for puzzle in puzzles %}
-        <selection-puzzle id="puzzle"
-            options="{{puzzle.options}}"
-            answer="{{puzzle.answer}}"
-            question="{{puzzle.question}}">
-        </selection-puzzle>
-        {% endfor %}
+        <div id="puzzles">
+            {% for puzzle in puzzles %}
+            <selection-puzzle
+                options="{{puzzle.options}}"
+                answer="{{puzzle.answer}}"
+                question="{{puzzle.question}}">
+            </selection-puzzle>
+            {% endfor %}
+        </div>
         <script src="static/selection-puzzle.js" type="module"></script>
     </body>
 </html>
