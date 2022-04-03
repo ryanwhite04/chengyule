@@ -5,7 +5,13 @@
     </head>
     <body>
         <h1>成语了</h1>
-        <selection-puzzle id="puzzle" options="{{options}}" answer="{{answer}}" question="{{question}}"></selection-puzzle>
+        {% for puzzle in puzzles %}
+        <selection-puzzle id="puzzle"
+            options="{{puzzle.options}}"
+            answer="{{puzzle.answer}}"
+            question="{{puzzle.question}}">
+        </selection-puzzle>
+        {% endfor %}
         <script src="static/selection-puzzle.js" type="module"></script>
     </body>
 </html>
