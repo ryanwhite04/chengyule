@@ -22,6 +22,10 @@
                 puzzle.setAttribute('options', options);
                 puzzle.setAttribute('question', answer.english);
             }).catch(console.error)
+
+            document.getElementById('puzzle').addEventListener('complete', e => {
+                if (e.detail) { console.log("Good Work!") }
+            });
         </script>
     </body>
 </html>
