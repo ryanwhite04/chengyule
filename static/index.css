@@ -6,7 +6,7 @@ body {
 #puzzles {
     display: flex;
     justify-content: center;
-    --puzzle-background-found: #F57F17;
-    --puzzle-background-correct: #1B5E20;
+    --puzzle-background-found: #ffeb3b;
+    --puzzle-background-correct: #4caf50;
 }
 
