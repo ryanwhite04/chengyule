@@ -8,10 +8,13 @@
     <body>
         <h1>成语了</h1>
         <div id="puzzles">
-            <selection-puzzle id="puzzle" disable-incorrect options="aacdefghijklmnop" answer="aanc" question="whatever"></selection-puzzle>
+            <selection-puzzle id="puzzle" disable-incorrect options="aacdefghijklmnop" answer="aanc" question="whatever">
+                <!-- <count-down></count-down> -->
+            </selection-puzzle>
         </div>
         <script type="module">
             import "./selection-puzzle.js";
+            import "./count-down.js";
             import select from "./index.js";
             select('./chengyu.json').then(({ answer, options }) => {
                 const puzzle = document.getElementById('puzzle');
