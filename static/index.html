@@ -7,11 +7,25 @@
     </head>
     <body>
         <h1>成语了</h1>
-        <div id="puzzles">
-            <selection-puzzle id="puzzle" disable-incorrect options="aacdefghijklmnop" answer="aanc" question="whatever">
-                <!-- <count-down></count-down> -->
-            </selection-puzzle>
-        </div>
+        <selection-puzzle id="puzzle" disable-incorrect answer="ABCD">
+            <h2>First 4 letters of the alphabet</h2>
+            <button slot="option">A</button>
+            <button slot="option">B</button>
+            <button slot="option">C</button>
+            <button slot="option">D</button>
+            <button slot="option">E</button>
+            <button slot="option">F</button>
+            <button slot="option">G</button>
+            <button slot="option">H</button>
+            <button slot="option">I</button>
+            <button slot="option">J</button>
+            <button slot="option">K</button>
+            <button slot="option">L</button>
+            <button slot="option">M</button>
+            <button slot="option">N</button>
+            <button slot="option">O</button>
+            <button slot="option">P</button>
+        </selection-puzzle>
         <script type="module">
             import "./selection-puzzle.js";
             import "./count-down.js";
@@ -19,8 +33,14 @@
             select('./chengyu.json').then(({ answer, options }) => {
                 const puzzle = document.getElementById('puzzle');
                 puzzle.setAttribute('answer', answer.chinese);
-                puzzle.setAttribute('options', options);
-                puzzle.setAttribute('question', answer.english);
+                puzzle.innerHTML = answer.english;
+                puzzle.append(options.reduce((fragment, option) => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.setAttribute('slot', 'option');
+                    fragment.append(button);
+                    return fragment;
+                }, document.createDocumentFragment()));
             }).catch(console.error)
 
             document.getElementById('puzzle').addEventListener('complete', e => {
