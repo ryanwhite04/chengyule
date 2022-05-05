@@ -1,18 +1,15 @@
 import {html, css, LitElement} from "https://unpkg.com/lit-element/lit-element.js?module"
 
-function getIndexes(char, string) {
-    const indexes = [];
-    for (let i = 0; i < string.length; i++) {
-        if (string[i] === char) indexes.push(i)
-    }
-    return indexes;
+// check('abcd')('x', 1) == 0 // not found
+// check('abcd')('a', 1) == 1 // found but not correct
+// check('abcd')('b', 1) == 2 // correct
+function check(string) {
+    return (v, i) => string.includes(v) ? string[i] == v ? 2 : 1 : 0;
 }
 
 export default class SelectionPuzzle extends LitElement {
 
     static properties = {
-        complete: Boolean,
-        question: String,
         answer: String,
         disableIncorrect: {
             type: Boolean,
@@ -24,33 +21,35 @@ export default class SelectionPuzzle extends LitElement {
 
     constructor() {
         super();
-        this.question = '';
-        this.complete = false;
         this.attempt = { options: [] };
         this.attempts = [this.attempt];
     }
 
     submit(attempt) {
-        attempt.options.forEach(option => option.disabled = false);
-        attempt.found = attempt.options.map(option => this.answer.includes(option.textContent))
-        attempt.correct = attempt.options.map((option, index) => getIndexes(option.textContent, this.answer).includes(index))
-        attempt.checked = true;
+        attempt.value = attempt.options
+            .map(option => option.textContent) // get the value of each option
+            .map(check(this.answer)) // check if the value is found or correct in the answer
 
         // Hide disable options that were selected but not found
-        this.disableIncorrect &&
-            this.attempt.options
-                .forEach((option, i) => option.disabled = !this.attempt.found[i])
+        this.disableIncorrect &&  // only if the disableIncorrect option is set
+            attempt.options.forEach((option, i) => option.disabled = !attempt.value[i])
 
-        // If 4 attempts have been made, end the puzzle
-        if (this.attempts.length == 4) {
-            this.shadowRoot.getElementById('options').assignedElements().forEach(option => option.disabled = true)
-            this.complete = true;
-        }
-
-        // Start a new attempt
         this.attempt = { options: [] };
         this.attempts.push(this.attempt);
-        this.correct = attempt.options.map(option => option.text).join('') == this.answer;
+
+        return attempt.value.every(v => v == 2) // word is correct
+            || this.attempts.length > 4 // or no attempts left
+    }
+
+    // End the game
+    finish(success) {
+        this.shadowRoot
+            .getElementById('options') // the slot that the options are in
+            .assignedElements() // the options in the light dom
+            .forEach(option => option.disabled = true); // disable them all to end game
+        this.dispatchEvent(new CustomEvent('complete', {
+            detail: success
+        }))
     }
 
     choose(event) {
@@ -58,11 +57,9 @@ export default class SelectionPuzzle extends LitElement {
         if (option.slot === 'option') {
             option.disabled = true;
             this.attempt.options.push(option);
-    
-            // If this attempt should be checked
-            if (this.attempt.options.length == 4) this.submit(this.attempt);
-    
-            // Update the gui
+                this.attempt.options.length == 4 &&
+                this.submit(this.attempt) &&
+                this.finish();
             this.requestUpdate();
         }
     }
@@ -79,24 +76,23 @@ export default class SelectionPuzzle extends LitElement {
             flex-direction: column;
             align-items: center;
         }
-        #options, #attempts {
+        #options, #choices {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-column-gap: 0.5em;
             grid-row-gap: 0.5em;
             margin: 1em;
         }
-        .option {
+        .choice {
             height: 3em;
             width: 3em;
+            color: black;
         }
-        .option[found] {
+        .choice[found] {
             background: yellow;
-            color: black;
         }
-        .option[correct] {
+        .choice[correct] {
             background: green;
-            color: black;
         }
         ::slotted([slot="option"]) {
             height: 3em;
@@ -106,21 +102,22 @@ export default class SelectionPuzzle extends LitElement {
     `;
 
     render() {
-        const { attempts, attempt } = this;
+        const choices = this.attempts
+            .map(({ options, value }) => options.map(this.choice(value)));
         return html`
             <slot></slot>
             <slot id="options" @click=${this.choose} name="option"></slot>
-            <div id="attempts">
-            ${attempts.filter(attempt => attempt.checked).map((attempt) => {
-                return attempt.options.map((option, i) => {
-                    return html`<button disabled ?found=${attempt.found[i]} ?correct=${attempt.correct[i]} class="option" type="button" @click=${() => this.remove(option)}>${option.textContent}</button>`
-                })
-            })}
-            ${attempt.options.map(option => {
-                return html`<button class="option" @click=${() => this.remove(option)}>${option.textContent}</button>`
-            })}
-            </div>
-        `
+            <div id="choices">${choices}</div>`
+    }
+
+    choice(value) {
+        return (option, i) => value ? // if attempt has been submitted it will have a value
+            html`<button class="choice" part="choice"
+                disabled ?found=${value[i] == 1} ?correct=${value[i] == 2}
+                >${option.textContent}</button>` :
+            html`<button class="choice" part="choice"
+                @click=${() => this.remove(option)}
+                >${option.textContent}</button>`
     }
 }
 
