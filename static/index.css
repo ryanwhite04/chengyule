@@ -10,3 +10,11 @@ body {
     --puzzle-background-correct: #4caf50;
 }
 
+selection-puzzle:not(:defined) {
+    display: none;
+}
+
+selection-puzzle::part(choice) {
+    color: blue;
+}
+
