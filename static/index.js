@@ -22,7 +22,7 @@ export async function select(path, secret=0) {
 export function change(puzzle) {
     return ({ answer, options }) => {
         puzzle.setAttribute('answer', answer.chinese);
-        puzzle.innerHTML = answer.english;
+        puzzle.innerHTML = `<h2/>${answer.english}</h2>`;
         puzzle.append(options.reduce((fragment, option) => {
             const button = document.createElement('button');
             button.textContent = option;
