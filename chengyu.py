@@ -6,7 +6,7 @@ def getIndex(digest, index, length, mod):
     return int.from_bytes(digest[index:index+length], 'little') % mod
 
 def select(path, count=1, key=b''):
-    with open(path, 'r', encoding="utf-8") as file:
+    with open(path, encoding ="utf-8") as file:
         options = loads(file.read())
     digest = sha256(key or randbytes(32)).digest()
     return [options[getIndex(digest, i*2, 2, len(options))] for i in range(count)]  
