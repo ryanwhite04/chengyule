@@ -1,11 +1,22 @@
 from flask import Flask, render_template
 from chengyu import select
-from os import listdir
+from os import listdir, environ
 from time import time
 from requests import get
 from json import loads
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app = Flask(__name__)
+app.config.update(
+    SQLALCHEMY_DATABASE_URI=environ.get('DATABASE_URL'),
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
+)
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+from models import User
 
 def getPuzzle(chengyu):
     return {
@@ -15,7 +26,7 @@ def getPuzzle(chengyu):
     }
 
 @app.route("/chengyu")
-def chegnyu():
+def chengyu():
     return getPuzzle(select('static/chengyu.json'))
 
 @app.route("/")
@@ -41,3 +52,4 @@ def random():
 def history():
     with open("history.json") as file: games = loads(file.read())
     return render_template("history.html", games=games)
+
