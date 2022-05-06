@@ -5,42 +5,45 @@ function check(string) {
     return (v, i) => string.includes(v) ? string[i] == v ? 2 : 1 : 0;
 }
 
-const styles = document.createElement('style');
-styles.textContent = `
-    :host {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-column-gap: 0.5em;
-        grid-row-gap: 0.5em;
-        margin: 1em;
-    }
-    .choice {
-        height: 3em;
-        width: 3em;
-        color: black;
-    }
-    .choice[found] {
-        background: yellow;
-    }
-    .choice[correct] {
-        background: green;
-    }
-    ::slotted([slot="option"]) {
-        height: 3em;
-        width: 3em;
-        text-align: center;
-    }
-`;
-
 export default class SelectionPuzzle extends HTMLElement {
 
     static get observedAttributes() {
         return ["answer", "disable-incorrect"]
+    }
+
+    get styles() {
+        const tag = document.createElement('style');
+        tag.textContent = `
+            :host {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-column-gap: 0.5em;
+                grid-row-gap: 0.5em;
+                margin: 1em;
+            }
+            .choice {
+                height: 3em;
+                width: 3em;
+                color: black;
+            }
+            .choice[found] {
+                background: yellow;
+            }
+            .choice[correct] {
+                background: green;
+            }
+            ::slotted([slot="option"]) {
+                height: 3em;
+                width: 3em;
+                text-align: center;
+            }
+        `;
+        return tag;
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -62,7 +65,7 @@ export default class SelectionPuzzle extends HTMLElement {
         super();
         this.attempts = [this.attempt];
         this.attachShadow({ mode: "open" });
-        this.shadowRoot.appendChild(styles);
+        this.shadowRoot.appendChild(this.styles);
         this.render(this.shadowRoot);
     }
 
