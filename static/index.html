@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,27 +26,13 @@
             <button slot="option">N</button>
             <button slot="option">O</button>
             <button slot="option">P</button>
+            <p slot="success">Nice Job!</p>
+            <p slot="failure">Bad luck.</p>
         </selection-puzzle>
+        <script src="selection-puzzle.js" type="module"></script>
         <script type="module">
-            import "./selection-puzzle.js";
-            import "./count-down.js";
-            import select from "./index.js";
-            select('./chengyu.json').then(({ answer, options }) => {
-                const puzzle = document.getElementById('puzzle');
-                puzzle.setAttribute('answer', answer.chinese);
-                puzzle.innerHTML = answer.english;
-                puzzle.append(options.reduce((fragment, option) => {
-                    const button = document.createElement('button');
-                    button.textContent = option;
-                    button.setAttribute('slot', 'option');
-                    fragment.append(button);
-                    return fragment;
-                }, document.createDocumentFragment()));
-            }).catch(console.error)
-
-            document.getElementById('puzzle').addEventListener('complete', e => {
-                if (e.detail) { console.log("Good Work!") }
-            });
+            import { select, change } from "./index.js"
+            select("chengyu.json").then(change(document.getElementById("puzzle")));
         </script>
     </body>
 </html>
