@@ -3,6 +3,8 @@ from chengyu import select
 from os import listdir
 from time import time
 from requests import get
+from json import loads
+
 app = Flask(__name__)
 
 def getPuzzle(chengyu):
@@ -34,3 +36,8 @@ def random():
         title="10 Random puzzles",
         puzzles=[getPuzzle(chengyu) for chengyu in chengyus]
     )
+
+@app.route("/history")
+def history():
+    with open("history.json") as file: games = loads(file.read())
+    return render_template("history.html", games=games)
