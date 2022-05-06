@@ -9,13 +9,13 @@ app = Flask(__name__)
 
 def getPuzzle(chengyu):
     return {
-        "options": sorted("".join([c["chinese"] for c in chengyu])),
+        "options": "".join([c["chinese"] for c in chengyu]),
         "answer": chengyu[0]["chinese"],
         "question": chengyu[0]["english"]
     }
 
 @app.route("/chengyu")
-def chengyu():
+def chegnyu():
     return getPuzzle(select('static/chengyu.json'))
 
 @app.route("/")
