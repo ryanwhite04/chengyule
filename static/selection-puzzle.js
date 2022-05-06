@@ -44,7 +44,6 @@ export default class SelectionPuzzle extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        console.log('attributeChanged', { name, oldValue, newValue })
         if (name == "disable-incorrect") {
             this.disableIncorrect = newValue !== null;
         } else {
