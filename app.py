@@ -2,18 +2,18 @@ from flask import Flask, render_template
 from chengyu import select
 from os import listdir
 from time import time
-
+from requests import get
 app = Flask(__name__)
 
 def getPuzzle(chengyu):
     return {
-        "options": "".join([c["chinese"] for c in chengyu]),
+        "options": sorted("".join([c["chinese"] for c in chengyu])),
         "answer": chengyu[0]["chinese"],
         "question": chengyu[0]["english"]
     }
 
 @app.route("/chengyu")
-def chegnyu():
+def chengyu():
     return getPuzzle(select('static/chengyu.json'))
 
 @app.route("/")
@@ -34,4 +34,3 @@ def random():
         title="10 Random puzzles",
         puzzles=[getPuzzle(chengyu) for chengyu in chengyus]
     )
-
