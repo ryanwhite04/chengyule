@@ -4,10 +4,10 @@ body {
 }
 
 #puzzles {
+    padding: 1em;
     display: flex;
     justify-content: center;
-    --puzzle-background-found: #ffeb3b;
-    --puzzle-background-correct: #4caf50;
+    flex-direction: column;
 }
 
 selection-puzzle:not(:defined) {

@@ -15,26 +15,23 @@ def getPuzzle(chengyu):
     }
 
 @app.route("/chengyu")
-def chegnyu():
+def chengyu():
     return getPuzzle(select('static/chengyu.json'))
 
 @app.route("/")
 @app.route("/index")
 def daily():
     key = bytes(int(time())//(60*60*24))
-    chengyu = select('static/chengyu.json', 4, key)
     return render_template('index.html',
         title="Daily Puzzle",
-        puzzles=[getPuzzle(chengyu)]
+        puzzle=getPuzzle(select('static/chengyu.json', 4, key))
     )
 
 @app.route("/random")
 def random():
-    path = 'static/chengyu.json'
-    chengyus = [select(path, 4) for i in range(10)]
     return render_template('index.html',
-        title="10 Random puzzles",
-        puzzles=[getPuzzle(chengyu) for chengyu in chengyus]
+        title="Random Puzzle",
+        puzzle=getPuzzle(select('static/chengyu.json', 4))
     )
 
 @app.route("/history")
