@@ -43,4 +43,4 @@ def history():
 @app.route("/registration")
 def register():
     form = Registration()
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, title="Registration Page")
