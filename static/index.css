@@ -2,7 +2,11 @@ body {
     margin: auto;
     text-align: center;
 }
-
+.container
+{
+    max-width: 500px;
+    height: 100px;
+}
 #puzzles {
     padding: 1em;
     display: flex;

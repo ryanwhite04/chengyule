@@ -4,8 +4,9 @@ from os import listdir
 from time import time
 from requests import get
 from json import loads
-
+from Registration import Registration
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'a259223f6fbaa6b4678936fa'
 
 def getPuzzle(chengyu):
     return {
@@ -38,3 +39,8 @@ def random():
 def history():
     with open("history.json") as file: games = loads(file.read())
     return render_template("history.html", games=games)
+
+@app.route("/registration")
+def register():
+    form = Registration()
+    return render_template('register.html', form=form)
