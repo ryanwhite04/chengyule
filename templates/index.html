@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{{title}}</title>
-        <link rel="stylesheet" href="static/index.css">
-    </head>
+{% extends 'nav.html' %}
+{% block title %}
+    {{title}}
+{% endblock %}
+{% block content %}
     <body>
         <h1>成语了</h1>
         <div id="puzzles">
@@ -20,4 +18,4 @@
         </div>
         <script src="static/selection-puzzle.js" type="module"></script>
     </body>
-</html>
+{% endblock %}
