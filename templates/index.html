@@ -3,7 +3,6 @@
 {% block content %}
 <body>
     <div id="puzzles">
-        {% for puzzle in puzzles %}
         <selection-puzzle 
             answer="{{puzzle.answer}}">
             {{puzzle.question}}
@@ -11,7 +10,6 @@
             <button slot="option">{{option}}</button>
             {% endfor %}
         </selection-puzzle>
-        {% endfor %}
     </div>
     <script src="static/selection-puzzle.js" type="module"></script>
 </body>
