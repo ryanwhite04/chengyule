@@ -1,13 +1,19 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from chengyu import select
-from os import listdir
+from os import listdir, environ
 from time import time
 from requests import get
 from json import loads
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from Registration import Registration
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a259223f6fbaa6b4678936fa'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+from models import User, Game, Play
 def getPuzzle(chengyu):
     return {
         "options": "".join([c["chinese"] for c in chengyu]),
@@ -40,7 +46,14 @@ def history():
     with open("history.json") as file: games = loads(file.read())
     return render_template("history.html", games=games)
 
-@app.route("/registration")
+@app.route("/registration", methods=['GET', 'POST'])
 def register():
     form = Registration()
+    if form.validate_on_submit():
+        New_user = User(username=form.username.data,
+                              email=form.email.data,
+                              password=form.password.data)
+        db.session.add(New_user)
+        db.session.commit()
+        return redirect(url_for('daily'))
     return render_template('register.html', form=form, title="Registration Page")
