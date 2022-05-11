@@ -1,13 +1,12 @@
 from app import db
-
 # From https://flask-user.readthedocs.io/en/latest/data_models.html
+
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
 
     # User Authentication fields
     email = db.Column(db.String(255), nullable=False, unique=True)
-    email_confirmed_at = db.Column(db.DateTime())
     username = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     plays = db.relationship("Play", backref="users.id", lazy=True)
@@ -35,3 +34,5 @@ class Play(db.Model):
 
     def __repr__(self):
         return f'<Play {self.word} at {self.time}>'
+db.create_all()
+db.session.commit()
