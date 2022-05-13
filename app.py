@@ -4,21 +4,28 @@ from werkzeug.security import generate_password_hash
 from os import listdir, environ
 from time import time
 from json import loads
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from flask_login import LoginManager, current_user, login_user, logout_user
 from forms import Registration, Login
 from sqlalchemy.exc import IntegrityError
+from models import db, User, Game, Play
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a259223f6fbaa6b4678936fa'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+
 login = LoginManager(app)
-migrate = Migrate(app, db)
-from models import User, Game, Play
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
+    db.session.commit()
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 def getPuzzle(chengyu):
     return {
         "options": "".join([c["chinese"] for c in chengyu]),
@@ -66,7 +73,7 @@ def register():
                 login_user(user, remember=True) # TODO make this optional
                 return redirect(url_for('daily'))
             except IntegrityError as error:
-                flash(error)
+                flash(error, 'error')
                 return render_template(
                     'register.html',
                     form=form,
@@ -80,7 +87,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.checkPassword(form.password.data):
-            flash('Invalid username or password')
+            flash('Invalid username or password', 'error')
             return redirect(url_for('login'))
         login_user(user)
         return redirect(url_for('daily'))
