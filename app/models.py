@@ -1,12 +1,9 @@
-from app import db, login
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash
 
 # From https://flask-user.readthedocs.io/en/latest/data_models.html
 
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+from app import db, login
 
 class User(UserMixin, db.Model):
     __tablename__ = "users"
@@ -22,6 +19,10 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f'<User {self.username}>'
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 class Game(db.Model):
     __tablename__ = "games"
@@ -43,6 +44,3 @@ class Play(db.Model):
 
     def __repr__(self):
         return f'<Play {self.word} at {self.time}>'
-
-db.create_all()
-db.session.commit()
