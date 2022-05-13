@@ -1,9 +1,7 @@
 body {
     margin: auto;
     text-align: center;
-    background: rgb(255,255,255);
-    background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(131, 190, 218) 100%);
-
+    background: radial-gradient(circle, white 0%, rgb(131, 190, 218) 100%);
 }
 
 h1 {
@@ -18,7 +16,6 @@ form {
 .error {
     padding: 1em;
     color: red;
-    background-color :rgb(203, 223, 255); 
 }
 
 [att^=h] {
