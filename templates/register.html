@@ -17,5 +17,8 @@
     {{ form.confirm(class="form-control") }}
     <br>
     {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
 </form>
 {% endblock %}

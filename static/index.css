@@ -12,6 +12,11 @@ form {
     margin: auto;
 }
 
+.error {
+    padding: 1em;
+    color: red;
+}
+
 #puzzles {
     padding: 1em;
     display: flex;

@@ -7,6 +7,7 @@ from json import loads
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from registration import Registration
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a259223f6fbaa6b4678936fa'
@@ -57,8 +58,15 @@ def register():
                 username=form.username.data,
                 email=form.email.data,
                 password=generate_password_hash(form.password.data))
-            print(user)
             db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('daily'))
+            try:
+                db.session.commit()
+                return redirect(url_for('daily'))
+            except IntegrityError as error:
+                return render_template(
+                    'register.html',
+                    form=form,
+                    title="Registration Page",
+                    error=error
+                )
     else: return render_template('register.html', form=form, title="Registration Page")
