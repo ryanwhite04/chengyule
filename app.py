@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
 from chengyu import select
 from werkzeug.security import generate_password_hash
 from os import listdir, environ
@@ -6,8 +6,8 @@ from time import time
 from json import loads
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_login import LoginManager, current_user, login_user
-from registration import Registration
+from flask_login import LoginManager, current_user, login_user, logout_user
+from registration import Registration, LoginForm
 from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
@@ -74,8 +74,19 @@ def register():
                 )
     else: return render_template('register.html', form=form, title="Registration Page")
 
-@app.route("/user", methods=["GET", "POST"])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return current_user.email
-    return "Not authenticated"
+    
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.checkPassword(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        login_user(user)
+        return redirect(url_for('daily'))
+    return render_template('login.html', title='Sign In', form=form)
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for("daily"))
