@@ -1,6 +1,15 @@
 body {
     margin: auto;
     text-align: center;
+    background-color :rgb(203, 223, 255); 
+}
+
+[att^=h] {
+    color:rgb(100, 106, 222);
+}
+
+p {
+    color:rgb(2, 6, 79);
 }
 
 #puzzles {
