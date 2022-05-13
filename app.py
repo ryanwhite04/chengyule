@@ -1,17 +1,16 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from chengyu import select
 from os import listdir, environ
 from time import time
-from requests import get
 from json import loads
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from Registration import Registration
+from registration import Registration
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a259223f6fbaa6b4678936fa'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -51,12 +50,14 @@ def history():
 @app.route("/registration", methods=['GET', 'POST'])
 def register():
     form = Registration()
-    if form.validate_on_submit():
-        user = User(
-            username=form.username.data,
-            email=form.email.data,
-            password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for('daily'))
-    return render_template('register.html', form=form, title="Registration Page")
+    if request.method == "POST":
+        if form.validate_on_submit():
+            user = User(
+                username=form.username.data,
+                email=form.email.data,
+                password=form.password.data)
+            print(user)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('daily'))
+    else: return render_template('register.html', form=form, title="Registration Page")

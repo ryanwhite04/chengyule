@@ -2,11 +2,16 @@ body {
     margin: auto;
     text-align: center;
 }
-.container
-{
-    max-width: 500px;
-    height: 100px;
+
+h1 {
+    padding: 1em;
 }
+
+form {
+    max-width: 300px;
+    margin: auto;
+}
+
 #puzzles {
     padding: 1em;
     display: flex;
