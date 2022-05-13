@@ -8,7 +8,7 @@ function check(string) {
 export default class SelectionPuzzle extends HTMLElement {
 
     static get observedAttributes() {
-        return ["answer", "disable-incorrect"]
+        return ["tries", "answer", "disable-incorrect"]
     }
 
     get styles() {
@@ -47,11 +47,20 @@ export default class SelectionPuzzle extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+        console.log("attributeChangedCallback", { name, oldValue, newValue });
         if (name == "disable-incorrect") {
             this.disableIncorrect = newValue !== null;
+        } else if (name == "tries") {
+            this.tries = parseInt(newValue);
+            this.updateProgress(this.attempts.length, this.tries);
         } else {
             this[name] = newValue;
         }
+        console.log(this.tries);
+    }
+
+    updateProgress(attempts, tries) {
+        this.progress.textContent = `You have ${1+tries-attempts} tries left`;
     }
 
     state = "playing";
@@ -76,8 +85,13 @@ export default class SelectionPuzzle extends HTMLElement {
 
         attempt.choices.forEach((choice, i) => {
             choice.disabled = true;
-            attempt.value[i] == 1 && choice.setAttribute("found", "");
-            attempt.value[i] == 2 && choice.setAttribute("correct", "");
+            if (attempt.value[i] == 2) {
+                choice.setAttribute("correct", "");
+                choice.setAttribute("part", "choice choice-correct");
+            } else if (attempt.value[i] == 1) {
+                choice.setAttribute("found", "");
+                choice.setAttribute("part", "choice choice-found");
+            }
         });
         attempt.options.forEach((option, i) => {
             option.disabled = this.disableIncorrect && !attempt.value[i]
@@ -94,6 +108,7 @@ export default class SelectionPuzzle extends HTMLElement {
         this.dispatchEvent(new CustomEvent('complete', {
             detail: success
         }))
+        this.shadowRoot.removeChild(this.progress);
     }
 
     select(event) {
@@ -104,16 +119,18 @@ export default class SelectionPuzzle extends HTMLElement {
             this.choose(option, this.attempt);
             if (this.attempt.options.length == 4) {
                 if (this.submit(this.attempt)) this.finish(true);
-                else if (this.attempts.length == 4) this.finish(false);
+                else if (this.attempts.length == this.tries) this.finish(false);
                 else this.attempts.push(this.attempt = {
                     options: [],
                     choices: [],
                 });
+                this.updateProgress(this.attempts.length, this.tries);
             }
         }
     }
 
     render() {
+        console.log('render');
         const slot = document.createElement('slot');
 
         this.options = document.createElement('slot');
@@ -133,13 +150,17 @@ export default class SelectionPuzzle extends HTMLElement {
         this.failure.setAttribute("name", "failure");
         this.failure.textContent = "Failure";
         this.failure.setAttribute("hidden", "");
+        
+        this.progress = document.createElement("span");
 
         this.shadowRoot.append(
             slot,
             this.options,
+            this.progress,
             this.choices,
             this.success,
-            this.failure
+            this.failure,
+
         );
     }
 
