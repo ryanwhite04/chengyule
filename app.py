@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request
 from chengyu import select
+from werkzeug.security import generate_password_hash, check_password_hash
 from os import listdir, environ
 from time import time
 from json import loads
@@ -55,7 +56,7 @@ def register():
             user = User(
                 username=form.username.data,
                 email=form.email.data,
-                password=form.password.data)
+                password=generate_password_hash(form.password.data))
             print(user)
             db.session.add(user)
             db.session.commit()
