@@ -1,7 +1,12 @@
-from app import db
+from app import db, login
+from flask_login import UserMixin
 # From https://flask-user.readthedocs.io/en/latest/data_models.html
 
-class User(db.Model):
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
 

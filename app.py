@@ -6,6 +6,7 @@ from time import time
 from json import loads
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import LoginManager, current_user, login_user
 from registration import Registration
 from sqlalchemy.exc import IntegrityError
 
@@ -15,6 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+login = LoginManager(app)
 migrate = Migrate(app, db)
 from models import User, Game, Play
 def getPuzzle(chengyu):
@@ -61,6 +63,7 @@ def register():
             db.session.add(user)
             try:
                 db.session.commit()
+                login_user(user, remember=True) # TODO make this optional
                 return redirect(url_for('daily'))
             except IntegrityError as error:
                 return render_template(
@@ -70,3 +73,10 @@ def register():
                     error=error
                 )
     else: return render_template('register.html', form=form, title="Registration Page")
+
+@app.route("/user", methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return current_user.email
+    return "Not authenticated"
+    
