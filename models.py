@@ -1,6 +1,6 @@
 from app import db, login
 from flask_login import UserMixin
-from werkzeug import check_password_hash
+from werkzeug.security import check_password_hash
 
 # From https://flask-user.readthedocs.io/en/latest/data_models.html
 
