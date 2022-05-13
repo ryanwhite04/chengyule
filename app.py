@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request
 from chengyu import select
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 from os import listdir, environ
 from time import time
 from json import loads
@@ -79,4 +79,3 @@ def login():
     if current_user.is_authenticated:
         return current_user.email
     return "Not authenticated"
-    

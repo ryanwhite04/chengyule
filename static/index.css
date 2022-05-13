@@ -18,21 +18,34 @@ form {
 .error {
     padding: 1em;
     color: red;
+    background-color :rgb(203, 223, 255); 
+}
+
+[att^=h] {
+    color:rgb(100, 106, 222);
+}
+
+p {
+    color:rgb(2, 6, 79);
 }
 
 #puzzles {
     padding: 1em;
     display: flex;
     justify-content: center;
-    flex-direction: column;
+}
+
+selection-puzzle::part(choice) {
+}
+
+selection-puzzle::part(choice-found), [found] {
+}
+
+selection-puzzle::part(choice-correct), [correct] {
 }
 
 selection-puzzle:not(:defined) {
     display: none;
-}
-
-selection-puzzle::part(choice) {
-    color: blue;
 }
 
 selection-puzzle button[slot="option"] {

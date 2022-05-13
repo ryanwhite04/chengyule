@@ -7,7 +7,11 @@
     </head>
     <body>
         <h1>成语了</h1>
-        <selection-puzzle id="puzzle" disable-incorrect answer="ABCD">
+        <ul>
+            <li found>Found</li>
+            <li correct>Correct</li>
+        </ul>
+        <selection-puzzle tries="8" id="puzzle" disable-incorrect answer="ABCD">
             <h2>First 4 letters of the alphabet</h2>
             <button slot="option">A</button>
             <button slot="option">B</button>
@@ -29,6 +33,7 @@
             <p slot="failure">Bad luck.</p>
         </selection-puzzle>
         <script src="selection-puzzle.js" type="module"></script>
+        <script src="count-down.js" type="module"></script>
         <script type="module">
             import { select, change } from "./index.js"
             select("chengyu.json").then(change(document.getElementById("puzzle")));
