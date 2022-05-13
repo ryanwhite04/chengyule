@@ -4,17 +4,12 @@ body {
     background: radial-gradient(circle, white 0%, rgb(131, 190, 218) 100%);
 }
 
-h1 {
-    padding: 1em;
-}
-
 form {
     max-width: 300px;
     margin: auto;
 }
 
 .error {
-    padding: 1em;
     color: red;
 }
 
@@ -24,12 +19,6 @@ form {
 
 p {
     color:rgb(2, 6, 79);
-}
-
-#puzzles {
-    padding: 1em;
-    display: flex;
-    justify-content: center;
 }
 
 selection-puzzle::part(choice) {
