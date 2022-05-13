@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{{title}}</title>
-        <link rel="stylesheet" href="static/index.css">
-    </head>
-    <body>
-        <h1>成语了</h1>
-        <div id="puzzles">
-            {% for puzzle in puzzles %}
-            <selection-puzzle 
-                answer="{{puzzle.answer}}">
-                {{puzzle.question}}
-                {% for option in puzzle.options %}
-                <button slot="option">{{option}}</button>
-                {% endfor %}
-            </selection-puzzle>
+{% extends 'base.html' %}
+{% block title %}{{title}}{% endblock %}
+{% block content %}
+<body>
+    <div id="puzzles">
+        <selection-puzzle 
+            answer="{{puzzle.answer}}">
+            {{puzzle.question}}
+            {% for option in puzzle.options %}
+            <button slot="option">{{option}}</button>
             {% endfor %}
-        </div>
-        <script src="static/selection-puzzle.js" type="module"></script>
-    </body>
-</html>
+        </selection-puzzle>
+    </div>
+    <script src="static/selection-puzzle.js" type="module"></script>
+</body>
+{% endblock %}
