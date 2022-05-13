@@ -7,7 +7,7 @@ from json import loads
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager, current_user, login_user, logout_user
-from registration import Registration, LoginForm
+from forms import Registration, Login
 from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
@@ -66,18 +66,17 @@ def register():
                 login_user(user, remember=True) # TODO make this optional
                 return redirect(url_for('daily'))
             except IntegrityError as error:
+                flash(error)
                 return render_template(
                     'register.html',
                     form=form,
                     title="Registration Page",
-                    error=error
                 )
     else: return render_template('register.html', form=form, title="Registration Page")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    
-    form = LoginForm()
+    form = Login()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.checkPassword(form.password.data):
@@ -86,6 +85,7 @@ def login():
         login_user(user)
         return redirect(url_for('daily'))
     return render_template('login.html', title='Sign In', form=form)
+
 @app.route('/logout')
 def logout():
     logout_user()
