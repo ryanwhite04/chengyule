@@ -1,7 +1,21 @@
 body {
     margin: auto;
     text-align: center;
-    background-color :rgb(203, 223, 255); 
+    background: radial-gradient(circle, white 0%, rgb(131, 190, 218) 100%);
+}
+
+h1 {
+    padding: 1em;
+}
+
+form {
+    max-width: 300px;
+    margin: auto;
+}
+
+.error {
+    padding: 1em;
+    color: red;
 }
 
 [att^=h] {

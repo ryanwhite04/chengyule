@@ -1,12 +1,24 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request, flash
 from chengyu import select
-from os import listdir
+from werkzeug.security import generate_password_hash
+from os import listdir, environ
 from time import time
-from requests import get
 from json import loads
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_login import LoginManager, current_user, login_user, logout_user
+from forms import Registration, Login
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'a259223f6fbaa6b4678936fa'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+db = SQLAlchemy(app)
+login = LoginManager(app)
+migrate = Migrate(app, db)
+from models import User, Game, Play
 def getPuzzle(chengyu):
     return {
         "options": "".join([c["chinese"] for c in chengyu]),
@@ -38,3 +50,43 @@ def random():
 def history():
     with open("history.json") as file: games = loads(file.read())
     return render_template("history.html", games=games)
+
+@app.route("/registration", methods=['GET', 'POST'])
+def register():
+    form = Registration()
+    if request.method == "POST":
+        if form.validate_on_submit():
+            user = User(
+                username=form.username.data,
+                email=form.email.data,
+                password=generate_password_hash(form.password.data))
+            db.session.add(user)
+            try:
+                db.session.commit()
+                login_user(user, remember=True) # TODO make this optional
+                return redirect(url_for('daily'))
+            except IntegrityError as error:
+                flash(error)
+                return render_template(
+                    'register.html',
+                    form=form,
+                    title="Registration Page",
+                )
+    else: return render_template('register.html', form=form, title="Registration Page")
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = Login()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.checkPassword(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        login_user(user)
+        return redirect(url_for('daily'))
+    return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for("daily"))
