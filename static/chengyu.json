@@ -2493,5 +2493,930 @@
     "chinese": "共襄盛举",
     "pinyin": "gòng xiāng shèngjǔ",
     "english": "Total success"
+  },
+  {
+    "chinese": "安居乐业",
+    "pinyin": "ān jū lè yè",
+    "english": "To live peacefully and work happily"
+  },
+  {
+    "chinese": "安然无恙",
+    "pinyin": "ān rán wú yàng",
+    "english": "Used to indicate someone or something is safe and without illness"
+  },
+  {
+    "chinese": "按图索骥",
+    "pinyin": "àn tú suǒ jì",
+    "english": "To follow clues to search for something; to be unable to change one's ways or adapt"
+  },
+  {
+    "chinese": "拔苗助长",
+    "pinyin": "bá miáo zhù zhǎng",
+    "english": "When someone is impatient for something and tries to hurry things along, only to have the results turn out to be the opposite of what they wanted"
+  },
+  {
+    "chinese": "百发百中",
+    "pinyin": "bǎi fā bǎi zhòng",
+    "english": "Used when one knows a task well and performs it with precision. Also used to indicate one is a skilled marksman"
+  },
+  {
+    "chinese": "半斤八两",
+    "pinyin": "bàn jìn bā liǎng",
+    "english": "To be equally matched with the other party; to be almost the same"
+  },
+  {
+    "chinese": "班门弄斧",
+    "pinyin": "bān mén nòng fǔ",
+    "english": "When someone incompetent or unskilled overestimates their abilities and \"shows off\" to someone who actually is skilled"
+  },
+  {
+    "chinese": "半途而废",
+    "pinyin": "bàn tú ér fèi",
+    "english": "To stop or give up halfway"
+  },
+  {
+    "chinese": "杯弓蛇影",
+    "pinyin": "bēi gōng shé yǐng ",
+    "english": "To scare oneself by being overly suspicious or paranoid; to be jumpy"
+  },
+  {
+    "chinese": "背水一战",
+    "pinyin": "bèi shuǐ yī zhàn",
+    "english": "Describes a make-or-break situation where retreat is not possible"
+  },
+  {
+    "chinese": "本末倒置",
+    "pinyin": "běn mò dào zhì",
+    "english": "Indicates that one has inverted the importance or order of two things"
+  },
+  {
+    "chinese": "笨鸟先飞",
+    "pinyin": "bèn niǎo xiān fēi",
+    "english": "Refers to when people with limited ability begin a task early so as not to fall behind"
+  },
+  {
+    "chinese": "敝帚自珍",
+    "pinyin": "bì zhǒu zì zhēn",
+    "english": "To highly treasure something despite the fact that it doesn't really have any inherent value; sentimental attachment"
+  },
+  {
+    "chinese": "不可救药",
+    "pinyin": "bù kě jiù yào",
+    "english": "Refers to situations or people that have worsened beyond the point of repair or helping (figurative or literal)"
+  },
+  {
+    "chinese": "不可思议",
+    "pinyin": "bù kě sī yì",
+    "english": "Unbelievable; unimaginable"
+  },
+  {
+    "chinese": "不约而同",
+    "pinyin": "bù yuē ér tóng",
+    "english": "To do the same thing without prior consultation or agreement"
+  },
+  {
+    "chinese": "沧海桑田",
+    "pinyin": "cāng hǎi sāng tián",
+    "english": "Refers to large-scale transformations or changes (of places, people, etc) "
+  },
+  {
+    "chinese": "草木皆兵",
+    "pinyin": "cǎo mù jiē bīng",
+    "english": "To describe people who are in a state of acute nervousness, fear, or suspicion"
+  },
+  {
+    "chinese": "长话短说",
+    "pinyin": "cháng huà duǎn shuō",
+    "english": "This effectively means \"long story short,\" and it's used the same way as in English"
+  },
+  {
+    "chinese": "唱空城计",
+    "pinyin": "chàng kōng chéng jì",
+    "english": "Refers to using some kind of method to conceal one's weakness from the enemy. Also can indicate that something or one's stomach is empty, or that a company's employees are mostly out of the office (for group travel, etc)"
+  },
+  {
+    "chinese": "出尔反尔",
+    "pinyin": "chū ěr fǎn ěr",
+    "english": "In modern Chinese, this refers to when one's behavior is contradictory or inconsistent. Originally, this phrase was used to indicate that others would treat you like you treated them"
+  },
+  {
+    "chinese": "川流不息",
+    "pinyin": "chuān liú bù xī",
+    "english": "This refers to a unending stream of objects (cars, people, etc)"
+  },
+  {
+    "chinese": "打草惊蛇",
+    "pinyin": "dǎ cǎo jīng shé",
+    "english": "To inadvertently alert an enemy due to one's own conspicuous actions"
+  },
+  {
+    "chinese": "大器晚成",
+    "pinyin": "dà qì wǎn chéng",
+    "english": "Indicates that people of great talent make take longer to develop their skills and may accomplish great things relatively later in life"
+  },
+  {
+    "chinese": "丢三落四",
+    "pinyin": "diū sān là sì",
+    "english": "Describes carelessness or forgetfulness"
+  },
+  {
+    "chinese": "东山再起",
+    "pinyin": "dōng shān zài qǐ",
+    "english": "To regain one's strength or power after previously losing it"
+  },
+  {
+    "chinese": "东张西望",
+    "pinyin": "dōng zhāng xī wàng",
+    "english": "To look in all directions; to look all around"
+  },
+  {
+    "chinese": "对牛弹琴",
+    "pinyin": "duì niú tán qín ",
+    "english": "To try to use reason or logic with someone who understands neither; to use jargon with someone who won't understand it. Often used to mock or satirize. "
+  },
+  {
+    "chinese": "恶贯满盈",
+    "pinyin": "è guàn mǎn yíng",
+    "english": "To commit endless crimes and deserve judgement/damnation"
+  },
+  {
+    "chinese": "飞蛾扑火",
+    "pinyin": "fēi é pū huǒ",
+    "english": "Used in situations where someone is digging their own grave or causing their own ruin"
+  },
+  {
+    "chinese": "废寝忘食",
+    "pinyin": "fèi qǐn wàng shí",
+    "english": "To be completely absorbed in one's work; to focus on something with single-minded devotion"
+  },
+  {
+    "chinese": "凤毛麟角",
+    "pinyin": "fèng máo lín jiǎo",
+    "english": "Extremely rare and scarce"
+  },
+  {
+    "chinese": "负荆请罪",
+    "pinyin": "fù jīng qǐng zuì",
+    "english": "To formally offer a sincere apology"
+  },
+  {
+    "chinese": "覆水难收",
+    "pinyin": "fù shuǐ nán shōu",
+    "english": "Describes situations where the outcome can't be reversed or changed. Often used in reference to divorce. "
+  },
+  {
+    "chinese": "根深蒂固",
+    "pinyin": "gēn shēn dì gù",
+    "english": "Used to indicate that something's foundation is solid and unmovable. Often refers to organizations/groups or strength/power"
+  },
+  {
+    "chinese": "瓜田李下",
+    "pinyin": "guā tián lǐ xià",
+    "english": "Refers to a situation or behavior that quickly draws suspicion; unintentionally suspicious behavior"
+  },
+  {
+    "chinese": "拐弯抹角",
+    "pinyin": "guǎi wān mò jiǎo",
+    "english": "To speak or write in a roundabout fashion"
+  },
+  {
+    "chinese": "过河拆桥",
+    "pinyin": "guò hé chāi qiáo",
+    "english": "When someone abandons those who helped them upon realizing their goal"
+  },
+  {
+    "chinese": "海底捞针",
+    "pinyin": "hǎi dǐ lāo zhēn",
+    "english": "Used to describe something that is very difficult to find"
+  },
+  {
+    "chinese": "害群之马",
+    "pinyin": "hài qún zhī mǎ",
+    "english": "Refers to a person that has a negative influence on the group that they're in"
+  },
+  {
+    "chinese": "邯郸学步",
+    "pinyin": "hán dān xué bù",
+    "english": "To describe situations where someone, in blindly trying to mimic others, not only fails to succeed, but also forgets the skills and strengths that they originally had "
+  },
+  {
+    "chinese": "鹤立鸡群",
+    "pinyin": "hè lì jī qún",
+    "english": "When a person's appearance or intellect makes them stand out amongst their peers"
+  },
+  {
+    "chinese": "狐假虎威",
+    "pinyin": "hú jiǎ hǔ wēi",
+    "english": "Refers to using powerful connections to intimidate or oppress people"
+  },
+  {
+    "chinese": "囫囵吞枣",
+    "pinyin": "hú lún tūn zǎo",
+    "english": "To accept information with insufficient analysis or consideration"
+  },
+  {
+    "chinese": "胡说八道",
+    "pinyin": "hú shuō bā dào",
+    "english": "To talk absolute nonsense or rubbish"
+  },
+  {
+    "chinese": "虎头蛇尾",
+    "pinyin": "hǔ tóu shé wěi",
+    "english": "Used when someone starts doing something with great effort and vigor, but then fizzles out and ends weak"
+  },
+  {
+    "chinese": "画龙点睛",
+    "pinyin": "huà lóng diǎn jīng",
+    "english": "To add detail that drives home a point or brings a piece of work to life. Generally refers to artwork, speeches, and writings. "
+  },
+  {
+    "chinese": "画蛇添足",
+    "pinyin": "huà shé tiān zú ",
+    "english": "To ruin the effect by adding something superfluous; to overdo something"
+  },
+  {
+    "chinese": "火冒三丈",
+    "pinyin": "huǒ mào sān zhàng",
+    "english": "To become enraged"
+  },
+  {
+    "chinese": "价廉物美",
+    "pinyin": "jià lián wù měi",
+    "english": "Inexpensive but of good quality (of a good)"
+  },
+  {
+    "chinese": "家喻户晓",
+    "pinyin": "jiā yù hù xiǎo ",
+    "english": "Used to indicate that something is known to everyone"
+  },
+  {
+    "chinese": "江郎才尽",
+    "pinyin": "jiāng láng cái jìn",
+    "english": "This is used to indicate that one's intellect or ability has faded"
+  },
+  {
+    "chinese": "脚踏实地",
+    "pinyin": "jiǎo tà shí dì",
+    "english": "To be practical, earnest, and realistic; to do things very steadily and dependably"
+  },
+  {
+    "chinese": "嗟来之食",
+    "pinyin": "jiē lái zhī shí",
+    "english": "Refers to assistance or charity given in a humiliating or malicious fashion"
+  },
+  {
+    "chinese": "截然不同",
+    "pinyin": "jié rán bù tóng",
+    "english": "Indicates two things are drastically different"
+  },
+  {
+    "chinese": "竭泽而渔",
+    "pinyin": "jié zé ér yú",
+    "english": "When people focus only on immediate interests and don't make any long-term plans or considerations; to stop at nothing to achieve a goal regardless of the potential consequences"
+  },
+  {
+    "chinese": "锦上添花",
+    "pinyin": "jǐn shàng tiān huā",
+    "english": "To improve upon something that is already good"
+  },
+  {
+    "chinese": "井底之蛙",
+    "pinyin": "jǐng dǐ zhī wā",
+    "english": "Refers to a person with limited outlook, wisdom, or life experience; a narrow-minded person"
+  },
+  {
+    "chinese": "惊弓之鸟",
+    "pinyin": "jīng gōng zhī niǎo",
+    "english": "Someone who has been been frightened in the past and therefore is easily startled now"
+  },
+  {
+    "chinese": "泾渭分明",
+    "pinyin": "jīng wèi fēn míng",
+    "english": "Indicates when things have very clear boundaries or are very different"
+  },
+  {
+    "chinese": "九牛一毛",
+    "pinyin": "jiǔ niú yī máo",
+    "english": "Refers to something extremely insignificant, small, or trivial; something not worth mentioning"
+  },
+  {
+    "chinese": "举一反三",
+    "pinyin": "jǔ yī fǎn sān",
+    "english": "Used to indicate that one can infer many things after receiving just one piece of information"
+  },
+  {
+    "chinese": "开天辟地",
+    "pinyin": "kāi tiān pì dì",
+    "english": "This is used to indicate that something is unprecedented/the first of its kind"
+  },
+  {
+    "chinese": "刻不容缓",
+    "pinyin": "kè bù róng huǎn",
+    "english": "Used to indicate that something is extremely pressing or urgent"
+  },
+  {
+    "chinese": "刻舟求剑",
+    "pinyin": "kè zhōu qiú jiàn",
+    "english": "To describe people who obstinately stick to their ways and can't adapt when circumstances change"
+  },
+  {
+    "chinese": "空中楼阁",
+    "pinyin": "kōng zhōng lóu gé",
+    "english": "Refers to unrealistic plans or ideas, as well as imaginary or fictional things"
+  },
+  {
+    "chinese": "口蜜腹剑",
+    "pinyin": "kǒu mì fù jiàn",
+    "english": "Describes a person who appears friendly and talks kindly, but who in reality is actually treacherous"
+  },
+  {
+    "chinese": "哭笑不得",
+    "pinyin": "kū xiào bù dé",
+    "english": "Refers to when someone doesn't know how to respond to a situation; to be frustrated and amused at the same time"
+  },
+  {
+    "chinese": "滥竽充数",
+    "pinyin": "làn yú chōng shù",
+    "english": "To pass off inferior goods as superior ones; to pretend to have a talent and work alongside those who actually do have that talent"
+  },
+  {
+    "chinese": "狼吞虎咽",
+    "pinyin": "láng tūn hǔ yàn",
+    "english": "To eat something rapidly and violently"
+  },
+  {
+    "chinese": "老马识途",
+    "pinyin": "lǎo mǎ shī tú",
+    "english": "Refers to a person who knows how to do something or resolve an issue due to their extensive experience "
+  },
+  {
+    "chinese": "柳暗花明",
+    "pinyin": "liǔ àn huā míng",
+    "english": "To experience a positive turn of events when one is in the middle of a crisis or struggle. Also can describe beautiful scenery"
+  },
+  {
+    "chinese": "鹿死谁手",
+    "pinyin": "lù sǐ shéi shǒu",
+    "english": "To determine who the winner of a competition is after having to wait a long time. Previously used to indicate that it was unknown where political power would fall"
+  },
+  {
+    "chinese": "乱七八糟",
+    "pinyin": "luàn qī bā zāo",
+    "english": "Refers to something extremely disorderly or chaotic"
+  },
+  {
+    "chinese": "洛阳纸贵",
+    "pinyin": "luò yáng zhǐ guì",
+    "english": "This is used to praise a literary work and say that it is widely known"
+  },
+  {
+    "chinese": "马马虎虎",
+    "pinyin": "mǎ mǎ hǔ hǔ",
+    "english": "To do something shoddily, carelessly, or with minimal effort; to do something unwillingly; to do something with difficulty"
+  },
+  {
+    "chinese": "买椟还珠",
+    "pinyin": "mǎi dú huán zhū",
+    "english": "Used to indicate one has poor judgement"
+  },
+  {
+    "chinese": "满城风雨",
+    "pinyin": "mǎn chéng fēng yǔ",
+    "english": "To have everyone talk about you, an exposed secret, or something eventful that has happened. Originally used to describe fall scenery"
+  },
+  {
+    "chinese": "盲人摸象",
+    "pinyin": "máng rén mō xiàng",
+    "english": "To draw broad conclusions based off one's partial understanding of a topic"
+  },
+  {
+    "chinese": "毛遂自荐",
+    "pinyin": "máo suì zì jiàn",
+    "english": "To recommend oneself for an important position; to actively take upon an important responsibility"
+  },
+  {
+    "chinese": "美中不足",
+    "pinyin": "měi zhōng bù zú",
+    "english": "Refers to something that overall is flawless but has one small issue"
+  },
+  {
+    "chinese": "门可罗雀",
+    "pinyin": "mén kě luó què",
+    "english": "Indicates a home or store with very few visitors"
+  },
+  {
+    "chinese": "梦里蝴蝶",
+    "pinyin": "mèng lǐ hú dié",
+    "english": "Refers to something false or unreal"
+  },
+  {
+    "chinese": "孟母三迁",
+    "pinyin": "mèng mǔ sān qiān",
+    "english": "To create a good environment for one's children to learn and study"
+  },
+  {
+    "chinese": "蒙在鼓里",
+    "pinyin": "méng zài gǔ lǐ",
+    "english": "To have others conceal the truth about things happening in one's life; to not be in the know"
+  },
+  {
+    "chinese": "名落孙山",
+    "pinyin": "míng luò sūn shān",
+    "english": "To fail a test or not be selected for a position"
+  },
+  {
+    "chinese": "莫名其妙",
+    "pinyin": "mò míng qí miào",
+    "english": "Describes something that is very strange, unexplainable, and/or leaves people confused "
+  },
+  {
+    "chinese": "南辕北辙",
+    "pinyin": "nán yuán běi zhé",
+    "english": "Used to indicate that actions and goals are opposite or contradictory"
+  },
+  {
+    "chinese": "牛郎织女",
+    "pinyin": "niú láng zhī nǚ",
+    "english": "Refers to a husband and wife who have been physically apart for a long time"
+  },
+  {
+    "chinese": "藕断丝连",
+    "pinyin": "oǔ duàn sī lián",
+    "english": "To still have feelings after the relationship is over; for the relationship to be formally over, but for those involved to remain connected "
+  },
+  {
+    "chinese": "抛砖引玉",
+    "pinyin": "pāo zhuān yǐn yù",
+    "english": "To voice one's shallow or poorly-formed ideas to encourage others to voice their more valuable and better-formed ideas"
+  },
+  {
+    "chinese": "破釜沉舟",
+    "pinyin": "pò fǔ chén zhōu",
+    "english": "To be willing to sacrifice everything to obtain one's goals; to refuse to retreat in a life-or-death battle"
+  },
+  {
+    "chinese": "骑虎难下",
+    "pinyin": "qí hǔ nán xià",
+    "english": "Used to indicate that a situation is extremely difficult to remain in, but that because of the nature of the situation, one cannot extricate themselves from it"
+  },
+  {
+    "chinese": "骑驴觅驴",
+    "pinyin": "qí lǘ mì lǘ",
+    "english": "To search for something that one already has; to search for another job because one finds their current one unsatisfactory"
+  },
+  {
+    "chinese": "杞人忧天",
+    "pinyin": "qǐ rén yōu tiān",
+    "english": "To have groundless or baseless fears"
+  },
+  {
+    "chinese": "千方百计 ",
+    "pinyin": "qiān fāng bǎi jì",
+    "english": "Refers to one trying to do something by every means possible"
+  },
+  {
+    "chinese": "前功尽弃",
+    "pinyin": "qián gōng jìn qì",
+    "english": "To have all of one's work completely undone; to have one's previous efforts be expended in vain"
+  },
+  {
+    "chinese": "千钧一发",
+    "pinyin": "qiān jūn yī fà",
+    "english": "Refers to a something that is extremely critical or dangerous"
+  },
+  {
+    "chinese": "千里送鹅毛",
+    "pinyin": "qiān lǐ sòng é máo",
+    "english": "Refers to a gift that has deep meaning despite not inherently being valuable or significant"
+  },
+  {
+    "chinese": "黔驴技穷",
+    "pinyin": "qián lǘ jì qióng",
+    "english": "To use up one's already limited abilities"
+  },
+  {
+    "chinese": "青梅竹马",
+    "pinyin": "qīng méi zhú mǎ",
+    "english": "Refers also to the innocent friendship between a young boy and a girl "
+  },
+  {
+    "chinese": "人山人海",
+    "pinyin": "rén shān rén hǎi",
+    "english": "Used to refer to a heavily crowded place"
+  },
+  {
+    "chinese": "如虎添翼",
+    "pinyin": "rú hǔ tiān yì",
+    "english": "Refers to strong and powerful people becoming even stronger"
+  },
+  {
+    "chinese": "入乡随俗",
+    "pinyin": "rù xiāng suí sú",
+    "english": "When you travel somewhere and comply with the local customs"
+  },
+  {
+    "chinese": "如鱼得水",
+    "pinyin": "rú yú dé shuǐ",
+    "english": "For someone to be in an environment or with a person that best suits them"
+  },
+  {
+    "chinese": "塞翁失马",
+    "pinyin": "sài wēng shī mǎ",
+    "english": "Used to refer to situations where one has suffered a loss but actually ends up better off because of it; indicates that bad situations can become good ones"
+  },
+  {
+    "chinese": "三长两短",
+    "pinyin": "sǎn cháng liǎng duǎn",
+    "english": "Used to refer to an unexpected misfortune, especially death"
+  },
+  {
+    "chinese": "三顾茅庐",
+    "pinyin": "sān gù máo lú ",
+    "english": "To earnestly and repeatedly extend an offer"
+  },
+  {
+    "chinese": "三人成虎",
+    "pinyin": "sān rén chéng hǔ",
+    "english": "Indicates a situation where a rumor, repeated by enough people, can make people believe that it's true"
+  },
+  {
+    "chinese": "杀鸡骇猴",
+    "pinyin": "shā jī hài hóu",
+    "english": "To punish one person as a warning to others"
+  },
+  {
+    "chinese": "上下其手",
+    "pinyin": "shàng xià qí shǒu",
+    "english": "To practice fraud; to conspire to do something evil or illegal"
+  },
+  {
+    "chinese": "守株待兔",
+    "pinyin": "shǒu zhū dài tù",
+    "english": "Refers to someone who clings to past experience and won't adapt; also to describe someone who wants to profit or benefit without doing any work"
+  },
+  {
+    "chinese": "熟能生巧",
+    "pinyin": "shú néng shēng qiǎo",
+    "english": "This indicates that practice makes perfect or leads to great technique"
+  },
+  {
+    "chinese": "数一数二",
+    "pinyin": "shǔ yī shǔ èr",
+    "english": "To be one of the very best"
+  },
+  {
+    "chinese": "双管齐下",
+    "pinyin": "shuāng guǎn qí xià",
+    "english": "To simultaneously approach a task from two directions"
+  },
+  {
+    "chinese": "水滴石穿",
+    "pinyin": "shuǐ dī shí chuān ",
+    "english": "Indicates that small efforts can achieve great results if expended continuously over a long period of time"
+  },
+  {
+    "chinese": "水落石出",
+    "pinyin": "shuǐ luò shí chū ",
+    "english": "When the truth surrounding something comes to light"
+  },
+  {
+    "chinese": "水土不服",
+    "pinyin": "shuǐ tǔ bù fú",
+    "english": "To feel as though one cannot adapt to changes in one's environment"
+  },
+  {
+    "chinese": "说来话长",
+    "pinyin": "shuō lái huà cháng",
+    "english": "This means \"it's a long story,\" and it's used the same way as in English"
+  },
+  {
+    "chinese": "四海为家",
+    "pinyin": "sì hǎi wéi jiā",
+    "english": "To drift about from place to place; to make home out of wherever one is"
+  },
+  {
+    "chinese": "死里逃生",
+    "pinyin": "sǐ lǐ táo shēng",
+    "english": "To narrowly avoid death"
+  },
+  {
+    "chinese": "四面楚歌",
+    "pinyin": "sì miàn chǔ gē",
+    "english": "Refers to when one is cut off from help when being attacked on all sides or in a difficult situation"
+  },
+  {
+    "chinese": "四平八稳",
+    "pinyin": "sì píng bā wěn",
+    "english": "Describes objects that are placed in a firm and steady position; describes behavior and words that are reliable and steady. Also describes someone whose behavior is a bit too cautious or lacking in initiative"
+  },
+  {
+    "chinese": "弹冠相庆",
+    "pinyin": "tán guān xiāng qìng",
+    "english": "When you congratulate a friend on their promotion or new position, and they congratulate you back (because they'll probably use their connections to get you a job or a promotion as well)"
+  },
+  {
+    "chinese": "贪赃枉法",
+    "pinyin": "tān zāng wǎng fǎ",
+    "english": "Take bribes and circumvent the law"
+  },
+  {
+    "chinese": "讨价还价",
+    "pinyin": "tǎo jià huán jià",
+    "english": "To haggle over an item's price; to bargain (over an item, an arrangement, etc)"
+  },
+  {
+    "chinese": "滔滔不绝",
+    "pinyin": "tāo tāo bù jué",
+    "english": "Indicates that something continues without stopping. Can be used in reference to one's speech"
+  },
+  {
+    "chinese": "天衣无缝",
+    "pinyin": "tiān yī wú fèng",
+    "english": "Indicates that something is absolutely perfect; without even a single flaw"
+  },
+  {
+    "chinese": "同流合污",
+    "pinyin": "tóng liú hé wū",
+    "english": "To do bad things with bad people; to associate oneself with bad trends or social customs due to lack of personal principles"
+  },
+  {
+    "chinese": "投笔从戎",
+    "pinyin": "tóu bǐ cóng róng",
+    "english": "Refers to an educated person who abandons their life as a scholar to join the military"
+  },
+  {
+    "chinese": "兔死狗烹",
+    "pinyin": "tù sǐ gǒu pēng",
+    "english": "This refers to when someone casts aside or even kills the person(s) who helped them accomplish a task"
+  },
+  {
+    "chinese": "退避三舍",
+    "pinyin": "tuì bì sān shè",
+    "english": "To deliberately avoid or retreat from a situation or person"
+  },
+  {
+    "chinese": "吞吞吐吐",
+    "pinyin": "tūn tūn tǔ tǔ",
+    "english": "To be uncertain what to say when speaking; to be unwilling or hesitant to say something directly"
+  },
+  {
+    "chinese": "完璧归赵",
+    "pinyin": "wán bì guī zhào",
+    "english": "To return something undamaged to its original owner"
+  },
+  {
+    "chinese": "顽石点头",
+    "pinyin": "wàn shí diǎn tóu",
+    "english": "To be very persuasive"
+  },
+  {
+    "chinese": "望梅止渴",
+    "pinyin": "wàng méi zhǐ kě",
+    "english": "Refers to situations where one's hopes cannot be realized, so one must resort to using imagination to comfort oneself "
+  },
+  {
+    "chinese": "亡羊补牢",
+    "pinyin": "wáng yáng bǔ láo",
+    "english": "When, after experiencing some sort of issue, someone takes timely steps to ensure that they don't face that issue again"
+  },
+  {
+    "chinese": "望子成龙",
+    "pinyin": "wàng zǐ chéng lóng",
+    "english": "To hope that one's son will become successful and noble"
+  },
+  {
+    "chinese": "卧薪尝胆",
+    "pinyin": "wò xīn cháng dǎn ",
+    "english": "Refers to when one pushes oneself to realize a goal (esp. to become more powerful or wealthy) despite hardship or difficulty"
+  },
+  {
+    "chinese": "无稽之谈",
+    "pinyin": "wú jī zhī tán",
+    "english": "Used to indicate that something is absolute nonsense"
+  },
+  {
+    "chinese": "无翼而飞",
+    "pinyin": "wú yì ér fēi",
+    "english": "To spread like wildfire; to vanish without a trace\n"
+  },
+  {
+    "chinese": "小题大做",
+    "pinyin": "xiǎo tí dà zuò",
+    "english": "To exaggerate the size of a problem"
+  },
+  {
+    "chinese": "新陈代谢",
+    "pinyin": "xīn chén dài xiè",
+    "english": "Used to reference the fact that new things grow and replace old things. Also refers to metabolism in biology"
+  },
+  {
+    "chinese": "心劳日拙",
+    "pinyin": "xīn láo rì zhuō",
+    "english": "To expend a lot of effort but have things get worse and worse "
+  },
+  {
+    "chinese": "胸有成竹",
+    "pinyin": "xiōng yǒu chéng zhū",
+    "english": "To be prepared; to have a plan in advance"
+  },
+  {
+    "chinese": "袖手旁观",
+    "pinyin": "xiù shǒu páng guān",
+    "english": "To not get involved with or offer assistance for something that is happening"
+  },
+  {
+    "chinese": "悬崖峭壁",
+    "pinyin": "xuán yá qiào bì",
+    "english": "Tall and precipitous rock features (of a mountain)"
+  },
+  {
+    "chinese": "雪中送炭",
+    "pinyin": "xuě zhōng sòng tàn",
+    "english": "To provide help in one's hour of need"
+  },
+  {
+    "chinese": "鸦雀无声",
+    "pinyin": "yá què wú shēng",
+    "english": "Refers to absolute silence"
+  },
+  {
+    "chinese": "掩耳盗铃",
+    "pinyin": "yǎn ěr dào líng",
+    "english": "To deceive oneself and others; to aim to conceal something that cannot be concealed"
+  },
+  {
+    "chinese": "眼高手低",
+    "pinyin": "yǎn gāo shǒu dī",
+    "english": "Refers to when one has high standards but lacks the ability to reach them"
+  },
+  {
+    "chinese": "叶公好龙",
+    "pinyin": "yè gōng hào lóng",
+    "english": "To pretend to like something despite not actually liking it"
+  },
+  {
+    "chinese": "夜郎自大",
+    "pinyin": "yè láng zì dà",
+    "english": "To have too high an opinion of oneself; to be highly arrogant"
+  },
+  {
+    "chinese": "一帆风顺",
+    "pinyin": "yī fān fēng shùn",
+    "english": "Indicates that something happens very smoothly or without even the tiniest setback"
+  },
+  {
+    "chinese": "一鼓作气",
+    "pinyin": "yī gǔ zuò qì",
+    "english": "To go all out; to do one's best; to get something finished with a single effort"
+  },
+  {
+    "chinese": "一箭双雕",
+    "pinyin": "yī jiàn shuāng diāo",
+    "english": "To achieve two things despite taking only a single action"
+  },
+  {
+    "chinese": "一见钟情",
+    "pinyin": "yī jiàn zhōng qíng",
+    "english": "Love at first sight"
+  },
+  {
+    "chinese": "一举两得",
+    "pinyin": "yī jǔ liǎng dé",
+    "english": "To achieve two goals with a single action"
+  },
+  {
+    "chinese": "一门心思",
+    "pinyin": "yī mén xīn sī",
+    "english": "Used when someone is bent on/wholeheartedly focused on/single-mindedly doing something"
+  },
+  {
+    "chinese": "一鸣惊人",
+    "pinyin": "yī míng jīng rén",
+    "english": "This is used when a person generally does not appear to do anything impressive/be out of the ordinary, but then astounds others by accomplishing a great feat"
+  },
+  {
+    "chinese": "一模一样",
+    "pinyin": "yī mó yī yàng",
+    "english": "To be exactly alike"
+  },
+  {
+    "chinese": "一目了然",
+    "pinyin": "yī mù liǎo rán",
+    "english": "Obvious at a glance"
+  },
+  {
+    "chinese": "一诺千金",
+    "pinyin": "yī nuò qiān jīn",
+    "english": "To make good on a promise; to stay true to one's word; to have one's word be honest and reliable"
+  },
+  {
+    "chinese": "一窍不通",
+    "pinyin": "yī qiào bù tōng",
+    "english": "To not understand a single thing that's going on; to be exceptionally ignorant. Often used to ridicule others' foolishness or stupidity."
+  },
+  {
+    "chinese": "一丝不苟",
+    "pinyin": "yī sī bù gǒu",
+    "english": "This is used to describe that someone does something very carefully and meticulously "
+  },
+  {
+    "chinese": "一针见血",
+    "pinyin": "yī zhèn jiàn xiě",
+    "english": "To pierce to the heart of a matter with a single concise comment"
+  },
+  {
+    "chinese": "饮鸩止渴",
+    "pinyin": "yǐn zhèn zhǐ kě",
+    "english": "To use destructive methods to get oneself out of a current difficulty without caring about that method's consequences "
+  },
+  {
+    "chinese": "庸人自扰",
+    "pinyin": "yōng rén zì rǎo",
+    "english": "To think a small issue much bigger than it actually is and end up creating trouble for oneself"
+  },
+  {
+    "chinese": "鹬蚌相争",
+    "pinyin": "yù bàng xiāng zhēng",
+    "english": "Refers to when a third party benefits from the struggle of others"
+  },
+  {
+    "chinese": "愚公移山",
+    "pinyin": "yú gōng yí shān",
+    "english": "To have resolute will and not be afraid of hardship and difficulty"
+  },
+  {
+    "chinese": "与虎谋皮",
+    "pinyin": "yǔ hǔ móu pí",
+    "english": "To attempt something impossible; refers to a scheme that is difficult to accomplish because it involves hurting one of the involved parties"
+  },
+  {
+    "chinese": "缘木求鱼",
+    "pinyin": "yuán mù qiú yú",
+    "english": "To be unable to realize one's goals due to improper strategy"
+  },
+  {
+    "chinese": "凿壁偷光",
+    "pinyin": "záo bì tōu guāng ",
+    "english": "To study very diligently despite facing hardship"
+  },
+  {
+    "chinese": "斩钉截铁",
+    "pinyin": "zhǎn dīng jié tiě",
+    "english": "Indicates that one's behavior is resolute and decisive "
+  },
+  {
+    "chinese": "朝秦暮楚",
+    "pinyin": "zhāo Qín mù Chǔ",
+    "english": "When someone is being fickle, behaving  capriciously, or constantly changing their mind"
+  },
+  {
+    "chinese": "针锋相对",
+    "pinyin": "zhēn fēng xiāng duì",
+    "english": "To be evenly matched with one's opponent; to have completely different opinions and/or actions than one's opponent"
+  },
+  {
+    "chinese": "争先恐后",
+    "pinyin": "zhēng xiān kǒng hòu",
+    "english": "To fight to be ahead and fear to fall behind"
+  },
+  {
+    "chinese": "直捣黄龙",
+    "pinyin": "zhí dǎo huáng lóng",
+    "english": "To directly attack the enemy's stronghold "
+  },
+  {
+    "chinese": "指鹿为马",
+    "pinyin": "zhǐ lù wéi mǎ",
+    "english": "To deliberately distort the truth"
+  },
+  {
+    "chinese": "纸上谈兵",
+    "pinyin": "zhǐ shàng tán bīng",
+    "english": "This chengyu refers to empty theoretical discussion of an issue that won't actually serve to resolve that issue. It also refers to idle discussion that can't become reality "
+  },
+  {
+    "chinese": "众口铄金",
+    "pinyin": "zhòng kǒu shuò jīn",
+    "english": "Used to comment on the power of public opinion. Also used to say that widespread rumors can be enough to confound what is right/wrong or can obscure the truth"
+  },
+  {
+    "chinese": "众所周知",
+    "pinyin": "zhòng suǒ zhōu zhī",
+    "english": "As is commonly known; as everyone knows"
+  },
+  {
+    "chinese": "自相矛盾",
+    "pinyin": "zì xiāng máo dùn",
+    "english": "Used when words or actions are contradictory"
+  },
+  {
+    "chinese": "自作聪明",
+    "pinyin": "zì zuò cōng míng",
+    "english": "Refers to when one thinks oneself clever and makes decisions based only off of one's own opinions"
+  },
+  {
+    "chinese": "走马看花",
+    "pinyin": "zǒu mǎ kàn huā",
+    "english": "To observe something without noticing the minute details; to hastily look at something and only gain a cursory or rough understanding of it"
   }
 ]
