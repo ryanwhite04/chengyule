@@ -27,4 +27,52 @@ class UserModelCase(TestCase):
         self.assertTrue(u.checkPassword("a"))
         self.assertFalse(u.checkPassword("b"))
 
+    def test_playGame(self):
+        u = User(username="a", email="a@a.a", password="a")
+        g = Game(word="ABCD")
+        u.play(g, "AAAA")
+        u.play(g, "AAAA")
+        u.play(g, "AAAA")
+        u.play(g, "AAAA")
+        
+        db.session.commit()
+
+    def test_playGame(self):
+        users = (
+            User(username="a", email="a@a.a", password="a"),
+            User(username="b", email="b@b.b", password="b"),
+            User(username="c", email="c@c.c", password="c"),
+        )
+        games = (
+            Game(word="a"),
+            Game(word="b"),
+            Game(word="c"),
+        )
+
+        with self.assertRaises(ValueError) as context:
+            users[0].play(games[0], "aa")
+        self.assertTrue("Can't play that word" in str(context.exception))
+
+        users[0].play(games[0], "A")
+        users[0].play(games[1], "A")
+        users[1].play(games[1], "B")
+        users[1].play(games[2], "B")
+        users[2].play(games[2], "C")
+        users[2].play(games[0], "C")
+
+        db.session.commit()
+
+        for i, user in enumerate(users):
+            self.assertSequenceEqual(
+                user.games,
+                (games[i], games[(i+1) % len(games)])
+            )
+        for i, game in enumerate(games):
+            self.assertCountEqual(
+                game.users,
+                (users[(i+2) % len(users)], users[i])
+            )
+
+        print(games[0].plays)
+
 if __name__ == "__main__": main()
