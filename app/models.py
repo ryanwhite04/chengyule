@@ -1,6 +1,8 @@
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import validates
+
 # From https://flask-user.readthedocs.io/en/latest/data_models.html
 
 from app import db, login
@@ -15,8 +17,6 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(255), nullable=False)
     games = association_proxy("plays", "game")
     def play(self, game, word):
-        if len(game.word) != len(word):
-            raise ValueError("Can't play that word", game.word, word)
         p = Play(word=word)
         self.plays.append(p)
         game.plays.append(p)
@@ -37,6 +37,11 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String(255), nullable=False)
     users = association_proxy("plays", "user")
+    @validates("plays")
+    def check(self, key, play):
+        if len(self.word) != len(play.word):
+            raise ValueError("Can't play that word", self.word, play.word)
+        return play
     def __repr__(self):
         return f'<Game {self.word}>'
 
