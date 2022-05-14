@@ -26,15 +26,14 @@ class UserModelCase(TestCase):
         u = User(username="a", email="a@a.a", password=password)
         self.assertTrue(u.checkPassword("a"))
         self.assertFalse(u.checkPassword("b"))
-
-    def test_playGame(self):
+    
+    def test_multiplePlays(self):
         u = User(username="a", email="a@a.a", password="a")
-        g = Game(word="ABCD")
-        u.play(g, "AAAA")
-        u.play(g, "AAAA")
-        u.play(g, "AAAA")
-        u.play(g, "AAAA")
-        
+        g = Game(word="a")
+        db.session.add(u)
+        db.session.add(g)
+        db.session.add(u.play(g, "a"))
+        db.session.add(u.play(g, "b"))
         db.session.commit()
         plays = Play.query.all()
         print(f"{plays=}")
