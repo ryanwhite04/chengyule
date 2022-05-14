@@ -44,7 +44,7 @@ class Play(db.Model):
     __tablename__ = "plays"
     user_id = db.Column(db.ForeignKey("users.id"), primary_key=True)
     game_id = db.Column(db.ForeignKey("games.id"), primary_key=True)
-    word = db.Column(db.String(255), nullable=False)
+    word = db.Column(db.String(255), nullable=False, primary_key=True)
     user = db.relationship("User", backref="plays")
     game = db.relationship("Game", backref="plays")
 
