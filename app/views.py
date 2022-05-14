@@ -16,18 +16,39 @@ from sqlalchemy.exc import IntegrityError
 from flask_login import current_user, login_user, logout_user
 from app import db
 from app.models import User
+from requests import get
 app = Blueprint("", __name__)
 
 def getPuzzle(chengyu):
+    print(chengyu)
+    options = sorted(list(u"".join([c["chinese"] for c in chengyu])))
     return {
-        "options": "".join([c["chinese"] for c in chengyu]),
+        # "options": [(translate(option), option) for option in options],
+        "options": options,
         "answer": chengyu[0]["chinese"],
         "question": chengyu[0]["english"]
     }
 
-@app.route("/chengyu")
-def chengyu():
-    return getPuzzle(select('static/chengyu.json'))
+@app.route("/translation/<text>")
+def translate(text):
+    url = "https://translation.googleapis.com/language/translate/v2"
+    params = {
+        "key": current_app.config["TRANSLATION_KEY"],
+        "source": "zh",
+        "target": "en",
+        "q": text,
+    }
+    json = get(url, params=params).json()
+    try:
+        translation = json["data"]["translations"][0]["translatedText"]
+        return translation
+    except:
+        return ""
+
+@app.route("/chengyu/<int:count>/<int:key>")
+def chengyu(count, key):
+    print(count, key)
+    return getPuzzle(select('static/chengyu.json', count or 4, bytes(key or 1)))
 
 @app.route("/")
 @app.route("/index")

@@ -6,9 +6,18 @@
         answer="{{puzzle.answer}}">
         {{puzzle.question}}
         {% for option in puzzle.options %}
-        <button slot="option">{{option}}</button>
+        <button slot="option" data-toggle="tooltip">{{option}}</button>
         {% endfor %}
     </selection-puzzle>
     <script src="{{ url_for("static", filename="selection-puzzle.js") }}" type="module"></script>
+    <script>
+        [...document.querySelectorAll('selection-puzzle [slot="option"]')]
+            .map(option => fetch(`translation/${option.textContent}`)
+                .then(response => response.text())
+                .then(translation => option.setAttribute("title", translation))
+                .then(console.log)
+                .catch(console.error)
+            )
+    </script>
 </body>
 {% endblock %}
