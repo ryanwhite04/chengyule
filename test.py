@@ -45,7 +45,7 @@ class UserModelCase(TestCase):
             u.play(g, "aa")
         self.assertTrue("Can't play that word" in str(context.exception))
 
-    def test_playGame(self):
+    def populate(self):
         users = (
             User(username="a", email="a@a.a", password="a"),
             User(username="b", email="b@b.b", password="b"),
@@ -57,30 +57,28 @@ class UserModelCase(TestCase):
             Game(word="c"),
         )
 
-        with self.assertRaises(ValueError) as context:
-            users[0].play(games[0], "aa")
-        self.assertTrue("Can't play that word" in str(context.exception))
-
-        users[0].play(games[0], "A")
-        users[0].play(games[1], "A")
-        users[1].play(games[1], "B")
-        users[1].play(games[2], "B")
-        users[2].play(games[2], "C")
-        users[2].play(games[0], "C")
+        db.session.add_all(games)
+        db.session.add_all(users)
+        for i, user in enumerate(users):
+            db.session.add(user.play(games[i], ["a", "b", "c"][i]))
+            db.session.add(user.play(games[(i+1)%len(games)], ["a", "b", "c"][i]))
 
         db.session.commit()
+        return games, users
 
-        for i, user in enumerate(users):
-            self.assertSequenceEqual(
+    def test_playGame(self):
+
+        games, users = self.populate()
+
+        for i, user in enumerate(User.query.all()):
+            self.assertCountEqual(
                 user.games,
                 (games[i], games[(i+1) % len(games)])
             )
-        for i, game in enumerate(games):
+        for i, game in enumerate(Game.query.all()):
             self.assertCountEqual(
                 game.users,
                 (users[(i+2) % len(users)], users[i])
             )
-
-        print(games[0].plays)
 
 if __name__ == "__main__": main()
