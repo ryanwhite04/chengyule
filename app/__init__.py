@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, current_user, login_user, logout_user
+from flask_login import LoginManager
 from config import Config
 db = SQLAlchemy()
 login = LoginManager()
@@ -15,6 +15,9 @@ def create_app(config=Config):
     login.init_app(app)
     from app.views import app as views
     app.register_blueprint(views)
+    if app.config["ENV"] == "development":
+        from pprint import pprint
+        pprint(app.config)
+        with app.app_context():
+            db.create_all()
     return app
-
-from app.models import User, Game, Play
