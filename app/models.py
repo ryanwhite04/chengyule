@@ -49,4 +49,4 @@ class Play(db.Model):
     game = db.relationship("Game", backref="plays")
 
     def __repr__(self):
-        return f'<Play {self.word}>'
+        return f'<Play word={self.word} user={self.user.username} game={self.game.word}>'
