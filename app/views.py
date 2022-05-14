@@ -27,20 +27,22 @@ def daily():
     key = bytes(int(time())//(60*60*24))
     return render_template('index.html',
         title="Daily Puzzle",
-        puzzle=getPuzzle(select('static/chengyu.json', 4, key))
+        puzzle=getPuzzle(select('static/chengyu.json', 4, key)),
+        highlight=True,
     )
 
 @app.route("/random")
 def random():
     return render_template('index.html',
         title="Random Puzzle",
-        puzzle=getPuzzle(select('static/chengyu.json', 4))
+        puzzle=getPuzzle(select('static/chengyu.json', 4)),
+        highlight=True,
     )
 
 @app.route("/history")
 def history():
     with open("history.json") as file: games = loads(file.read())
-    return render_template("history.html", games=games)
+    return render_template("history.html", games=games, hightlight=True)
 
 @app.route("/registration", methods=['GET', 'POST'])
 def register():
