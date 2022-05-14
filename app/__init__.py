@@ -16,8 +16,8 @@ def create_app(config=Config):
     from app.views import app as views
     app.register_blueprint(views)
     if app.config["ENV"] == "development":
-        from pprint import pprint
-        pprint(app.config)
+        # from pprint import pprint
+        # pprint(app.config)
         with app.app_context():
             db.create_all()
     return app

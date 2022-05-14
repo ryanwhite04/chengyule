@@ -4,7 +4,7 @@ body {
     background: radial-gradient(circle, white 0%, rgb(131, 190, 218) 100%);
 }
 
-form {
+form, table {
     max-width: 300px;
     margin: auto;
 }
