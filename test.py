@@ -2,13 +2,12 @@ from app import create_app, db
 from config import Config
 from unittest import TestCase, main
 from app.models import User, Game, Play
-
+from sqlalchemy.exc import InvalidRequestError
 class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = "sqlite://"
 
-class UserModelCase(TestCase):
-
+class ModelCase(TestCase):
     def setUp(self):
         self.app = create_app(TestConfig)
         self.app_context = self.app.app_context()
@@ -20,13 +19,14 @@ class UserModelCase(TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def test_password_hashing(self):
-        from werkzeug.security import generate_password_hash
-        password = generate_password_hash("a")
-        u = User(username="a", email="a@a.a", password=password)
-        self.assertTrue(u.checkPassword("a"))
-        self.assertFalse(u.checkPassword("b"))
-    
+    def show(self):
+        plays = Play.query.all()
+        users = User.query.all()
+        games = Game.query.all()
+        print(f"{plays=}, {users=}, {games=}")
+
+class PlayModelCase(ModelCase):
+
     def test_secondPlay(self):
         u = User(username="a", email="a@a.a", password="a")
         g = Game(word="a")
@@ -36,6 +36,14 @@ class UserModelCase(TestCase):
         self.assertCountEqual(User.query.all(), (u,))
         self.assertCountEqual(Game.query.all(), (g,))
 
+    def test_commitNotCalled(self):
+        u = User(username="a", email="a@a.a", password="a")
+        g = Game(word="a")
+        db.session.add(g) # this is why the error is raised
+        # db.session.commit() # resolves the error
+        with self.assertRaises(InvalidRequestError):
+            u.play(g, "a")
+    
     def test_wrongWordLength(self):
         u = User(username="a", email="a@a.a", password="a")
         g = Game(word="a")
@@ -47,12 +55,6 @@ class UserModelCase(TestCase):
         self.assertFalse(Play.query.all())
         self.assertCountEqual(User.query.all(), (u,))
         self.assertFalse(Game.query.all())
-    
-    def show(self):
-        plays = Play.query.all()
-        users = User.query.all()
-        games = Game.query.all()
-        print(f"{plays=}, {users=}, {games=}")
     
     def populate(self):
         users = (
@@ -87,5 +89,14 @@ class UserModelCase(TestCase):
                 game.users,
                 (users[(i+2) % len(users)], users[i])
             )
+
+class UserModelCase(TestCase):
+
+    def test_password_hashing(self):
+        from werkzeug.security import generate_password_hash
+        password = generate_password_hash("a")
+        u = User(username="a", email="a@a.a", password=password)
+        self.assertTrue(u.checkPassword("a"))
+        self.assertFalse(u.checkPassword("b"))
 
 if __name__ == "__main__": main()
