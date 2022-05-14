@@ -123,9 +123,19 @@ Initialize database
 
 DATABASE_URL is passed in manually for now but we can put it in a .env later
 
-# TODO
+# Testing
 
-- Result/Statistics Page
-- Make a dialog on front page explaining the rules
+```python test.py```
 
+To play around in shell, you can run
 
+```
+python
+>>> from test import UserModelCase, db, User, Play, Game
+>>> umc = UserModelCase()
+>>> umc.setUp()
+>>> games, users = umc.populate()
+(<Game a>, <Game b>, <Game c>)
+>>> User.query.all()
+[<User a>, <User b>, <User c>]
+```
