@@ -36,6 +36,15 @@ class UserModelCase(TestCase):
         u.play(g, "AAAA")
         
         db.session.commit()
+        plays = Play.query.all()
+        print(f"{plays=}")
+
+    def test_wrongWordLength(self):
+        u = User(username="a", email="a@a.a", password="a")
+        g = Game(word="a")
+        with self.assertRaises(ValueError) as context:
+            u.play(g, "aa")
+        self.assertTrue("Can't play that word" in str(context.exception))
 
     def test_playGame(self):
         users = (
