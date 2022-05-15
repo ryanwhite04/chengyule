@@ -14,5 +14,3 @@ class Config:
     SQLALCHEMY_DATABASE_URI = database_URL()
     SECRET_KEY = environ.get("SECRET_KEY") or "SECRET_KEY"
     TRANSLATION_KEY = environ.get("TRANSLATION_KEY") or "TRANSLATION_KEY"
-
-print(Config)

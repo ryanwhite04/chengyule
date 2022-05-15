@@ -53,7 +53,6 @@ export default class SelectionPuzzle extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        console.log("attributeChangedCallback", { name, oldValue, newValue });
         if (name == "disable-incorrect") {
             this.disableIncorrect = newValue !== null;
         } else if (name == "tries" && newValue) {
@@ -126,10 +125,7 @@ export default class SelectionPuzzle extends HTMLElement {
         })
         if (this.input) {
             this.input.value = guess.join("")
-            if (!this._replay && this.input.form) {
-                console.log(this.input.form);
-                this.input.form.submit()
-            }
+            this.input.form && this._replay || this.input.form.submit()
         }
         return attempt.value.every(v => v == 2)
     }
@@ -169,17 +165,12 @@ export default class SelectionPuzzle extends HTMLElement {
     }
 
     render() {
-        console.log('render');
         const slot = document.createElement('slot');
 
         this.options = document.createElement('slot');
         this.options.setAttribute('name', 'option');
         this.options.addEventListener('click', this.select.bind(this));
         this.options.classList.add("grid");
-
-        this.input = document.createElement('slot');
-        this.input.setAttribute('name', 'input');
-        this.input.addEventListener('click', console.log);
 
         this.choices = document.createElement('div');
         this.choices.classList.add("grid");
@@ -198,13 +189,11 @@ export default class SelectionPuzzle extends HTMLElement {
 
         this.shadowRoot.append(
             slot,
-            this.input,
             this.options,
             this.progress,
             this.choices,
             this.success,
             this.failure,
-
         );
     }
 
@@ -275,7 +264,6 @@ class History {
 
     *[Symbol.iterator]() {
         for (let item in this._data) {
-            console.log("yielding", item)
             yield item
         }
     }
