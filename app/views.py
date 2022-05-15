@@ -17,13 +17,13 @@ from flask_login import current_user, login_user, logout_user
 from app import db
 from app.models import User
 from requests import get
+from random import randint
 app = Blueprint("", __name__)
 
 @app.route("/game/<int:id>")
-def game(id, title=None):
+def game(id, title=None, words=4):
     title = title or f"Game {id}"
-    key = bytes(id)
-    puzzle = getPuzzle(select('static/chengyu.json', 4, key))
+    puzzle = getPuzzle(select('static/chengyu.json', id, words))
     return render_template('game.html',
         title=title,
         puzzle=puzzle,
@@ -35,7 +35,6 @@ def getPuzzle(chengyu):
     print(chengyu)
     options = sorted(list(u"".join([c["chinese"] for c in chengyu])))
     return {
-        # "options": [(translate(option), option) for option in options],
         "options": options,
         "answer": chengyu[0]["chinese"],
         "question": chengyu[0]["english"]
@@ -59,18 +58,17 @@ def translate(text):
 
 @app.route("/chengyu/<int:count>/<int:key>")
 def chengyu(count, key):
-    print(count, key)
-    return getPuzzle(select('static/chengyu.json', count or 4, bytes(key or 1)))
+    return getPuzzle(select('static/chengyu.json', key or 1, count or 4))
 
 @app.route("/")
 @app.route("/index")
 def daily():
-    id = bytes(int(time())//(60*60*24)) # Today in binary
+    id = int(time())//(60*60*24) # Today in binary
     return game(id, "Daily Puzzle")
 
 @app.route("/random")
 def random():
-    id = 4 # randomly chosen with a dice roll
+    id = randint(0, 0xFFFFFFFF) # random big number
     return game(id, "Random Puzzle")
 
 @app.route("/history")
