@@ -124,8 +124,13 @@ export default class SelectionPuzzle extends HTMLElement {
         attempt.options.forEach((option, i) => {
             option.disabled = this.disableIncorrect && !attempt.value[i]
         })
-        this.input && (this.input.value = guess.join(""))
-        this._replay || this.dispatchEvent(new CustomEvent('submit'))
+        if (this.input) {
+            this.input.value = guess.join("")
+            if (!this._replay && this.input.form) {
+                console.log(this.input.form);
+                this.input.form.submit()
+            }
+        }
         return attempt.value.every(v => v == 2)
     }
 
