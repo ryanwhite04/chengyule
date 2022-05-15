@@ -2,24 +2,53 @@ from app.chengyu import select
 from werkzeug.security import generate_password_hash
 from time import time
 from json import loads
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import (
+    Blueprint,
+    render_template,
+    redirect,
+    url_for,
+    request,
+    flash,
+    current_app,
+)
 from app.forms import Registration, Login
 from sqlalchemy.exc import IntegrityError
-from flask_login import login_user, logout_user
+from flask_login import current_user, login_user, logout_user
 from app import db
 from app.models import User
+from requests import get
 app = Blueprint("", __name__)
 
 def getPuzzle(chengyu):
+    print(chengyu)
+    options = sorted(list(u"".join([c["chinese"] for c in chengyu])))
     return {
-        "options": "".join([c["chinese"] for c in chengyu]),
+        # "options": [(translate(option), option) for option in options],
+        "options": options,
         "answer": chengyu[0]["chinese"],
         "question": chengyu[0]["english"]
     }
 
-@app.route("/chengyu")
-def chengyu():
-    return getPuzzle(select('static/chengyu.json'))
+@app.route("/translation/<text>")
+def translate(text):
+    url = "https://translation.googleapis.com/language/translate/v2"
+    params = {
+        "key": current_app.config["TRANSLATION_KEY"],
+        "source": "zh",
+        "target": "en",
+        "q": text,
+    }
+    json = get(url, params=params).json()
+    try:
+        translation = json["data"]["translations"][0]["translatedText"]
+        return translation
+    except:
+        return ""
+
+@app.route("/chengyu/<int:count>/<int:key>")
+def chengyu(count, key):
+    print(count, key)
+    return getPuzzle(select('static/chengyu.json', count or 4, bytes(key or 1)))
 
 @app.route("/")
 @app.route("/index")
@@ -66,6 +95,39 @@ def register():
                     title="Registration Page",
                 )
     else: return render_template('register.html', form=form, title="Registration Page")
+
+@app.route('/table')
+def tables():
+    if current_app.config["ENV"] == "development":
+        return render_template(
+            "tables.html",
+            tables=db.metadata.tables.keys(),
+            title="Tables"
+        )
+    return "No"
+
+@app.route('/table/<table>')
+def table(table):
+    if current_app.config["ENV"] == "development":
+        Model = next(Model
+            for Model
+            in db.Model.__subclasses__()
+            if Model.__tablename__ == table
+        )
+        return render_template(
+            "table.html",
+            columns=db.metadata.tables[table].columns.keys(),
+            rows=Model.query.all(),
+            title=Model.__name__,
+        )
+    return "No"
+
+@app.route('/user')
+def user():
+    if current_user.is_authenticated:
+        return current_user.username
+    else:
+        return "Not logged in"
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
