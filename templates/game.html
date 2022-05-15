@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
+
 {% block title %}{{title}}{% endblock %}
+
+{% block styles %}
+<style>
+button[slot="option"][disabled] {
+    pointer-events: auto !important;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <h1>{{title}}</h1>
 <form action="{{ url_for("game", id=game.id) }}" method="post">
@@ -11,11 +21,13 @@
         cache="{{game.id}}">
         {{question}}
         {% for option in options %}
-        <button slot="option" data-toggle="tooltip">{{option}}</button>
+        <button slot="option">{{option}}</button>
         {% endfor %}
     </selection-puzzle>
 </form>
+{% endblock %}
 
+{% block scripts %}
 <script src="{{ url_for("static", filename="selection-puzzle.js") }}" type="module"></script>
 <script>
 // Provide translations for each option as a tooltip
@@ -23,6 +35,7 @@
     .map(option => fetch(`/translation/${option.textContent}`)
         .then(response => response.text())
         .then(translation => option.setAttribute("title", translation))
+        .then()
         .catch(console.error)
     )
 </script>

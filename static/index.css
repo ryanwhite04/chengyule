@@ -10,7 +10,7 @@ form, table {
 }
 
 .error {
-    color: red;
+    color: var(--danger, firebrick);
 }
 
 [att^=h] {
@@ -25,9 +25,11 @@ selection-puzzle::part(choice) {
 }
 
 selection-puzzle::part(choice-found), [found] {
+    background-color: var(--warning, goldenrod)
 }
 
 selection-puzzle::part(choice-correct), [correct] {
+    background-color: var(--success, forestgreen)
 }
 
 selection-puzzle:not(:defined) {
