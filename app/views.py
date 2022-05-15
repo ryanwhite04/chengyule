@@ -19,6 +19,18 @@ from app.models import User
 from requests import get
 app = Blueprint("", __name__)
 
+@app.route("/game/<int:id>")
+def game(id, title=None):
+    title = title or f"Game {id}"
+    key = bytes(id)
+    puzzle = getPuzzle(select('static/chengyu.json', 4, key))
+    return render_template('game.html',
+        title=title,
+        puzzle=puzzle,
+        highlight=True,
+        game=id
+    )
+
 def getPuzzle(chengyu):
     print(chengyu)
     options = sorted(list(u"".join([c["chinese"] for c in chengyu])))
@@ -53,20 +65,13 @@ def chengyu(count, key):
 @app.route("/")
 @app.route("/index")
 def daily():
-    key = bytes(int(time())//(60*60*24))
-    return render_template('index.html',
-        title="Daily Puzzle",
-        puzzle=getPuzzle(select('static/chengyu.json', 4, key)),
-        highlight=True,
-    )
+    id = bytes(int(time())//(60*60*24)) # Today in binary
+    return game(id, "Daily Puzzle")
 
 @app.route("/random")
 def random():
-    return render_template('index.html',
-        title="Random Puzzle",
-        puzzle=getPuzzle(select('static/chengyu.json', 4)),
-        highlight=True,
-    )
+    id = 4 # randomly chosen with a dice roll
+    return game(id, "Random Puzzle")
 
 @app.route("/history")
 def history():
