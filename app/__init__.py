@@ -14,7 +14,7 @@ def create_app(config=Config):
     app.config.from_object(config)
     db.init_app(app)
     login.init_app(app)
-    migrate.init_app(app)
+    migrate.init_app(app, db)
     from app.views import app as views
     app.register_blueprint(views)
     return app
