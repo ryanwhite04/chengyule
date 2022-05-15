@@ -8,7 +8,12 @@ function check(string) {
 export default class SelectionPuzzle extends HTMLElement {
 
     static get observedAttributes() {
-        return ["tries", "answer", "disable-incorrect"]
+        return [
+            "cache", // int: whether or not to save progress
+            "tries", // int: how many tries they get
+            "answer", // string: the solution
+            "disable-incorrect", // boolean: whether or not to hide wrong choices
+        ]
     }
 
     get styles() {
@@ -53,10 +58,11 @@ export default class SelectionPuzzle extends HTMLElement {
         } else if (name == "tries" && newValue) {
             this.tries = parseInt(newValue);
             this.updateProgress(this.attempts.length, this.tries);
+        } else if (name == "cache") {
+            this.cache = parseInt(newValue);
         } else {
             this[name] = newValue;
         }
-        console.log(this.tries);
     }
 
     updateProgress(attempts, tries) {
@@ -66,11 +72,28 @@ export default class SelectionPuzzle extends HTMLElement {
 
     tries = 4;
     state = "playing";
+    get history() {
+        return JSON.parse(
+            localStorage.getItem(this.cache) ||
+            this.getAttribute('history')
+        )
+    }
+    set history(history) {
+        localStorage.setItem(this.cache, JSON.stringify(history))
+        return history
+    }
     attempt = {
         options: [],
         choices: [],
     };
     disableIncorrect = false;
+
+    replay(history) {
+        const options = this.options.assignedElements()
+        for (let play of history) {
+            options[play].click()
+        }
+    }
 
     constructor() {
         super();
@@ -78,7 +101,11 @@ export default class SelectionPuzzle extends HTMLElement {
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild(this.styles);
         this.render(this.shadowRoot);
+    }
+
+    connectedCallback() {
         this.updateProgress(this.attempts.length, this.tries);
+        this.replay(this.history)
     }
 
     submit(attempt) {
@@ -119,6 +146,11 @@ export default class SelectionPuzzle extends HTMLElement {
         if (option.slot === 'option') {
             option.disabled = true;
             this.attempt.options.push(option);
+            if (this.cache) {
+                const index = this.options.assignedElements().indexOf(option);
+                this.history = [...this.history, index] // will 
+            }
+
             this.choose(option, this.attempt);
             if (this.attempt.options.length == 4) {
                 if (this.submit(this.attempt)) this.finish(true);

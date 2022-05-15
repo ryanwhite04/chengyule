@@ -4,7 +4,9 @@
 <h1>{{title}}</h1>
 <selection-puzzle id="puzzle"
     answer="{{puzzle.answer}}"
-    disable-incorrect>
+    history="[1, 2]"
+    disable-incorrect
+    cache="{{game}}">
     {{puzzle.question}}
     {% for option in puzzle.options %}
     <button slot="option" data-toggle="tooltip">{{option}}</button>
