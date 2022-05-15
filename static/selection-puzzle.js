@@ -9,6 +9,7 @@ export default class SelectionPuzzle extends HTMLElement {
 
     static get observedAttributes() {
         return [
+            "for",
             "cache", // int: whether or not to save progress
             "tries", // int: how many tries they get
             "answer", // string: the solution
@@ -60,6 +61,8 @@ export default class SelectionPuzzle extends HTMLElement {
             this.updateProgress(this.attempts.length, this.tries);
         } else if (name == "cache") {
             this.cache = parseInt(newValue);
+        } else if (name == "for") {
+            this.input = newValue && document.getElementById(newValue);
         } else {
             this[name] = newValue;
         }
@@ -80,10 +83,12 @@ export default class SelectionPuzzle extends HTMLElement {
     disableIncorrect = false;
 
     replay(history) {
+        this._replay = true;
         const options = this.options.assignedElements();
         for (let index of history) {
             this.push(options[index])
         }
+        this._replay = false;
     }
 
     constructor() {
@@ -103,7 +108,6 @@ export default class SelectionPuzzle extends HTMLElement {
 
     submit(attempt) {
         const guess = attempt.options.map(option => option.textContent)
-        this.setAttribute("value", guess.join(""))
         // check if the value is found or correct in the answer
         attempt.value = guess.map(check(this.answer))
 
@@ -120,7 +124,8 @@ export default class SelectionPuzzle extends HTMLElement {
         attempt.options.forEach((option, i) => {
             option.disabled = this.disableIncorrect && !attempt.value[i]
         })
-        this.dispatchEvent(new CustomEvent('submit'))
+        this.input && (this.input.value = guess.join(""))
+        this._replay || this.dispatchEvent(new CustomEvent('submit'))
         return attempt.value.every(v => v == 2)
     }
 
@@ -167,6 +172,10 @@ export default class SelectionPuzzle extends HTMLElement {
         this.options.addEventListener('click', this.select.bind(this));
         this.options.classList.add("grid");
 
+        this.input = document.createElement('slot');
+        this.input.setAttribute('name', 'input');
+        this.input.addEventListener('click', console.log);
+
         this.choices = document.createElement('div');
         this.choices.classList.add("grid");
 
@@ -184,6 +193,7 @@ export default class SelectionPuzzle extends HTMLElement {
 
         this.shadowRoot.append(
             slot,
+            this.input,
             this.options,
             this.progress,
             this.choices,

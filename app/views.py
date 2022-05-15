@@ -20,8 +20,10 @@ from requests import get
 from random import randint
 app = Blueprint("", __name__)
 
-@app.route("/game/<int:id>")
+@app.route("/game/<int:id>", methods=["GET", "POST"])
 def game(id, title=None, words=4):
+    if request.method == "POST":
+        print(id, request.values.get("play"))
     title = title or f"Game {id}"
     puzzle = getPuzzle(select('static/chengyu.json', id, words))
     return render_template('game.html',
