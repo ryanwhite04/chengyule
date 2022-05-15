@@ -15,26 +15,35 @@ from app.forms import Registration, Login
 from sqlalchemy.exc import IntegrityError
 from flask_login import current_user, login_user, logout_user
 from app import db
-from app.models import User
+from app.models import User, Game
 from requests import get
 from random import randint
 app = Blueprint("", __name__)
 
 @app.route("/game/<int:id>", methods=["GET", "POST"])
 def game(id, title=None, words=4):
-    if request.method == "POST":
-        print(id, request.values.get("play"))
-    title = title or f"Game {id}"
     puzzle = getPuzzle(select('static/chengyu.json', id, words))
+    game = Game.query.get(id) or Game(id=id, word=puzzle["answer"])
+    if request.method == "POST":
+        word = request.form.get("play")
+        if current_user.is_authenticated:
+            try:
+                current_user.play(game, word)
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                flash("Invalid Submission", "error")
+        return redirect(url_for("game", id=id))
+    title = title or f"Game {id}"
     return render_template('game.html',
         title=title,
-        puzzle=puzzle,
+        game=game,
         highlight=True,
-        game=id
+        options=puzzle["options"],
+        question=puzzle["question"],
     )
 
 def getPuzzle(chengyu):
-    print(chengyu)
     options = sorted(list(u"".join([c["chinese"] for c in chengyu])))
     return {
         "options": options,

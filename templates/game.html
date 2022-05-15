@@ -2,17 +2,16 @@
 {% block title %}{{title}}{% endblock %}
 {% block content %}
 <h1>{{title}}</h1>
-<form action="/game/{{game}}" method="post">
-    <input id="{{game}}" type="hidden" name="play" slot="input">
+<form action="{{ url_for("game", id=game.id) }}" method="post">
+    <input id="{{game.id}}" type="hidden" name="play" slot="input">
     <selection-puzzle id="puzzle"
-        for="{{game}}"
-        answer="{{puzzle.answer}}"
+        for="{{game.id}}"
+        answer="{{game.word}}"
         history="[1, 2]"
         disable-incorrect
-        cache="{{game}}">
-        <!-- <input id="input" type="hidden" name="play" slot="input"> -->
-        {{puzzle.question}}
-        {% for option in puzzle.options %}
+        cache="{{game.id}}">
+        {{question}}
+        {% for option in options %}
         <button slot="option" data-toggle="tooltip">{{option}}</button>
         {% endfor %}
     </selection-puzzle>
@@ -20,14 +19,12 @@
 
 <script src="{{ url_for("static", filename="selection-puzzle.js") }}" type="module"></script>
 <script>
-
-    // [...document.querySelectorAll('selection-puzzle [slot="option"]')]
-    //     .map(option => fetch(`/translation/${option.textContent}`)
-    //         .then(response => response.text())
-    //         .then(translation => option.setAttribute("title", translation))
-    //         .then(console.log)
-    //         .catch(console.error)
-    //     )
-
+// Provide translations for each option as a tooltip
+[...document.querySelectorAll('selection-puzzle [slot="option"]')]
+    .map(option => fetch(`/translation/${option.textContent}`)
+        .then(response => response.text())
+        .then(translation => option.setAttribute("title", translation))
+        .catch(console.error)
+    )
 </script>
 {% endblock %}
