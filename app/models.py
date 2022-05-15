@@ -24,7 +24,6 @@ class User(UserMixin, db.Model):
         else create new play
         set play word
         """
-        db.session.begin()
         # this ensures game/user have ids for the following query
         db.session.add(game)
         db.session.add(self)
@@ -37,10 +36,8 @@ class User(UserMixin, db.Model):
             # will fail if word doesn't obey rules
             # This is checked in the validator for word in Play
             p.word = word
-            db.session.commit()
             return p
         except:
-            db.session.rollback()
             raise
 
     def checkPassword(self, password):
