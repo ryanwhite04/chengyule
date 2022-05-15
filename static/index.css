@@ -1,7 +1,7 @@
 body {
     margin: auto;
     text-align: center;
-    background: radial-gradient(circle, white 0%, rgb(131, 190, 218) 100%);
+    background: LightCyan; 
 }
 
 form {
@@ -10,27 +10,27 @@ form {
 }
 
 .error {
-    color: red;
+    color: Tomato;
 }
 
 [att^=h] {
-    color:rgb(100, 106, 222);
+    color:CornflowerBlue;
 }
 
 p {
-    color:rgb(2, 6, 79);
+    color:MidnightBlue;
 }
 
 selection-puzzle::part(choice) {
-    background-color: rgb(164, 164, 164); 
+    background-color: Silver; 
 }
 
 selection-puzzle::part(choice-found), [found] {
-    background-color: rgb(139, 240, 130);
+    background-color: MediumSeaGreen;
 }
 
 selection-puzzle::part(choice-correct), [correct] {
-    background-color: rgb(251, 255, 127);
+    background-color: gold;
 }
 
 selection-puzzle:not(:defined) {
