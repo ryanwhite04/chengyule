@@ -15,15 +15,37 @@ from app.forms import Registration, Login
 from sqlalchemy.exc import IntegrityError
 from flask_login import current_user, login_user, logout_user
 from app import db
-from app.models import User
+from app.models import User, Game
 from requests import get
+from random import randint
 app = Blueprint("", __name__)
 
+@app.route("/game/<int:id>", methods=["GET", "POST"])
+def game(id, title=None, words=4):
+    puzzle = getPuzzle(select('static/chengyu.json', id, words))
+    game = Game.query.get(id) or Game(id=id, word=puzzle["answer"])
+    if request.method == "POST":
+        word = request.form.get("play")
+        if current_user.is_authenticated:
+            try:
+                current_user.play(game, word)
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                flash("Invalid Submission", "error")
+        return redirect(url_for("game", id=id))
+    title = title or f"Game {id}"
+    return render_template('game.html',
+        title=title,
+        game=game,
+        highlight=True,
+        options=puzzle["options"],
+        question=puzzle["question"],
+    )
+
 def getPuzzle(chengyu):
-    print(chengyu)
     options = sorted(list(u"".join([c["chinese"] for c in chengyu])))
     return {
-        # "options": [(translate(option), option) for option in options],
         "options": options,
         "answer": chengyu[0]["chinese"],
         "question": chengyu[0]["english"]
@@ -47,26 +69,18 @@ def translate(text):
 
 @app.route("/chengyu/<int:count>/<int:key>")
 def chengyu(count, key):
-    print(count, key)
-    return getPuzzle(select('static/chengyu.json', count or 4, bytes(key or 1)))
+    return getPuzzle(select('static/chengyu.json', key or 1, count or 4))
 
 @app.route("/")
 @app.route("/index")
 def daily():
-    key = bytes(int(time())//(60*60*24))
-    return render_template('index.html',
-        title="Daily Puzzle",
-        puzzle=getPuzzle(select('static/chengyu.json', 4, key)),
-        highlight=True,
-    )
+    id = int(time())//(60*60*24) # Today in binary
+    return game(id, "Daily Puzzle")
 
 @app.route("/random")
 def random():
-    return render_template('index.html',
-        title="Random Puzzle",
-        puzzle=getPuzzle(select('static/chengyu.json', 4)),
-        highlight=True,
-    )
+    id = randint(0, 0xFFFFFFFF) # random big number
+    return game(id, "Random Puzzle")
 
 @app.route("/history")
 def history():

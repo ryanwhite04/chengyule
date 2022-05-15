@@ -8,7 +8,13 @@ function check(string) {
 export default class SelectionPuzzle extends HTMLElement {
 
     static get observedAttributes() {
-        return ["tries", "answer", "disable-incorrect"]
+        return [
+            "for",
+            "cache", // int: whether or not to save progress
+            "tries", // int: how many tries they get
+            "answer", // string: the solution
+            "disable-incorrect", // boolean: whether or not to hide wrong choices
+        ]
     }
 
     get styles() {
@@ -53,10 +59,13 @@ export default class SelectionPuzzle extends HTMLElement {
         } else if (name == "tries" && newValue) {
             this.tries = parseInt(newValue);
             this.updateProgress(this.attempts.length, this.tries);
+        } else if (name == "cache") {
+            this.cache = parseInt(newValue);
+        } else if (name == "for") {
+            this.input = newValue && document.getElementById(newValue);
         } else {
             this[name] = newValue;
         }
-        console.log(this.tries);
     }
 
     updateProgress(attempts, tries) {
@@ -66,11 +75,21 @@ export default class SelectionPuzzle extends HTMLElement {
 
     tries = 4;
     state = "playing";
+
     attempt = {
         options: [],
         choices: [],
     };
     disableIncorrect = false;
+
+    replay(history) {
+        this._replay = true;
+        const options = this.options.assignedElements();
+        for (let index of history) {
+            this.push(options[index])
+        }
+        this._replay = false;
+    }
 
     constructor() {
         super();
@@ -78,13 +97,19 @@ export default class SelectionPuzzle extends HTMLElement {
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild(this.styles);
         this.render(this.shadowRoot);
+    }
+
+    connectedCallback() {
         this.updateProgress(this.attempts.length, this.tries);
+        this.history = new History(this.getAttribute("history"))
+        this.history.cache = this.cache;
+        this.replay(this.history)
     }
 
     submit(attempt) {
-        attempt.value = attempt.options
-            .map(option => option.textContent) // get the value of each option
-            .map(check(this.answer)) // check if the value is found or correct in the answer
+        const guess = attempt.options.map(option => option.textContent)
+        // check if the value is found or correct in the answer
+        attempt.value = guess.map(check(this.answer))
 
         attempt.choices.forEach((choice, i) => {
             choice.disabled = true;
@@ -99,6 +124,13 @@ export default class SelectionPuzzle extends HTMLElement {
         attempt.options.forEach((option, i) => {
             option.disabled = this.disableIncorrect && !attempt.value[i]
         })
+        if (this.input) {
+            this.input.value = guess.join("")
+            if (!this._replay && this.input.form) {
+                console.log(this.input.form);
+                this.input.form.submit()
+            }
+        }
         return attempt.value.every(v => v == 2)
     }
 
@@ -114,21 +146,25 @@ export default class SelectionPuzzle extends HTMLElement {
         this.shadowRoot.removeChild(this.progress);
     }
 
+    push(option) {
+        option.disabled = true;
+        this.attempt.options.push(option);
+        this.choose(option, this.attempt);
+        if (this.attempt.options.length == 4) {
+            if (this.submit(this.attempt)) this.finish(true);
+            else if (this.attempts.length == this.tries) this.finish(false);
+            else this.attempts.push(this.attempt = {
+                options: [],
+                choices: [],
+            });
+            this.updateProgress(this.attempts.length, this.tries);
+        }
+        return this.options.assignedElements().indexOf(option);
+    }
     select(event) {
         const { target: option } = event
         if (option.slot === 'option') {
-            option.disabled = true;
-            this.attempt.options.push(option);
-            this.choose(option, this.attempt);
-            if (this.attempt.options.length == 4) {
-                if (this.submit(this.attempt)) this.finish(true);
-                else if (this.attempts.length == this.tries) this.finish(false);
-                else this.attempts.push(this.attempt = {
-                    options: [],
-                    choices: [],
-                });
-                this.updateProgress(this.attempts.length, this.tries);
-            }
+            this.history.append(this.push(option))
         }
     }
 
@@ -140,6 +176,10 @@ export default class SelectionPuzzle extends HTMLElement {
         this.options.setAttribute('name', 'option');
         this.options.addEventListener('click', this.select.bind(this));
         this.options.classList.add("grid");
+
+        this.input = document.createElement('slot');
+        this.input.setAttribute('name', 'input');
+        this.input.addEventListener('click', console.log);
 
         this.choices = document.createElement('div');
         this.choices.classList.add("grid");
@@ -158,6 +198,7 @@ export default class SelectionPuzzle extends HTMLElement {
 
         this.shadowRoot.append(
             slot,
+            this.input,
             this.options,
             this.progress,
             this.choices,
@@ -167,21 +208,78 @@ export default class SelectionPuzzle extends HTMLElement {
         );
     }
 
-    choose(option, attempt) {
+    pop(option, choice) {
+        option.disabled = false;
+        this.attempt.options.splice(this.attempt.options.indexOf(option), 1);
+        this.choices.removeChild(choice);
+        return this.options.assignedElements().indexOf(option);
+    }
+
+    choose(option) {
         const choice = document.createElement("button");
         choice.classList.add("choice");
         choice.setAttribute("part", "choice");
         choice.textContent = option.textContent;
-        const remove = () => {
-            option.disabled = false;
-            attempt.options.splice(attempt.options.indexOf(option), 1);
-            this.choices.removeChild(choice);
-            attempt.choices.splice(attempt.choices.indexOf(choice), 1);
-        }
+        const remove = () => this.history.remove(this.pop(option, choice))
         choice.addEventListener("click", remove)
-        attempt.choices.push(choice);
+        this.attempt.choices.push(choice);
         this.choices.append(choice);
     }
+}
+
+class History {
+
+    constructor(history) {
+        this._data = JSON.parse(history) || [];
+    }
+
+    set cache(cache) {
+        this._cache = cache;
+        cache ? this.load() : this.clear();
+    }
+
+    get cache() {
+        return this._cache;
+    }
+
+    toString() {
+        return JSON.stringify(this._data);
+    }
+
+    append(value) {
+        this._data.push(value);
+        this.save();
+    }
+
+    remove(value) {
+        const index = this._data.lastIndexOf(value);
+        let item = this._data.splice(index, 1);
+        this.save();
+        return item;
+    }
+
+    clear() {
+        localStorage.removeItem(this._cache);
+    }
+
+    save() {
+        this._cache && localStorage
+            .setItem(this._cache, JSON.stringify(this._data));
+    }
+
+    load() {
+        this._data = (this._cache &&
+            JSON.parse(localStorage.getItem(this._cache))) ||
+            this._data;
+    }
+
+    *[Symbol.iterator]() {
+        for (let item in this._data) {
+            console.log("yielding", item)
+            yield item
+        }
+    }
+
 }
 
 customElements.define('selection-puzzle', SelectionPuzzle);
