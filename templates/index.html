@@ -2,15 +2,13 @@
 {% block title %}{{title}}{% endblock %}
 {% block content %}
 <body>
-    <div id="puzzles">
-        <selection-puzzle 
-            answer="{{puzzle.answer}}">
-            {{puzzle.question}}
-            {% for option in puzzle.options %}
-            <button slot="option">{{option}}</button>
-            {% endfor %}
-        </selection-puzzle>
-    </div>
-    <script src="static/selection-puzzle.js" type="module"></script>
+    <selection-puzzle id="puzzle"
+        answer="{{puzzle.answer}}">
+        {{puzzle.question}}
+        {% for option in puzzle.options %}
+        <button slot="option">{{option}}</button>
+        {% endfor %}
+    </selection-puzzle>
+    <script src="{{ url_for("static", filename="selection-puzzle.js") }}" type="module"></script>
 </body>
 {% endblock %}

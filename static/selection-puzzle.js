@@ -50,7 +50,7 @@ export default class SelectionPuzzle extends HTMLElement {
         console.log("attributeChangedCallback", { name, oldValue, newValue });
         if (name == "disable-incorrect") {
             this.disableIncorrect = newValue !== null;
-        } else if (name == "tries") {
+        } else if (name == "tries" && newValue) {
             this.tries = parseInt(newValue);
             this.updateProgress(this.attempts.length, this.tries);
         } else {
@@ -60,9 +60,11 @@ export default class SelectionPuzzle extends HTMLElement {
     }
 
     updateProgress(attempts, tries) {
-        this.progress.textContent = `You have ${1+tries-attempts} tries left`;
+        const remaining = tries-attempts;
+        this.progress.textContent = `You have ${1+remaining} ${remaining ? "tries" : "try"} left`;
     }
 
+    tries = 4;
     state = "playing";
     attempt = {
         options: [],
@@ -76,6 +78,7 @@ export default class SelectionPuzzle extends HTMLElement {
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild(this.styles);
         this.render(this.shadowRoot);
+        this.updateProgress(this.attempts.length, this.tries);
     }
 
     submit(attempt) {

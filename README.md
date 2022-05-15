@@ -108,6 +108,34 @@ Previously I've used the [Gitflow workflow](https://www.atlassian.com/git/tutori
 - When it's all good, push again ```git push```, and get the team to take a look (can use a pull request if you want)
 - Merge it into main ```git checkout main; git pull; git pull origin my-fancy-new-feature; git push```
 
+# Database
 
+Make sure you have the packages required
 
+```pip install -r requirements.txt```
 
+This will install Flask-SQLAlchemy and Flask-Migrate if you don't have them already
+
+Initialize database
+
+```DATABASE_URL=sqlite:///app.db flask db init```
+```DATABASE_URL=sqlite:///app.db flask db migrate```
+
+DATABASE_URL is passed in manually for now but we can put it in a .env later
+
+# Testing
+
+```python test.py```
+
+To play around in shell, you can run
+
+```
+python
+>>> from test import UserModelCase, db, User, Play, Game
+>>> umc = UserModelCase()
+>>> umc.setUp()
+>>> games, users = umc.populate()
+(<Game a>, <Game b>, <Game c>)
+>>> User.query.all()
+[<User a>, <User b>, <User c>]
+```
