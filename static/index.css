@@ -19,12 +19,15 @@ p {
 }
 
 selection-puzzle::part(choice) {
+    background-color: rgb(164, 164, 164); 
 }
 
 selection-puzzle::part(choice-found), [found] {
+    background-color: rgb(139, 240, 130);
 }
 
 selection-puzzle::part(choice-correct), [correct] {
+    background-color: rgb(251, 255, 127);
 }
 
 selection-puzzle:not(:defined) {

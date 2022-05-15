@@ -60,10 +60,15 @@
                     <p>Cheng Yu are traditional Chinese idiomatic expressions that consists of four Chinese characters.</p>
                     </article>
                     <article class="info">
-                    <h2>Chengyu Wordle</h2>
+                    <h2>Its A Chengyu Wordle</h2>
                     <p>Our 成语了 is very similar to wordle. Your task is to guess the chengyu in 5 turns according to 
-                       the description writen above the puzzle. There is a line to remind you how many turns you have
-                       left below the puzzle. Each guess needs to be a valid chengyu.
+                       the description writen above the puzzle. There is a line below the puzzle to remind you how many 
+                       turns you have left. 
+                    </p>
+                    <br>
+                    <p>Each guess needs to be a valid chengyu. You can click on the character to unselect it if you change
+                       your mind. You can no longer unselect characters once you select your fourth character (as this 
+                       completes your first guess). <span style="color: rgb(104, 104, 224);">Try it yourself on the example!</span>
                     </p>
                     </article>
                     <article class="info">
@@ -73,6 +78,7 @@
                         <li>Green -- The character is in the chengyu and in the correct position</li>
                         <li>Grey -- The character is not in the chengyu</li>
                     </ul>
+                    <p>You will not be able to select a grey character again as you know they are not in this chengyu. </p>
                     </article>
                 </div>
                 <div class="right-flex">
@@ -101,16 +107,18 @@
                     </selection-puzzle>
                     <br>
                     <br>
-                    <p>In this case</p>
+                    <p>In this case, C is not in the right position but is in the "chengyu";
+                       B in the chengyu and is in right position; H is not in the "chengyu"; and 
+                       A is not in the right position but is in the "chengyu".</p>
                 </div>
             </div>
             <script type="module">
                 import "./selection-puzzle.js";
                 const options = [...document.querySelectorAll('#puzzle [slot="option"]')]
-                options[2].click();//C - yellow (not in the right position)
-                options[1].click();//B - green (in the right position)
-                options[7].click();//H - grey (not in the 'word')
-                options[0].click();//C - yellow (not in the right position)
+                options[2].click();
+                options[1].click();
+                options[7].click();
+                options[0].click();
             </script>
     </body>
 </html> 
