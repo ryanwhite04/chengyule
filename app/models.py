@@ -94,3 +94,22 @@ class Play(db.Model):
 
     def __repr__(self):
         return f'<Play word={self.word} user={self.user.username} game={self.game.word}>'
+
+class Note(db.Model):
+    __tablename__ = "notes"
+    text = db.Column(db.ForeignKey("texts.id"), primary_key=True)
+    code = db.Column(db.ForeignKey("texts.id"), primary_key=True)
+    content = db.Column(db.String)
+
+class Text(db.Model):
+    __tablename__ = "texts"
+    id = db.Column(db.String, primary_key=True)
+
+    def __init__(self, **kwargs):
+        super(Play, self).__init__(**kwargs)
+        self.attempt = 0
+        self.correct = False
+
+class Code(db.Model):
+    __tablename__ = "codes"
+    id = db.Column(db.String, primary_key=True)
