@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>成语了</h1>
-        <selection-puzzle id="puzzle" disable-incorrect answer="ABCD">
+        <selection-puzzle id="puzzle" guidance answer="ABCD">
             <h2>First 4 letters of the alphabet</h2>
             <button slot="option">A</button>
             <button slot="option">B</button>
@@ -32,7 +32,8 @@
         <script src="count-down.js" type="module"></script>
         <script type="module">
             import { select, change } from "./index.js"
-            select("chengyu.json").then(change(document.getElementById("puzzle")));
+            const puzzle = document.getElementById("puzzle");
+            select("chengyu.json").then(change(puzzle));
         </script>
     </body>
 </html>

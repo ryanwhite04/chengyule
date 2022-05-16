@@ -7,87 +7,59 @@ function check(string) {
 
 export default class SelectionPuzzle extends HTMLElement {
 
+    _cache = new Cache();
+    _tries = 4;
+    state = "playing";
+    attempt = {
+        options: [],
+        choices: [],
+    };
+
     static get observedAttributes() {
-        return [
-            "for",
-            "cache", // int: whether or not to save progress
-            "tries", // int: how many tries they get
-            "answer", // string: the solution
-            "disable-incorrect", // boolean: whether or not to hide wrong choices
-        ]
+        return Object.keys(this.converters);
     }
 
-    get styles() {
-        const tag = document.createElement('style');
-        tag.textContent = `
-            :host {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .grid {
-                display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                grid-column-gap: 0.5em;
-                grid-row-gap: 0.5em;
-                margin: 1em;
-            }
-            .choice {
-                height: 3em;
-                width: 3em;
-                color: black;
-            }
-            .choice[found] {
-                background: yellow;
-            }
-            .choice[correct] {
-                background: green;
-            }
-            ::slotted([slot="option"]) {
-                height: 3em;
-                width: 3em;
-                text-align: center;
-            }
-        `;
-        return tag;
+    attributeChangedCallback(name, _, value) {
+        const converter = this.constructor.converters[name];
+        // Called on window specifically to avoid illegal invocation
+        this[name] = converter == Boolean ?
+            this.hasAttribute(name) : // because Boolean("") returns false
+            converter.call(window, value);
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name == "disable-incorrect") {
-            this.disableIncorrect = newValue !== null;
-        } else if (name == "tries" && newValue) {
-            this.tries = parseInt(newValue);
-            this.updateProgress(this.attempts.length, this.tries);
-        } else if (name == "cache") {
-            this.cache = parseInt(newValue);
-        } else if (name == "for") {
-            this.input = newValue && document.getElementById(newValue);
-        } else {
-            this[name] = newValue;
+    static converters = {
+        "for": id => document.getElementById(id), // this input to submit guesses to
+        "cache": id => new Cache(id), // whether or not to save progress
+        "tries": Number, // how many tries they get
+        "answer": String, // the solution
+        "guidance": Boolean, // whether or not to hide wrong choices
+
+    }
+
+    set cache(id) {
+        this._cache = new Cache(id);
+        this._replay = true;
+        const options = this.options.assignedElements();
+        for (let index of this._cache) {
+            this.push(options[index])
         }
+        this._replay = false;
+    }
+
+    get cache() {
+        return this._cache;
+    }
+
+    set tries(value) {
+        this.updateProgress(this.attempts.length, this._tries = value);
+    }
+    get tries() {
+        return this._tries;
     }
 
     updateProgress(attempts, tries) {
         const remaining = tries-attempts;
         this.progress.textContent = `You have ${1+remaining} ${remaining ? "tries" : "try"} left`;
-    }
-
-    tries = 4;
-    state = "playing";
-
-    attempt = {
-        options: [],
-        choices: [],
-    };
-    disableIncorrect = false;
-
-    replay(history) {
-        this._replay = true;
-        const options = this.options.assignedElements();
-        for (let index of history) {
-            this.push(options[index])
-        }
-        this._replay = false;
     }
 
     constructor() {
@@ -100,9 +72,6 @@ export default class SelectionPuzzle extends HTMLElement {
 
     connectedCallback() {
         this.updateProgress(this.attempts.length, this.tries);
-        this.history = new History(this.getAttribute("history"))
-        this.history.cache = this.cache;
-        this.replay(this.history)
     }
 
     submit(attempt) {
@@ -121,7 +90,7 @@ export default class SelectionPuzzle extends HTMLElement {
             }
         });
         attempt.options.forEach((option, i) => {
-            option.disabled = this.disableIncorrect && !attempt.value[i]
+            option.disabled = this.guidance && !attempt.value[i]
         })
         if (this.input) {
             this.input.value = guess.join("")
@@ -160,8 +129,43 @@ export default class SelectionPuzzle extends HTMLElement {
     select(event) {
         const { target: option } = event
         if (option.slot === 'option') {
-            this.history.append(this.push(option))
+            this.cache.append(this.push(option))
         }
+    }
+
+    get styles() {
+        const tag = document.createElement('style');
+        tag.textContent = `
+            :host {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-column-gap: 0.5em;
+                grid-row-gap: 0.5em;
+                margin: 1em;
+            }
+            .choice {
+                height: 3em;
+                width: 3em;
+                color: black;
+            }
+            .choice[found] {
+                background: yellow;
+            }
+            .choice[correct] {
+                background: green;
+            }
+            ::slotted([slot="option"]) {
+                height: 3em;
+                width: 3em;
+                text-align: center;
+            }
+        `;
+        return tag;
     }
 
     render() {
@@ -209,63 +213,51 @@ export default class SelectionPuzzle extends HTMLElement {
         choice.classList.add("choice");
         choice.setAttribute("part", "choice");
         choice.textContent = option.textContent;
-        const remove = () => this.history.remove(this.pop(option, choice))
+        const remove = () => this.cache.remove(this.pop(option, choice))
         choice.addEventListener("click", remove)
         this.attempt.choices.push(choice);
         this.choices.append(choice);
     }
 }
 
-class History {
+class Cache {
 
-    constructor(history) {
-        this._data = JSON.parse(history) || [];
-    }
+    touched = false;
 
-    set cache(cache) {
-        this._cache = cache;
-        cache ? this.load() : this.clear();
-    }
-
-    get cache() {
-        return this._cache;
-    }
-
-    toString() {
-        return JSON.stringify(this._data);
+    constructor(id) {
+        this.id = id;
     }
 
     append(value) {
-        this._data.push(value);
-        this.save();
+        const { data } = this; // Load data
+        data.push(value);
+        this.data = data; // Save data
     }
 
     remove(value) {
-        const index = this._data.lastIndexOf(value);
-        let item = this._data.splice(index, 1);
-        this.save();
+        let { data } = this; // Load data
+        let item = data.splice(data.lastIndexOf(value), 1);
+        this.data = data; // Save data
         return item;
     }
 
     clear() {
-        localStorage.removeItem(this._cache);
+        localStorage.removeItem(this.id);
     }
 
-    save() {
-        this._cache && localStorage
-            .setItem(this._cache, JSON.stringify(this._data));
+    set data(value) {
+        localStorage.setItem(this.id, JSON.stringify(value));
     }
 
-    load() {
-        this._data = (this._cache &&
-            JSON.parse(localStorage.getItem(this._cache))) ||
-            this._data;
+    get data() {
+        return JSON.parse(localStorage.getItem(this.id)) || [];
     }
 
     *[Symbol.iterator]() {
-        for (let item in this._data) {
+        for (let item of this.data) {
             yield item
         }
+        this.touched = true;
     }
 
 }

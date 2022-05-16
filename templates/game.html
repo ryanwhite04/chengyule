@@ -14,12 +14,8 @@ button[slot="option"][disabled] {
 <h1>{{title}}</h1>
 <form action="{{ url_for("game", id=game.id) }}" method="post">
     <input id="{{game.id}}" type="hidden" name="play" slot="input">
-    <selection-puzzle id="puzzle"
-        for="{{game.id}}"
-        answer="{{game.word}}"
-        disable-incorrect
-        cache="{{game.id}}">
-        {{question}}
+    <selection-puzzle for="{{game.id}}" answer="{{game.word}}" guidance cache="{{game.id}}">
+        <h2>{{question}}</h2>
         {% for option in options %}
         <button slot="option">{{option}}</button>
         {% endfor %}
@@ -35,7 +31,6 @@ button[slot="option"][disabled] {
     .map(option => fetch(`/translation/${option.textContent}`)
         .then(response => response.text())
         .then(translation => option.setAttribute("title", translation))
-        .then()
         .catch(console.error)
     )
 </script>
