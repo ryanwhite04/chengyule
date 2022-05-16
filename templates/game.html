@@ -27,11 +27,13 @@ button[slot="option"][disabled] {
 <script src="{{ url_for("static", filename="selection-puzzle.js") }}" type="module"></script>
 <script>
 // Provide translations for each option as a tooltip
-[...document.querySelectorAll('selection-puzzle [slot="option"]')]
-    .map(option => fetch(`/translation/${option.textContent}`)
-        .then(response => response.text())
-        .then(translation => option.setAttribute("title", translation))
-        .catch(console.error)
-    )
+const options = [...document.querySelectorAll('selection-puzzle [slot="option"]')]
+const words = options.map(option => option.textContent).join(",")
+fetch(`/translation/${words}`)
+    .then(response => response.json())
+    .then(translations => translations.forEach((translation, i) => {
+        options[i].setAttribute("title", translation)
+    }))
+    .catch(console.error)
 </script>
 {% endblock %}

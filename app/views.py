@@ -1,5 +1,6 @@
 from app.chengyu import select
 from werkzeug.security import generate_password_hash
+from werkzeug.routing import BaseConverter
 from time import time
 from json import loads
 from flask import (
@@ -10,7 +11,9 @@ from flask import (
     request,
     flash,
     current_app,
+    Response,
 )
+from json import dumps
 from app.forms import Registration, Login
 from sqlalchemy.exc import IntegrityError
 from flask_login import current_user, login_user, logout_user
@@ -51,21 +54,29 @@ def getPuzzle(chengyu):
         "question": chengyu[0]["english"]
     }
 
-@app.route("/translation/<text>")
-def translate(text):
+
+@app.route("/translation/<zh_list:words>")
+def translation(words):
     url = "https://translation.googleapis.com/language/translate/v2"
     params = {
         "key": current_app.config["TRANSLATION_KEY"],
         "source": "zh",
         "target": "en",
-        "q": text,
+        "q": words,
     }
-    json = get(url, params=params).json()
+    response = get(url, params=params).json()
     try:
-        translation = json["data"]["translations"][0]["translatedText"]
-        return translation
+        translations = [
+            translation["translatedText"]
+            for translation
+            in response["data"]["translations"]
+        ]
     except:
-        return ""
+        raise
+    return Response(
+        dumps(translations),
+        mimetype="application/json",
+    )
 
 @app.route("/chengyu/<int:count>/<int:key>")
 def chengyu(count, key):
