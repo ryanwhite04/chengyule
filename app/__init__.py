@@ -7,6 +7,7 @@ from app.converters import ChineseListConverter
 db = SQLAlchemy()
 login = LoginManager()
 migrate = Migrate()
+
 def create_app(config=Config):
     app = Flask(__name__,
         static_folder="../static",
@@ -19,4 +20,6 @@ def create_app(config=Config):
     migrate.init_app(app, db)
     from app.views import app as views
     app.register_blueprint(views)
+    from app.commands import register
+    register(app, db)
     return app
