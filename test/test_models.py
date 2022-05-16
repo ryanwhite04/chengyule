@@ -1,23 +1,7 @@
-from app import create_app, db
-from config import Config
-from unittest import TestCase, main
+from test import Case, db, main
 from app.models import User, Game, Play
-from sqlalchemy.exc import InvalidRequestError
-class TestConfig(Config):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
 
-class ModelCase(TestCase):
-    def setUp(self):
-        self.app = create_app(TestConfig)
-        self.app_context = self.app.app_context()
-        self.app_context.push()
-        db.create_all()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-        self.app_context.pop()
+class ModelCase(Case):
 
     def show(self):
         plays = Play.query.all()
@@ -38,23 +22,23 @@ class PlayModelCase(ModelCase):
 
     def test_commitNotCalled(self):
         u = User(username="a", email="a@a.a", password="a")
+        db.session.add(u)
+        db.session.flush()
         g = Game(word="a")
-        db.session.add(g) # this is why the error is raised
-        # db.session.commit() # resolves the error
-        with self.assertRaises(InvalidRequestError):
-            u.play(g, "a")
+        u.play(g, "a")
     
     def test_wrongWordLength(self):
         u = User(username="a", email="a@a.a", password="a")
+        db.session.add(u)
+        db.session.commit()
         g = Game(word="a")
         with self.assertRaises(ValueError) as context:
             u.play(g, "aa")
         self.assertTrue("Can't play that word" in str(context.exception))
-        db.session.add(u)
-        db.session.commit()
-        self.assertFalse(Play.query.all())
+        db.session.rollback()
         self.assertCountEqual(User.query.all(), (u,))
-        self.assertFalse(Game.query.all())
+        self.assertFalse(Play.query.all()) # Play wasn't commited
+        self.assertFalse(Game.query.all()) # Game wasn't commited
     
     def populate(self):
         users = (
@@ -90,7 +74,7 @@ class PlayModelCase(ModelCase):
                 (users[(i+2) % len(users)], users[i])
             )
 
-class UserModelCase(TestCase):
+class UserModelCase(ModelCase):
 
     def test_password_hashing(self):
         from werkzeug.security import generate_password_hash
@@ -100,3 +84,4 @@ class UserModelCase(TestCase):
         self.assertFalse(u.checkPassword("b"))
 
 if __name__ == "__main__": main()
+
