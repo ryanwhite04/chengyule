@@ -168,8 +168,7 @@ def daily():
 
 @app.route("/random")
 def random():
-    id = randint(0, 0xFFFFFFFF) # random big number
-    return game(id, "Random Puzzle")
+    return redirect(url_for("game", id=randint(0, 0xFFFFFFFF)))
 
 @app.route("/history")
 def history():
