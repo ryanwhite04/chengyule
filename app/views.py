@@ -198,6 +198,14 @@ def register():
                 )
     else: return render_template('register.html', form=form, title="Registration Page")
 
+@app.errorhandler(404)
+def page_note_found(e):
+    return render_template("404.html"), 404
+
+@app.errorhandler(403)
+def page_forbidden(e):
+    return render_template("403.html"), 403
+
 @app.route('/table')
 def tables():
     if current_app.config["ENV"] == "development":
