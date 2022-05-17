@@ -1,5 +1,12 @@
 from test import Case, db, main
-from app.models import User, Game, Play
+from app.models import (
+    User,
+    Game,
+    Play,
+    Note,
+    Text,
+    Code,
+)
 
 class ModelCase(Case):
 
@@ -8,6 +15,29 @@ class ModelCase(Case):
         users = User.query.all()
         games = Game.query.all()
         print(f"{plays=}, {users=}, {games=}")
+
+class NoteModelCase(ModelCase):
+
+    def show(self):
+        texts = Text.query.all()
+        codes = Code.query.all()
+        notes = Note.query.all()
+        print(f"{texts=}\n{codes=}\n{notes=}")
+
+    def test_create(self):
+        西班牙语 = Text("西班牙语") # Spanish
+        英语 = Text("英语") # English
+        你好 = Text("你好") # Hello
+        es = Code("es", "西班牙语")
+        en = Code("en", "英语")
+        hello = Note("Hello", "en", "你好")
+        hola = Note("Hola", "es", "你好")
+        db.session.add_all([西班牙语, 英语, 你好])
+        db.session.add_all([es, en])
+        db.session.add_all([hello, hola])
+        db.session.commit()
+        self.show()
+
 
 class PlayModelCase(ModelCase):
 

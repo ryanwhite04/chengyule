@@ -94,3 +94,40 @@ class Play(db.Model):
 
     def __repr__(self):
         return f'<Play word={self.word} user={self.user.username} game={self.game.word}>'
+
+class Text(db.Model):
+    __tablename__ = "texts"
+    id = db.Column(db.String, primary_key=True)
+
+    def __init__(self, text: str):
+        self.id = text
+
+    def __repr__(self):
+        return f'<Text {self.id}>'
+
+class Code(db.Model):
+    __tablename__ = "codes"
+    id = db.Column(db.String, primary_key=True)
+    text = db.Column(db.ForeignKey("texts.id"))
+
+    def __init__(self, code: str, text: str):
+        self.id = code
+        self.text = text
+
+    def __repr__(self):
+        return f'<Code {self.id} is {self.text}>'
+
+class Note(db.Model):
+    __tablename__ = "notes"
+    text = db.Column(db.ForeignKey("texts.id"), primary_key=True)
+    code = db.Column(db.ForeignKey("codes.id"), primary_key=True)
+    content = db.Column(db.String, nullable=False)
+
+    def __init__(self, note: str, code: str, text: str):
+        self.text = text
+        self.code = code
+        self.content = note
+
+    def __repr__(self):
+        return f'<Note {self.content} is {self.code} for {self.text}>'
+

@@ -2,7 +2,7 @@ from app.chengyu import select
 from werkzeug.security import generate_password_hash
 from werkzeug.routing import BaseConverter
 from time import time
-from json import loads
+from json import loads, dumps
 from flask import (
     Blueprint,
     render_template,
@@ -17,11 +17,49 @@ from json import dumps
 from app.forms import Registration, Login
 from sqlalchemy.exc import IntegrityError
 from flask_login import current_user, login_user, logout_user
-from app import db
-from app.models import User, Game
+from app import db, language
+from flask_language import current_language
+from app.models import User, Game, Code, Note, Text
 from requests import get
 from random import randint
 app = Blueprint("", __name__)
+
+@app.app_context_processor
+def inject_language():
+    current = str(current_language)
+    key = current_app.config["TRANSLATION_KEY"]
+    def get_languages():
+        allowed = Code.query.all()
+        names = translate(
+            [code.text for code in allowed],
+            key,
+            current,
+        )
+        return [
+            (code.id, names[index])
+            for index, code
+            in enumerate(allowed)
+        ]
+    def translateWord(word):
+        return translate([word], key, current)[0]
+    return dict(
+        current_language=str(current_language),
+        _=translateWord,
+        get_languages=get_languages,
+    )
+
+@language.allowed_languages
+def get_allowed_languages():
+    return [code.id for code in Code.query.all()]
+
+@language.default_language
+def get_default_language():
+    return "en"
+
+@app.route('/language', methods=["POST"])
+def set_language():
+    language.change_language(request.form.get("language"))
+    return redirect(request.referrer)
 
 @app.route("/game/<int:id>", methods=["GET", "POST"])
 def game(id, title=None, words=4):
@@ -54,25 +92,65 @@ def getPuzzle(chengyu):
         "question": chengyu[0]["english"]
     }
 
-
-@app.route("/translation/<zh_list:words>")
-def translation(words):
+def google_translate(q, target, key, source="zh"):
     url = "https://translation.googleapis.com/language/translate/v2"
     params = {
-        "key": current_app.config["TRANSLATION_KEY"],
-        "source": "zh",
-        "target": "en",
-        "q": words,
+        "key": key,
+        "source": source,
+        "target": target,
+        "q": q,
     }
     response = get(url, params=params).json()
+    # If there was an error, response won't have "data" key
     try:
         translations = [
             translation["translatedText"]
             for translation
             in response["data"]["translations"]
         ]
-    except:
-        raise
+    except KeyError as e:
+        print(response["error"]["message"])
+    return translations
+
+def translate(words, key, language):
+    if language == "zh": return words
+
+    # Find any words not in the cache/database
+    missing = set()
+    found = {} # { word: translation }
+    for word in words:
+        if not Text.query.get(word):
+            db.session.add(Text(word))
+            missing.add(word)
+        note = Note.query.get({
+            "text": word,
+            "code": language,
+        })
+        if note: found[word] = note.content
+        else: missing.add(word)
+    db.session.commit()
+    # Get missing words from google translate
+    if missing:
+        missing = list(missing)
+        translations = google_translate(
+            missing,
+            language,
+            key,
+            "zh"
+        )
+
+        # Store any new translations in the cache for next time
+        for index, translation in enumerate(translations):
+            db.session.add(Note(translation, language, missing[index]))
+            found[missing[index]] = translation
+        db.session.commit()
+    return [found[word] for word in words]
+
+@app.route("/translation/<zh_list:words>")
+def translation(words):
+    key = current_app.config["TRANSLATION_KEY"]
+    language = str(current_language)
+    translations = translate(words, key, language)
     return Response(
         dumps(translations),
         mimetype="application/json",
