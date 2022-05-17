@@ -9,6 +9,9 @@ def database_URL():
         url = url.replace("postgres://", "postgresql://")
     return url
 
+TRANSLATION_KEY = environ.get("TRANSLATION_KEY")
+if not TRANSLATION_KEY:
+    print("No Translation_Key, Translations will not work")
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = database_URL()

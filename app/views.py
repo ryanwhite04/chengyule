@@ -114,8 +114,7 @@ def google_translate(q, target, key, source="zh"):
     return translations
 
 def translate(words, key, language):
-    if language == "zh": return words
-
+    if language == "zh" or not key: return words
     # Find any words not in the cache/database
     missing = set()
     found = {} # { word: translation }
