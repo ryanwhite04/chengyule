@@ -19,10 +19,34 @@ from sqlalchemy.exc import IntegrityError
 from flask_login import current_user, login_user, logout_user
 from app import db, language
 from flask_language import current_language
-from app.models import User, Game, Code, Note
+from app.models import User, Game, Code, Note, Text
 from requests import get
 from random import randint
 app = Blueprint("", __name__)
+
+@app.app_context_processor
+def inject_language():
+    current = str(current_language)
+    key = current_app.config["TRANSLATION_KEY"]
+    def get_languages():
+        allowed = Code.query.all()
+        names = translate(
+            [code.text for code in allowed],
+            key,
+            current,
+        )
+        return [
+            (code.id, names[index])
+            for index, code
+            in enumerate(allowed)
+        ]
+    def translateWord(word):
+        return translate([word], key, current)[0]
+    return dict(
+        current_language=str(current_language),
+        _=translateWord,
+        get_languages=get_languages,
+    )
 
 @language.allowed_languages
 def get_allowed_languages():
@@ -32,22 +56,10 @@ def get_allowed_languages():
 def get_default_language():
     return "en"
 
-@app.route('/language')
-def get_language():
-    current = str(current_language)
-    allowed = Code.query.all()
-    names = translate(
-        [code.text for code in allowed],
-        current_app.config["TRANSLATION_KEY"],
-        current,
-    )
-    languages = {
-        code.id: names[index]
-        for index, code
-        in enumerate(allowed)
-    }
-    languages["default"] = get_default_language()
-    return dumps(languages)
+@app.route('/language', methods=["POST"])
+def set_language():
+    language.change_language(request.form.get("language"))
+    return redirect(request.referrer)
 
 @app.route("/game/<int:id>", methods=["GET", "POST"])
 def game(id, title=None, words=4):
@@ -101,20 +113,25 @@ def google_translate(q, target, key, source="zh"):
     return translations
 
 def translate(words, key, language):
+    if language == "zh": return words
 
     # Find any words not in the cache/database
-    missing = []
+    missing = set()
     found = {} # { word: translation }
     for word in words:
+        if not Text.query.get(word):
+            db.session.add(Text(word))
+            missing.add(word)
         note = Note.query.get({
             "text": word,
             "code": language,
         })
         if note: found[word] = note.content
-        else: missing.append(word)
-
+        else: missing.add(word)
+    db.session.commit()
     # Get missing words from google translate
     if missing:
+        missing = list(missing)
         translations = google_translate(
             missing,
             language,
@@ -124,11 +141,10 @@ def translate(words, key, language):
 
         # Store any new translations in the cache for next time
         for index, translation in enumerate(translations):
-            db.session.append(Note(translation, language, missing[index]))
+            db.session.add(Note(translation, language, missing[index]))
             found[missing[index]] = translation
         db.session.commit()
-    translations = list(found.values())
-    return translations
+    return [found[word] for word in words]
 
 @app.route("/translation/<zh_list:words>")
 def translation(words):
