@@ -25,6 +25,15 @@ from requests import get
 from random import randint
 app = Blueprint("", __name__)
 
+
+@app.app_template_filter("_")
+def translate_word(word):
+    current = str(current_language)
+    key = current_app.config["TRANSLATION_KEY"]
+    translated = translate([word], key, current)[0]
+    print(f"{current=} {word=} {translated=}")
+    return translated
+
 @app.app_context_processor
 def inject_language():
     current = str(current_language)
@@ -41,11 +50,8 @@ def inject_language():
             for index, code
             in enumerate(allowed)
         ]
-    def translateWord(word):
-        return translate([word], key, current)[0]
     return dict(
         current_language=str(current_language),
-        _=translateWord,
         get_languages=get_languages,
     )
 
