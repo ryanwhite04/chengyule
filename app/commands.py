@@ -1,7 +1,7 @@
 from requests import post
-from app.models import Text, Code
+from app.models import Text, Code, User
 from json import loads, dumps
-from click import argument, File
+from click import argument, option, File
 from sys import stdin, stdout, stderr
 from sqlalchemy.exc import (
     ProgrammingError,
@@ -10,6 +10,26 @@ from sqlalchemy.exc import (
 )
 
 def register(app, db):
+
+    @app.cli.group()
+    def admin():
+        """User Management"""
+        pass
+
+    @admin.command()
+    @argument("username")
+    @option("--role", "-r", default=None, show_default=True)
+    def update(username, role):
+        """
+        Update users
+        Roles:
+            0: admin (has access to database)
+        """
+        user = User.query.where(User.username == username).first()
+        user.role = role
+        db.session.add(user)
+        db.session.commit()
+        print(User.query.get(user.id))
 
     @app.cli.group()
     def languages():
