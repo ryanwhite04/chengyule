@@ -70,16 +70,20 @@ def register(app, db):
         Install a new language from INPUT
         Saves the language into the database
         """
+        print()
         try:
             languages = loads(input.read())
             name = languages[language]
-            text = Text(name)
-            code = Code(language, name)
-            db.session.add_all((text, code))
+            db.session.add(Text(name))
+            db.session.flush()
+            db.session.add((Code(language, name)))
             db.session.commit()
-            print(f"{name}, {language} installed", file=stdout)
         except IntegrityError as e:
-            print(f"{name}, {language} already installed", file=stderr)
+            db.session.rollback()
+            print(f"{name}, {language} is already installed", file=stderr)
         except: raise
+        print("Currently Installed:")
+        for code in Code.query.all():
+            print(f"{code.id}:{code.text}")
 
 
