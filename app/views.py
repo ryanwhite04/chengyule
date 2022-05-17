@@ -12,6 +12,7 @@ from flask import (
     flash,
     current_app,
     Response,
+    abort,
 )
 from json import dumps
 from app.forms import Registration, Login
@@ -207,30 +208,34 @@ def page_forbidden(e):
     return render_template("403.html"), 403
 
 @app.route('/table')
-def tables():
-    if current_app.config["ENV"] == "development":
-        return render_template(
-            "tables.html",
-            tables=db.metadata.tables.keys(),
-            title="Tables"
-        )
-    return "No"
+def admin():
+    if current_user.is_authenticated:
+        if current_user.role == "admin":
+            return render_template(
+                "tables.html",
+                tables=db.metadata.tables.keys(),
+                title="Tables"
+            )
+        abort(403)
+    return redirect(url_for("login"))
 
 @app.route('/table/<table>')
 def table(table):
-    if current_app.config["ENV"] == "development":
-        Model = next(Model
-            for Model
-            in db.Model.__subclasses__()
-            if Model.__tablename__ == table
-        )
-        return render_template(
-            "table.html",
-            columns=db.metadata.tables[table].columns.keys(),
-            rows=Model.query.all(),
-            title=Model.__name__,
-        )
-    return "No"
+    if current_user.is_authenticated:
+        if current_user.role == "admin":
+            Model = next(Model
+                for Model
+                in db.Model.__subclasses__()
+                if Model.__tablename__ == table
+            )
+            return render_template(
+                "table.html",
+                columns=db.metadata.tables[table].columns.keys(),
+                rows=Model.query.all(),
+                title=Model.__name__,
+            )
+        abort(403)
+    return redirect(url_for("login"))
 
 @app.route('/user')
 def user():
