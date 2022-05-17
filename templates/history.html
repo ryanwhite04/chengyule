@@ -1,6 +1,35 @@
+
 {% extends 'base.html' %}
-{% block title %}{{title}}{% endblock %}
+{% block title %}
+{{title}}
+{% endblock %}
 
 {% block content %}
-<h1>History</h1>
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <!-- Your Columns HERE -->
+            <th>ID</th>
+            <th>Name</th>
+            <th>Games Played</th>
+            <th>Numbers of Attempts</th>
+            <th>Numbers of Wins</th>
+            <th>Numbers of Losses</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Your rows inside the table HERE: -->
+        {% for currentuser in currentuser %}
+            <tr>
+                <td>{{ currentuser.id }}</td>
+                <td>{{ currentuser.name }}</td>
+                <td>{{ currentuser.gamesplayed }}</td>
+                <td>{{ currentuser.Numattempts }}</td>
+                <td>{{ currentuser.numwins }}</td>
+                <td>{{ currentuser.losses }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    
 {% endblock %}
