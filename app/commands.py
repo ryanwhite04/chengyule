@@ -25,10 +25,18 @@ def register(app, db):
         Roles:
             0: admin (has access to database)
         """
+        roles = ["admin", "editor"]
         user = User.query.where(User.username == username).first()
-        user.role = role
-        db.session.add(user)
-        db.session.commit()
+        try:
+            user.role = roles[int(role)] if role else None
+            db.session.add(user)
+            db.session.commit()
+        except IndexError as e:
+            print("That role doesn't exist")
+            print(f"Roles include:")
+            for i, role in enumerate(roles):
+                print(f"{i}: {role}")
+            db.session.rollback()
         print(User.query.get(user.id))
 
     @app.cli.group()
