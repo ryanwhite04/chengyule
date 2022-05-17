@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     games = association_proxy("plays", "game")
-
+    role = db.Column(db.String(255), nullable=True)
     def play(self, game, word):
         """
         If user has already played this game
