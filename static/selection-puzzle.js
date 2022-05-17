@@ -29,7 +29,7 @@ export default class SelectionPuzzle extends HTMLElement {
 
     static converters = {
         "for": id => document.getElementById(id), // this input to submit guesses to
-        "cache": id => new Cache(id), // whether or not to save progress
+        "cache": String, // whether or not to save progress
         "tries": Number, // how many tries they get
         "answer": String, // the solution
         "guidance": Boolean, // whether or not to hide wrong choices

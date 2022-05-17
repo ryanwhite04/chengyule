@@ -16,6 +16,26 @@ class ModelCase(Case):
         games = Game.query.all()
         print(f"{plays=}, {users=}, {games=}")
 
+class StatsModelCase(ModelCase):
+
+    def test(self):
+        a = User(username="a", email="a@a.a", password="a")
+        b = User(username="b", email="b@b.b", password="b")
+        c = Game(word="d")
+        d = Game(word="d")
+        a.play(c, 'a')
+        a.play(d, 'a')
+        a.play(d, 'd') # Correct
+        b.play(c, 'a')
+        db.session.add_all([a])
+        self.show()
+        self.assertEqual(len(a.games), 2) # A played 2 games
+        self.assertEqual(len(b.games), 1) # B played 1 game
+        self.assertEqual(sum([play.attempt for play in a.plays]), 3) # A played 3 moves
+        self.assertEqual(sum([play.attempt for play in b.plays]), 1) # B played 1 move
+        print(len(b.games))
+
+
 class NoteModelCase(ModelCase):
 
     def show(self):
