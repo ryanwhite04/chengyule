@@ -1,3 +1,4 @@
+from sqlalchemy import true, and_
 from app.chengyu import select
 from werkzeug.security import generate_password_hash
 from werkzeug.routing import BaseConverter
@@ -17,10 +18,10 @@ from flask import (
 from json import dumps
 from app.forms import Registration, Login
 from sqlalchemy.exc import IntegrityError
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from app import db, language
 from flask_language import current_language
-from app.models import User, Game, Code, Note, Text
+from app.models import User, Game, Code, Note, Text, Play
 from requests import get
 from random import randint
 app = Blueprint("", __name__)
@@ -171,9 +172,16 @@ def random():
     return redirect(url_for("game", id=randint(0, 0xFFFFFFFF)))
 
 @app.route("/history")
+@login_required
 def history():
-    with open("history.json") as file: games = loads(file.read())
-    return render_template("history.html", games=games, hightlight=True)
+    currentuser = [{
+    'id': current_user.id, 
+    'name': current_user.username, 
+    'gamesplayed': len(current_user.games), 
+    'Numattempts': sum([p.attempt for p in current_user.plays]), 
+    'numwins' : Play.query.filter(and_(Play.user_id == current_user.id, Play.correct == True)).count(),
+    'losses' : Play.query.filter(and_(Play.user_id == current_user.id, Play.correct == False)).count()}]
+    return render_template('history.html', currentuser=currentuser)
 
 @app.route("/registration", methods=['GET', 'POST'])
 def register():
