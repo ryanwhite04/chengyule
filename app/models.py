@@ -53,7 +53,21 @@ class User(UserMixin, db.Model):
     
     @property
     def correct(self):
-        return [p.game for p in self.plays if p.correct]
+        return [p for p in self.plays if p.correct]
+
+    @property
+    def failed(self):
+        return [
+            p  for p in self.plays
+            if not p.correct and p.game.attempts == p.attempt
+        ]
+
+    @property
+    def remaining(self):
+        return [
+            p for p in self.plays
+            if not p.correct and p.game.attempts > p.attempt
+        ]
 
 
 @login.user_loader
