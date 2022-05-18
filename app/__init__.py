@@ -7,6 +7,7 @@ from config import Config
 from app.converters import ChineseListConverter
 db = SQLAlchemy()
 login = LoginManager()
+login.login_view = "login"
 migrate = Migrate()
 language = Language()
 def create_app(config=Config):

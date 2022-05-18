@@ -1,6 +1,27 @@
+
 {% extends 'base.html' %}
-{% block title %}{{title}}{% endblock %}
+{% block title %}History{% endblock %}
 
 {% block content %}
 <h1>History</h1>
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th>Played</th>
+            <th>Attempts</th>
+            <th>Correct</th>
+            <th>Failed</th>
+            <th>Incomplete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ current_user.games | length }}</td>
+            <td>{{ current_user.attempts }}</td>
+            <td>{{ current_user.correct | length }}</td>
+            <td>{{ current_user.failed | length }}</td>
+            <td>{{ current_user.remaining | length }}</td>
+        </tr>
+    </tbody>
+</table>
 {% endblock %}
