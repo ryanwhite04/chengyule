@@ -16,7 +16,7 @@ button[slot="option"][disabled] {
     <input id="{{game.id}}" type="hidden" name="play" slot="input">
     <selection-puzzle for="{{game.id}}" answer="{{game.word}}" guidance cache="{{game.id}}">
         {% if current_language != "zh" %}
-        <h2>{{_(game.word)}}</h2>
+        <h2>{{ game.word|_ }}</h2>
         {% endif %}
         {% for option in options %}
         <button slot="option">{{option}}</button>
