@@ -68,7 +68,7 @@ I've also linked this static website to netlify so once main is pushed to the gi
 
 If you want to work on the backend, you'll have to run the flask app instead.
 
-```FLASK_ENV=development flask run```
+```flask run```
 
 By setting the FLASK_ENV environment variable to "development" it means the server resets when you make changes to files so you don't have to keep restarting the server all the time which is a pain
 
@@ -139,3 +139,11 @@ python
 >>> User.query.all()
 [<User a>, <User b>, <User c>]
 ```
+
+# New Stuff
+
+>>>python -m unittest test.test_modules.py
+
+# Installing Postgresql
+
+https://devcenter.heroku.com/articles/heroku-postgresql
