@@ -46,6 +46,15 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         role = self.role
         return f'<User {self.username} {role}>'
+    
+    @property
+    def attempts(self):
+        return sum([p.attempt for p in self.plays])
+    
+    @property
+    def correct(self):
+        return [p.game for p in self.plays if p.correct]
+
 
 @login.user_loader
 def load_user(id):

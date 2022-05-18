@@ -174,14 +174,7 @@ def random():
 @app.route("/history")
 @login_required
 def history():
-    currentuser = [{
-    'id': current_user.id, 
-    'name': current_user.username, 
-    'gamesplayed': len(current_user.games), 
-    'Numattempts': sum([p.attempt for p in current_user.plays]), 
-    'numwins' : Play.query.filter(and_(Play.user_id == current_user.id, Play.correct == True)).count(),
-    'losses' : Play.query.filter(and_(Play.user_id == current_user.id, Play.correct == False)).count()}]
-    return render_template('history.html', currentuser=currentuser)
+    return render_template('history.html')
 
 @app.route("/registration", methods=['GET', 'POST'])
 def register():
