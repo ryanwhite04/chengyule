@@ -28,11 +28,15 @@ class StatsModelCase(ModelCase):
         a.play(d, 'd') # Correct
         b.play(c, 'a')
         db.session.add_all([a])
+        db.session.commit()
         self.show()
         self.assertEqual(len(a.games), 2) # A played 2 games
         self.assertEqual(len(b.games), 1) # B played 1 game
-        self.assertEqual(sum([play.attempt for play in a.plays]), 3) # A played 3 moves
-        self.assertEqual(sum([play.attempt for play in b.plays]), 1) # B played 1 move
+        self.assertEqual(a.attempts, 3) # A played 3 moves
+        self.assertEqual(b.attempts, 1) # B played 1 move
+        correctA = Play.query.where(User.id == a.id, Play.correct).all()
+        correctB = Play.query.where(User.id == b.id, Play.correct).all()
+        print(correctA, correctB)
         print(len(b.games))
 
 
