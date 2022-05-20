@@ -1,6 +1,11 @@
 from app import create_app, db
 from config import Config
-from unittest import TestCase, main
+from unittest import (
+    TestCase,
+    main,
+    skipUnless,
+    skipIf,
+)
 
 class TestConfig(Config):
     TESTING = True
