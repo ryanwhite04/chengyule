@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block styles %}
+<style>
+button[slot="option"][disabled] {
+    pointer-events: auto !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>{{title}}</h1>
+<form action="{{ url_for("game", id=game.id) }}" method="post">
+    <input id="{{game.id}}" type="hidden" name="play" slot="input">
+    <selection-puzzle for="{{game.id}}" answer="{{game.word}}" guidance cache="{{game.id}}">
+        {% if current_language != "zh" %}
+        <h2>{{ game.word|_ }}</h2>
+        {% endif %}
+        {% for option in options %}
+        <button slot="option">{{option}}</button>
+        {% endfor %}
+    </selection-puzzle>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for("static", filename="selection-puzzle.js") }}" type="module"></script>
+<script>
+// Provide translations for each option as a tooltip
+const options = [...document.querySelectorAll('selection-puzzle [slot="option"]')]
+const words = options.map(option => option.textContent).join(",")
+fetch(`/translation/${words}`)
+    .then(response => response.json())
+    .then(translations => translations.forEach((translation, i) => {
+        options[i].setAttribute("title", translation)
+    }))
+    .catch(console.error)
+</script>
+{% endblock %}

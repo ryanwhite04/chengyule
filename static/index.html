@@ -7,32 +7,14 @@
     </head>
     <body>
         <h1>成语了</h1>
-        <selection-puzzle id="puzzle" disable-incorrect answer="ABCD">
-            <h2>First 4 letters of the alphabet</h2>
-            <button slot="option">A</button>
-            <button slot="option">B</button>
-            <button slot="option">C</button>
-            <button slot="option">D</button>
-            <button slot="option">E</button>
-            <button slot="option">F</button>
-            <button slot="option">G</button>
-            <button slot="option">H</button>
-            <button slot="option">I</button>
-            <button slot="option">J</button>
-            <button slot="option">K</button>
-            <button slot="option">L</button>
-            <button slot="option">M</button>
-            <button slot="option">N</button>
-            <button slot="option">O</button>
-            <button slot="option">P</button>
-            <p slot="success">Nice Job!</p>
-            <p slot="failure">Bad luck.</p>
+        <selection-puzzle id="puzzle" guidance>
         </selection-puzzle>
         <script src="selection-puzzle.js" type="module"></script>
         <script src="count-down.js" type="module"></script>
         <script type="module">
             import { select, change } from "./index.js"
-            select("chengyu.json").then(change(document.getElementById("puzzle")));
+            const puzzle = document.getElementById("puzzle");
+            select("chengyu.json").then(change(puzzle));
         </script>
     </body>
 </html>

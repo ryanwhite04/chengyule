@@ -4,13 +4,21 @@ body {
     background: LightCyan; 
 }
 
-form {
+form, table {
     max-width: 300px;
     margin: auto;
 }
 
 .error {
-    color: Tomato;
+    color: var(--danger, Tomato);
+}
+
+[att^=h] {
+    color:rgb(100, 106, 222);
+}
+
+p {
+    color:rgb(2, 6, 79);
 }
 
 selection-puzzle::part(choice) {

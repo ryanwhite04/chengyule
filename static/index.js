@@ -1,9 +1,8 @@
 export async function select(path, secret=0) {
-    // const period = 1000*60*60*24;
-    const period = 1000*10;
-    const key = Math.floor(Date.now()/period)+secret;
+    const period = 1000*60*60*24;
+    const day = Math.floor(Date.now()/period);
     const encoder = new TextEncoder();
-    const digest = await crypto.subtle.digest('SHA-256', encoder.encode(key))
+    const digest = await crypto.subtle.digest('SHA-256', encoder.encode(day+secret))
     const dataView = new DataView(digest, 0);
     const chengyu = await fetch(path).then(body => body.json());
     const selections = [];
@@ -14,13 +13,14 @@ export async function select(path, secret=0) {
         .reduce((string, selection) => string + selection.chinese, '')
         .split('').sort();
     return {
+        day,
         answer: selections[0],
         options,
     }
 }
 
 export function change(puzzle) {
-    return ({ answer, options }) => {
+    return ({ day, answer, options }) => {
         puzzle.setAttribute('answer', answer.chinese);
         puzzle.innerHTML = `<h2/>${answer.english}</h2>`;
         puzzle.append(options.reduce((fragment, option) => {
@@ -30,5 +30,6 @@ export function change(puzzle) {
             fragment.append(button);
             return fragment;
         }, document.createDocumentFragment()));
+        puzzle.setAttribute("cache", day);
     }
 }

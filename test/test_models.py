@@ -1,29 +1,67 @@
-from app import create_app, db
-from config import Config
-from unittest import TestCase, main
-from app.models import User, Game, Play
-from sqlalchemy.exc import InvalidRequestError
-class TestConfig(Config):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
+from test import Case, db, main
+from app.models import (
+    User,
+    Game,
+    Play,
+    Note,
+    Text,
+    Code,
+)
 
-class ModelCase(TestCase):
-    def setUp(self):
-        self.app = create_app(TestConfig)
-        self.app_context = self.app.app_context()
-        self.app_context.push()
-        db.create_all()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-        self.app_context.pop()
+class ModelCase(Case):
 
     def show(self):
         plays = Play.query.all()
         users = User.query.all()
         games = Game.query.all()
         print(f"{plays=}, {users=}, {games=}")
+
+class StatsModelCase(ModelCase):
+
+    def test(self):
+        a = User(username="a", email="a@a.a", password="a")
+        b = User(username="b", email="b@b.b", password="b")
+        c = Game(word="d")
+        d = Game(word="d")
+        a.play(c, 'a')
+        a.play(d, 'a')
+        a.play(d, 'd') # Correct
+        b.play(c, 'a')
+        db.session.add_all([a])
+        db.session.commit()
+        self.show()
+        self.assertEqual(len(a.games), 2) # A played 2 games
+        self.assertEqual(len(b.games), 1) # B played 1 game
+        self.assertEqual(a.attempts, 3) # A played 3 moves
+        self.assertEqual(b.attempts, 1) # B played 1 move
+        correctA = Play.query.where(User.id == a.id, Play.correct).all()
+        correctB = Play.query.where(User.id == b.id, Play.correct).all()
+        print(correctA, correctB)
+        print(len(b.games))
+
+
+class NoteModelCase(ModelCase):
+
+    def show(self):
+        texts = Text.query.all()
+        codes = Code.query.all()
+        notes = Note.query.all()
+        print(f"{texts=}\n{codes=}\n{notes=}")
+
+    def test_create(self):
+        西班牙语 = Text("西班牙语") # Spanish
+        英语 = Text("英语") # English
+        你好 = Text("你好") # Hello
+        es = Code("es", "西班牙语")
+        en = Code("en", "英语")
+        hello = Note("Hello", "en", "你好")
+        hola = Note("Hola", "es", "你好")
+        db.session.add_all([西班牙语, 英语, 你好])
+        db.session.add_all([es, en])
+        db.session.add_all([hello, hola])
+        db.session.commit()
+        self.show()
+
 
 class PlayModelCase(ModelCase):
 
@@ -38,23 +76,23 @@ class PlayModelCase(ModelCase):
 
     def test_commitNotCalled(self):
         u = User(username="a", email="a@a.a", password="a")
+        db.session.add(u)
+        db.session.flush()
         g = Game(word="a")
-        db.session.add(g) # this is why the error is raised
-        # db.session.commit() # resolves the error
-        with self.assertRaises(InvalidRequestError):
-            u.play(g, "a")
+        u.play(g, "a")
     
     def test_wrongWordLength(self):
         u = User(username="a", email="a@a.a", password="a")
+        db.session.add(u)
+        db.session.commit()
         g = Game(word="a")
         with self.assertRaises(ValueError) as context:
             u.play(g, "aa")
         self.assertTrue("Can't play that word" in str(context.exception))
-        db.session.add(u)
-        db.session.commit()
-        self.assertFalse(Play.query.all())
+        db.session.rollback()
         self.assertCountEqual(User.query.all(), (u,))
-        self.assertFalse(Game.query.all())
+        self.assertFalse(Play.query.all()) # Play wasn't commited
+        self.assertFalse(Game.query.all()) # Game wasn't commited
     
     def populate(self):
         users = (
@@ -90,7 +128,7 @@ class PlayModelCase(ModelCase):
                 (users[(i+2) % len(users)], users[i])
             )
 
-class UserModelCase(TestCase):
+class UserModelCase(ModelCase):
 
     def test_password_hashing(self):
         from werkzeug.security import generate_password_hash
@@ -100,3 +138,4 @@ class UserModelCase(TestCase):
         self.assertFalse(u.checkPassword("b"))
 
 if __name__ == "__main__": main()
+

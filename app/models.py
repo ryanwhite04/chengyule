@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     games = association_proxy("plays", "game")
-
+    role = db.Column(db.String(255), nullable=True)
     def play(self, game, word):
         """
         If user has already played this game
@@ -24,7 +24,6 @@ class User(UserMixin, db.Model):
         else create new play
         set play word
         """
-        db.session.begin()
         # this ensures game/user have ids for the following query
         db.session.add(game)
         db.session.add(self)
@@ -37,17 +36,39 @@ class User(UserMixin, db.Model):
             # will fail if word doesn't obey rules
             # This is checked in the validator for word in Play
             p.word = word
-            db.session.commit()
             return p
         except:
-            db.session.rollback()
             raise
 
     def checkPassword(self, password):
         return check_password_hash(self.password, password)
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        role = self.role
+        return f'<User {self.username} {role}>'
+    
+    @property
+    def attempts(self):
+        return sum([p.attempt for p in self.plays])
+    
+    @property
+    def correct(self):
+        return [p for p in self.plays if p.correct]
+
+    @property
+    def failed(self):
+        return [
+            p  for p in self.plays
+            if not p.correct and p.game.attempts == p.attempt
+        ]
+
+    @property
+    def remaining(self):
+        return [
+            p for p in self.plays
+            if not p.correct and p.game.attempts > p.attempt
+        ]
+
 
 @login.user_loader
 def load_user(id):
@@ -97,3 +118,40 @@ class Play(db.Model):
 
     def __repr__(self):
         return f'<Play word={self.word} user={self.user.username} game={self.game.word}>'
+
+class Text(db.Model):
+    __tablename__ = "texts"
+    id = db.Column(db.String, primary_key=True)
+
+    def __init__(self, text: str):
+        self.id = text
+
+    def __repr__(self):
+        return f'<Text {self.id}>'
+
+class Code(db.Model):
+    __tablename__ = "codes"
+    id = db.Column(db.String, primary_key=True)
+    text = db.Column(db.ForeignKey("texts.id"))
+
+    def __init__(self, code: str, text: str):
+        self.id = code
+        self.text = text
+
+    def __repr__(self):
+        return f'<Code {self.id} is {self.text}>'
+
+class Note(db.Model):
+    __tablename__ = "notes"
+    text = db.Column(db.ForeignKey("texts.id"), primary_key=True)
+    code = db.Column(db.ForeignKey("codes.id"), primary_key=True)
+    content = db.Column(db.String, nullable=False)
+
+    def __init__(self, note: str, code: str, text: str):
+        self.text = text
+        self.code = code
+        self.content = note
+
+    def __repr__(self):
+        return f'<Note {self.content} is {self.code} for {self.text}>'
+
