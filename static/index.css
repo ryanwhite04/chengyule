@@ -13,10 +13,6 @@ form {
     color: Tomato;
 }
 
-[att^=h] {
-    color:CornflowerBlue;
-}
-
 selection-puzzle::part(choice) {
     background-color: Silver; 
 }
