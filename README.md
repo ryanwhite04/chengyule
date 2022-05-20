@@ -1,7 +1,7 @@
 
 # Setting up development environment
 
-## Check python version
+## Python
 Use at least python 3.9 (3.10 should work too)
 
 to check what version you are using you can use 
@@ -27,17 +27,63 @@ should return
 
 ```Python 3.9.1+```
 
-## Set up and activate a virtual environment
+## Virtual environment
 
 ```python3.9 -m venv venv```
 ```. ./venv/bin/activate```
 
-## Install python dependencies
+## Dependencies
 
 *This command should only be run once the environment has been activated*
 *You should see (venv) at the start of your command line*
 
 ```pip install -r requirements.txt```
+
+## Database
+
+Make sure database is up to date
+
+```flask db upgrade``` to  upgrade the database
+
+## Translation [optional]
+
+Add a TRANSLATION_KEY key to your .env
+
+If you don't have one, you can get one from [here](https://cloud.google.com/translate/docs/setup) or ask me for one
+
+Don't check this into git
+
+Make sure you have at least zh/en installed
+
+```flask languages list``` will show installed languages
+
+If there are missing you can use
+
+```flask languages install languages.json zh``` # Install chinese
+
+```flask languages install languages.json en``` # Install english
+
+# Website
+
+```flask run``` to run the website
+
+# Testing
+
+```python -m unittest test.test_modules.py```
+
+To play around in shell, you can run
+
+```
+python
+>>> from test import UserModelCase, db, User, Play, Game
+>>> umc = UserModelCase()
+>>> umc.setUp()
+>>> games, users = umc.populate()
+(<Game a>, <Game b>, <Game c>)
+>>> User.query.all()
+[<User a>, <User b>, <User c>]
+```
+
 
 ## Install heroku
 
@@ -63,24 +109,6 @@ Since this isn't on the allowed list of technologies for this assignment it will
 I'll probably just swap to using the browsers inbuilt [Custom Elements](https://web.dev/custom-elements-v1/) which is just missing the automatic getter/setter stuff, the tagged template literal html library and some lifecycle methods, but it's still really good.
 
 I've also linked this static website to netlify so once main is pushed to the github repo you can visit it at [chengyu.netlify.app](https://chengyu.netlify.app)
-
-## Flask Website
-
-If you want to work on the backend, you'll have to run the flask app instead.
-
-```flask run```
-
-By setting the FLASK_ENV environment variable to "development" it means the server resets when you make changes to files so you don't have to keep restarting the server all the time which is a pain
-
-TODO: This can later be put into a .env file and loaded automatically using [these instructions](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
-
-I think it's as simple as 
-
-```pip install python-dotenv```
-```pip freeze > requirements.txt```
-```echo "FLASK_ENV=development" > .env"```
-
-and should be good to go, and .env is already ignored by .gitignore
 
 ## Heroku Local
 
@@ -108,42 +136,27 @@ Previously I've used the [Gitflow workflow](https://www.atlassian.com/git/tutori
 - When it's all good, push again ```git push```, and get the team to take a look (can use a pull request if you want)
 - Merge it into main ```git checkout main; git pull; git pull origin my-fancy-new-feature; git push```
 
-# Database
+The merging and pull requesting can also be done through Github's website
 
-Make sure you have the packages required
+# Postgresql
 
-```pip install -r requirements.txt```
+To use postgresql you need to install it first, instructions [here](https://devcenter.heroku.com/articles/heroku-postgresql)
 
-This will install Flask-SQLAlchemy and Flask-Migrate if you don't have them already
+Add
 
-Initialize database
-
-```DATABASE_URL=sqlite:///app.db flask db init```
-```DATABASE_URL=sqlite:///app.db flask db migrate```
-
-DATABASE_URL is passed in manually for now but we can put it in a .env later
-
-# Testing
-
-```python test.py```
-
-To play around in shell, you can run
-
-```
-python
->>> from test import UserModelCase, db, User, Play, Game
->>> umc = UserModelCase()
->>> umc.setUp()
->>> games, users = umc.populate()
-(<Game a>, <Game b>, <Game c>)
->>> User.query.all()
-[<User a>, <User b>, <User c>]
+```env
+DATABASE_URL=postgres:///ryanwhite04
 ```
 
-# New Stuff
+replacing "ryanwhite04" with your computers username
+If you don't know what your username is, you can run
 
->>>python -m unittest test.test_modules.py
+```shell
+echo $(whoami)
+```
 
-# Installing Postgresql
-
-https://devcenter.heroku.com/articles/heroku-postgresql
+or just do
+```shell
+echo DATABASE_URL=postgres:///$(whoami) >> .env
+cat .env
+```
