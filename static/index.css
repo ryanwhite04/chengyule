@@ -17,20 +17,16 @@ form {
     color:CornflowerBlue;
 }
 
-p {
-    color:MidnightBlue;
-}
-
 selection-puzzle::part(choice) {
     background-color: Silver; 
 }
 
 selection-puzzle::part(choice-found), [found] {
-    background-color: MediumSeaGreen;
+    background-color: gold;
 }
 
 selection-puzzle::part(choice-correct), [correct] {
-    background-color: gold;
+    background-color: MediumSeaGreen;
 }
 
 selection-puzzle:not(:defined) {
