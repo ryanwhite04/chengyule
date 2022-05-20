@@ -1,5 +1,5 @@
 from test import Case, db, main
-from app.views import url_for
+from app.views import url_for, translate
 
 class ViewCase(Case):
 
@@ -14,6 +14,12 @@ class ViewCase(Case):
         self.assertEqual(
             self.client.get(url_for("translation", words=words)).json,
             ["Hello", "one"],
+        )
+
+    def test_translate(self):
+        self.assertSequenceEqual(
+            translate(["你好", "一"], None, "en"),
+            ["en_你好", "en_一"]
         )
 
 if __name__ == "__main__": main()
