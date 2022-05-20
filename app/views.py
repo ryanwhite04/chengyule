@@ -266,3 +266,7 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("daily"))
+
+@app.route('/rules')
+def rules():
+    return render_template("rules.html")
