@@ -130,13 +130,14 @@ class Cli:
             for key, value in translations.items():
                 try:
                     text = Text.query.get(key) or Text(key)
+                    db.session.add(text)
+                    db.session.flush()
                     note = Note.query.get({
                         "text": key,
                         "code": language,
                     }) or Note(value, language, key)
                     note.content = value
                     note.verified = True
-                    db.session.add(text)
                     db.session.add(note)
                     db.session.commit()
                 except:
