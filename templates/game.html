@@ -12,7 +12,7 @@ button[slot="option"][disabled] {
 
 {% block content %}
 <h1>{{title}}</h1>
-<form action="{{ url_for("game", id=game.id) }}" method="post">
+<form action="{{ url_for('game', id=game.id) }}" method="post">
     <input id="{{game.id}}" type="hidden" name="play" slot="input">
     <selection-puzzle for="{{game.id}}" answer="{{game.word}}" guidance cache="{{game.id}}">
         {% if current_language != "zh" %}
@@ -26,7 +26,7 @@ button[slot="option"][disabled] {
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for("static", filename="selection-puzzle.js") }}" type="module"></script>
+<script src="{{ url_for('static', filename='selection-puzzle.js') }}" type="module"></script>
 <script>
 // Provide translations for each option as a tooltip
 const options = [...document.querySelectorAll('selection-puzzle [slot="option"]')]
