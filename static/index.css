@@ -6,7 +6,25 @@
 body {
     margin: auto;
     text-align: center;
-    background: var(--light-blue); 
+    background: var(--light-blue);
+    font-family: var(--font-family-sans-serif);
+}
+
+#share {
+    padding: 1em;
+    background: var(--dark);
+    border-radius: 4px;
+    color: var(--light);
+    min-width: 200px;
+}
+#share ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+#share a {
+    color: var(--info);
+    text-decoration: underline;
 }
 
 form, table {
