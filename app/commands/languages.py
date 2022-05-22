@@ -38,7 +38,7 @@ class Cli:
         
         def list(Code):
             try:
-                return [code for code in Code.query.all() if code.allowed]
+                return [code for code in Code.query.where(Code.allowed).all()]
             except (ProgrammingError, OperationalError) as e:
                 print("""
                     Code table not in database,
@@ -134,6 +134,7 @@ class Cli:
                         "text": key,
                         "code": language,
                     }) or Note(value, language, key)
+                    note.content = value
                     note.verified = True
                     db.session.add(text)
                     db.session.add(note)
@@ -171,7 +172,7 @@ class Cli:
             self.update(output, app.config["TRANSLATION_KEY"])
 
         @languages.command()
-        def list(Code):
+        def list():
             """
             List installed languages
             These locales are in the database and will offer a menu option to clients
