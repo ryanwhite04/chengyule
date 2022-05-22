@@ -72,8 +72,8 @@ def set_language():
 
 @app.route("/game/<int:id>", methods=["GET", "POST"])
 def game(id, title=None, words=4):
-    puzzle = getPuzzle(select('static/chengyu.json', id, words))
-    game = Game.query.get(id) or Game(id=id, word=puzzle["answer"])
+    chengyu = select('chengyu.json', id, words)
+    game = Game.query.get(id) or Game(id, chengyu)
     if request.method == "POST":
         word = request.form.get("play")
         if current_user.is_authenticated:
@@ -89,17 +89,9 @@ def game(id, title=None, words=4):
         title=title,
         game=game,
         highlight=True,
-        options=puzzle["options"],
-        question=puzzle["question"],
     )
 
-def getPuzzle(chengyu):
-    options = sorted(list(u"".join([c["chinese"] for c in chengyu])))
-    return {
-        "options": options,
-        "answer": chengyu[0]["chinese"],
-        "question": chengyu[0]["english"]
-    }
+    
 
 def google_translate(q, target, key, source="zh"):
     url = "https://translation.googleapis.com/language/translate/v2"
@@ -156,10 +148,9 @@ def translate(words, key, language):
         db.session.commit()
     return [found[word] for word in words]
 
-@app.route("/translation/<zh_list:words>")
-def translation(words):
+@app.route("/translation/<language>/<zh_list:words>")
+def translation(language, words):
     key = current_app.config["TRANSLATION_KEY"]
-    language = str(current_language)
     translations = translate(words, key, language)
     return Response(
         dumps(translations),
