@@ -25,7 +25,6 @@
                 {{ nav_link("daily", "主页") }}
                 {{ nav_link("rules", "规则") }}
                 {{ nav_link("random", "随机") }}
-                {{ nav_link("admin", "管理员") }}
                 {% if current_user.role == "admin" %}
                 {{ nav_link("admin", "管理员") }}
                 {% endif %}
