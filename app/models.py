@@ -79,14 +79,20 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String(255), nullable=False)
     users = association_proxy("plays", "user")
+    words = db.Column(db.JSON)
     attempts = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, **kwargs):
+    def __init__(self, id, words, **kwargs):
         super(Game, self).__init__(**kwargs)
+        self.id = id
         self.attempts = 4
+        self.word = words[0]
+        self.words = words # TODO normalized by making separate table
     
     def __repr__(self):
         return f'<Game {self.word}>'
+
+        sorted(list(u"".join(chengyu)))
 
 class Play(db.Model):
     __tablename__ = "plays"
