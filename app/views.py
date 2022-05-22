@@ -28,8 +28,9 @@ app = Blueprint("", __name__)
 
 
 @app.app_template_filter("_")
-def translate_word(word):
-    current = str(current_language)
+def translate_word(word, current=None):
+    if not current:
+        current = str(current_language)
     key = current_app.config["TRANSLATION_KEY"]
     translated = translate([word], key, current)[0]
     return translated
