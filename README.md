@@ -69,21 +69,20 @@ If there are missing you can use
 
 # Testing
 
-```python -m unittest test.test_modules.py```
-
-To play around in shell, you can run
-
-```
-python
->>> from test import UserModelCase, db, User, Play, Game
->>> umc = UserModelCase()
->>> umc.setUp()
->>> games, users = umc.populate()
-(<Game a>, <Game b>, <Game c>)
->>> User.query.all()
-[<User a>, <User b>, <User c>]
+To run all tests
+```bash
+python -m unittest discover
 ```
 
+To run some tests
+```
+python -m unittest test.test_modules.py
+```
+
+To run one test
+```
+python -m unittest test.test_module.PlayModelCase.test_secondPlay
+```
 
 ## Install heroku
 
