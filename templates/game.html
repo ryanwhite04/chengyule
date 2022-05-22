@@ -6,10 +6,10 @@
 {% if current_user.is_authenticated %}
 <form action="{{ url_for('game', id=game.id) }}" method="post">
     <input id="{{game.id}}" type="hidden" name="play" slot="input">
-    {{ selection_puzzle(game.id, game.word, game.word|_, options)}}
+    {{ selection_puzzle(game.id, game.word, game.word|_, game.words|join("")|sort)}}
 </form>
 {% else %}
-{{ selection_puzzle(game.id, game.word, game.word|_, options)}}
+{{ selection_puzzle(game.id, game.word, game.word|_, game.words|join("")|sort)}}
 {% endif %}
 {% endblock %}
 
