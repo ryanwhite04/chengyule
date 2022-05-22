@@ -3,24 +3,15 @@
 {% block title %}History{% endblock %}
 
 {% block content %}
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th>Played</th>
-            <th>Attempts</th>
-            <th>Correct</th>
-            <th>Failed</th>
-            <th>Incomplete</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{ current_user.games | length }}</td>
-            <td>{{ current_user.attempts }}</td>
-            <td>{{ current_user.correct | length }}</td>
-            <td>{{ current_user.failed | length }}</td>
-            <td>{{ current_user.remaining | length }}</td>
-        </tr>
-    </tbody>
-</table>
+<h2>You</h2>
+<p>Played: {{ current_user.games | length }}</p>
+<p>Attempts: {{ current_user.attempts }}</p>
+<p>Correct: {{ current_user.correct | length }}</p>
+<p>Failed: {{ current_user.failed | length }}</p>
+<p>Incomplete: {{ current_user.remaining | length }}</p>
+
+<h2>Everyone</h2>
+<p>Played: {{ Game.query.all() | length }}</p>
+<p>Attempts: {{ User.query.all()|sum(attribute="attempts") }}</p>
+
 {% endblock %}
