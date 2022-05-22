@@ -57,14 +57,14 @@
                     <a class="nav-link">Logged in as {{ current_user.username }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    <a class="nav-link" href="{{ url_for('logout') }}">{{ "登出"|_}}</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                    <a class="nav-link" href="{{ url_for('login') }}">{{ "登录"|_ }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                    <a class="nav-link" href="{{ url_for('register') }}">{{"注册"|_}}</a>
                 </li>
                 {% endif %}
             </ul>
