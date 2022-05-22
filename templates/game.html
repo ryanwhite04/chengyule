@@ -15,4 +15,34 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='selection-puzzle.js') }}" type="module"></script>
+<script>
+const store = JSON.parse(localStorage.getItem("{{current_language}}")) || {}
+let options = [...document.querySelectorAll('selection-puzzle [slot="option"]')].filter(option => {
+    const expiration = Date.now() - 1000*60*60*24*7; // Translations last a week
+    const saved = store[option.textContent] || [0, ""];
+    if (saved && saved[0] > expiration) {
+        option.setAttribute("title", saved[1]);
+        return false;
+    } else {
+        return true;
+    }
+})
+// localStorage = { "en" { "一": [Date, "one"], } } // Example of store
+// Get options that need updated translations
+const words = options.map(option => option.textContent);
+
+// Batch request translations from server
+// Setting language explicitly in case server current_language is wrong
+// Don't want to accidentally store translation in incorrect language
+words.length && fetch(`/translation/{{current_language}}/${words.join(",")}`)
+    .then(response => response.json())
+    .then(translations => translations.forEach((translation, i) => {
+        const option = options[i];
+        // Using words instead of option.textContent in case option changed during fetch
+        store[words[i]] = [Date.now(), translation];
+        localStorage.setItem("{{current_language}}", JSON.stringify(store));
+        option.setAttribute("title", translation);
+    }))
+    .catch(console.error)
+</script>
 {% endblock %}
