@@ -14,7 +14,7 @@
     <h2>{{ clue }}</h2>
     {% endif %}
     {% for option in options %}
-    <button slot="option" title="{{ option|_ }}">{{option}}</button>
+    <button slot="option">{{option}}</button>
     {% endfor %}
     <section id="share" slot="success">
         <p>{{ "分享"|_(current_language)|title }}</p>
