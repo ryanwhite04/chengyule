@@ -183,31 +183,35 @@ def random():
 @app.route("/history")
 @login_required
 def history():
-    return render_template('history.html')
+    return render_template('history.html', Game=Game, User=User, Play=Play)
 
 @app.route("/registration", methods=['GET', 'POST'])
 def register():
+    # print(request.form.)
     form = Registration()
-    if request.method == "POST":
-        if form.validate_on_submit():
-            user = User(
-                username=form.username.data,
-                email=form.email.data,
-                password=generate_password_hash(form.password.data))
-            try:
-                db.session.add(user)
-                db.session.commit()
-                login_user(user, remember=True) # TODO make this optional
-                return redirect(url_for('daily'))
-            except IntegrityError as error:
-                db.session.rollback()
-                flash("That username is already registered", 'error')
-                return render_template(
-                    'register.html',
-                    form=form,
-                    title="Registration Page",
-                )
-    else: return render_template('register.html', form=form, title="Registration Page")
+    if request.method == "POST" and form.validate_on_submit():
+        user = User(
+            username=form.username.data,
+            email=form.email.data,
+            password=generate_password_hash(form.password.data))
+        try:
+            db.session.add(user)
+            db.session.commit()
+            login_user(user, remember=True) # TODO make this optional
+            return redirect(url_for('daily'))
+        except IntegrityError as error:
+            db.session.rollback()
+            flash("That username is already registered", 'error')
+            return render_template(
+                'register.html',
+                form=form,
+                title="Registration Page",
+            )
+        except Exception as e:
+            print(e)
+            raise
+    else:
+        return render_template('register.html', form=form, title="Registration Page")
 
 @app.errorhandler(404)
 def page_note_found(e):
