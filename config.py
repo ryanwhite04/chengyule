@@ -9,7 +9,9 @@ SHOW = environ.get("SHOW")
 
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL").replace("postgres://", "postgresql://")
+    SQLALCHEMY_DATABASE_URI = (
+        environ.get("DATABASE_URL") or ""
+    ).replace("postgres://", "postgresql://")
     SECRET_KEY = environ.get("SECRET_KEY")
     TRANSLATION_KEY = environ.get("TRANSLATION_KEY")
     SHOW = loads(SHOW) if SHOW else []
