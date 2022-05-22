@@ -1,5 +1,4 @@
 :root {
-    --dark: midnightblue; 
     --blue: skyblue; 
     --light-blue: lightcyan;
 }
@@ -17,16 +16,6 @@ form, table {
 
 .error {
     color: var(--danger, Tomato);
-}
-
-h1, h2 {
-    color:variable(--blue, royalblue);
-    font-variant: all-petite-caps;
-}
-
-
-p {
-    color:variable(--dark, midnightblue); 
 }
 
 selection-puzzle::part(choice), [default] {
