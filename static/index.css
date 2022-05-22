@@ -1,7 +1,13 @@
+:root {
+    --dark: midnightblue; 
+    --blue: skyblue; 
+    --light-blue: lightcyan;
+}
+
 body {
     margin: auto;
     text-align: center;
-    background: LightCyan; 
+    background: var(--light-blue); 
 }
 
 form, table {
@@ -13,15 +19,17 @@ form, table {
     color: var(--danger, Tomato);
 }
 
-[att^=h] {
-    color:rgb(100, 106, 222);
+h1, h2 {
+    color:variable(--blue, royalblue);
+    font-variant: all-petite-caps;
 }
+
 
 p {
-    color:rgb(2, 6, 79);
+    color:variable(--dark, midnightblue); 
 }
 
-selection-puzzle::part(choice) {
+selection-puzzle::part(choice), [default] {
     background-color: Silver; 
 }
 

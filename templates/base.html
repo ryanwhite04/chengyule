@@ -22,17 +22,17 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('daily') }}">Home{{ "主页"|_ }}</a>
+                    <a class="nav-link" href="{{ url_for('daily') }}">{{ "主页"|_ }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('random') }}">Random{{ "随机"|_ }}</a>
+                    <a class="nav-link" href="{{ url_for('random') }}">{{ "随机"|_ }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('history') }}">Statistics{{ "成果"|_ }}</a>
+                    <a class="nav-link" href="{{ url_for('history') }}">{{ "统计"|_ }}</a>
                 </li>
                 {% if current_user.role == "admin" %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('admin') }}">Admin</a>
+                    <a class="nav-link" href="{{ url_for('admin') }}">{{ "管理员"|_ }}</a>
                 </li>
                 {% endif %}
             </ul>
