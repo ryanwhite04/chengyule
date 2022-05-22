@@ -2,14 +2,6 @@
 
 {% block title %}{{title}}{% endblock %}
 
-{% block styles %}
-<style>
-button[slot="option"][disabled] {
-    pointer-events: auto !important;
-}
-</style>
-{% endblock %}
-
 {% block content %}
 <h1>{{title}}</h1>
 <form action="{{ url_for('game', id=game.id) }}" method="post">
