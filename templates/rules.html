@@ -121,7 +121,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for("static", filename="selection-puzzle.js") }}" type="module"></script>
+<script src="{{ url_for('static', filename='selection-puzzle.js') }}" type="module"></script>
 <script type="module">
     const options = [...document.querySelectorAll('#puzzle [slot="option"]')]
     options[2].click();
