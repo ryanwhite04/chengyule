@@ -22,20 +22,20 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('daily') }}">{{ "主页"|_ }}</a>
+                    <a class="nav-link" href="{{ url_for('daily') }}">{{ "主页"|_|title }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('rules') }}">{{ "规则"|_ }}</a>
+                    <a class="nav-link" href="{{ url_for('rules') }}">{{ "规则"|_|title }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('random') }}">{{ "随机"|_ }}</a>
+                    <a class="nav-link" href="{{ url_for('random') }}">{{ "随机"|_|title }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('history') }}">{{ "统计"|_ }}</a>
+                    <a class="nav-link" href="{{ url_for('history') }}">{{ "统计"|_|title }}</a>
                 </li>
                 {% if current_user.role == "admin" %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('admin') }}">{{ "管理员"|_ }}</a>
+                    <a class="nav-link" href="{{ url_for('admin') }}">{{ "管理员"|_|title }}</a>
                 </li>
                 {% endif %}
             </ul>
