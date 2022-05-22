@@ -1,5 +1,6 @@
-from test import Case, db, main, skipUnless, skipIf, TestConfig
+from test import Case, db, TestConfig
 from app.views import url_for, translate
+from unittest import main, skipUnless, skipIf
 
 class ViewCase(Case):
 
@@ -23,6 +24,3 @@ class ViewCase(Case):
             translate(["你好", "一"], None, "en"),
             ["en_你好", "en_一"]
         )
-
-if __name__ == "__main__": main()
-

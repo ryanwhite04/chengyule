@@ -1,4 +1,4 @@
-from test import Case, db, main
+from test import Case, db
 from app.models import (
     User,
     Game,
@@ -29,16 +29,10 @@ class StatsModelCase(ModelCase):
         b.play(c, 'a')
         db.session.add_all([a])
         db.session.commit()
-        self.show()
         self.assertEqual(len(a.games), 2) # A played 2 games
         self.assertEqual(len(b.games), 1) # B played 1 game
         self.assertEqual(a.attempts, 3) # A played 3 moves
         self.assertEqual(b.attempts, 1) # B played 1 move
-        correctA = Play.query.where(User.id == a.id, Play.correct).all()
-        correctB = Play.query.where(User.id == b.id, Play.correct).all()
-        print(correctA, correctB)
-        print(len(b.games))
-
 
 class NoteModelCase(ModelCase):
 
@@ -60,8 +54,15 @@ class NoteModelCase(ModelCase):
         db.session.add_all([es, en])
         db.session.add_all([hello, hola])
         db.session.commit()
-        self.show()
-
+        self.assertEqual(
+            "[<Text 西班牙语>, <Text 英语>, <Text 你好>]",
+            str(Text.query.all()))
+        self.assertEqual(
+            "[<Code es is 西班牙语>, <Code en is 英语>]",
+            str(Code.query.all()))
+        self.assertEqual(
+            "[<Note Hello is en for 你好>, <Note Hola is es for 你好>]",
+            str(Note.query.all()))
 
 class PlayModelCase(ModelCase):
 
@@ -136,6 +137,3 @@ class UserModelCase(ModelCase):
         u = User(username="a", email="a@a.a", password=password)
         self.assertTrue(u.checkPassword("a"))
         self.assertFalse(u.checkPassword("b"))
-
-if __name__ == "__main__": main()
-

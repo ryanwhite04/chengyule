@@ -17,5 +17,3 @@ class Case(TestCase):
         db.session.remove()
         db.drop_all()
         self.app_context.pop()
-
-if __name__ == "__main__": main()
