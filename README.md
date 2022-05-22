@@ -97,6 +97,13 @@ If you get an error too, you can just try
 but this wont autoupdate or anything
 also, here is a [link](https://cli-assets.heroku.com/install.sh) to the script if you want to take a look before installing it
 
+App is currently hosted at [chengyule.herokuapp.com](https://chengyule.herokuapp.com/)
+
+To push to heroku
+```bash
+git push heroku
+```
+
 # Running Locally
 
 ## Static website
