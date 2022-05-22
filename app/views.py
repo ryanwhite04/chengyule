@@ -194,13 +194,14 @@ def register():
                 username=form.username.data,
                 email=form.email.data,
                 password=generate_password_hash(form.password.data))
-            db.session.add(user)
             try:
+                db.session.add(user)
                 db.session.commit()
                 login_user(user, remember=True) # TODO make this optional
                 return redirect(url_for('daily'))
             except IntegrityError as error:
-                flash(error, 'error')
+                db.session.rollback()
+                flash("That username is already registered", 'error')
                 return render_template(
                     'register.html',
                     form=form,
@@ -245,13 +246,6 @@ def table(table):
             )
         abort(403)
     return redirect(url_for("login"))
-
-@app.route('/user')
-def user():
-    if current_user.is_authenticated:
-        return current_user.username
-    else:
-        return "Not logged in"
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
