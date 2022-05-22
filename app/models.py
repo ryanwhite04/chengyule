@@ -139,25 +139,33 @@ class Code(db.Model):
     __tablename__ = "codes"
     id = db.Column(db.String, primary_key=True)
     text = db.Column(db.ForeignKey("texts.id"))
-    acive = db.Column(db.Boolean)
-    
+    allowed = db.Column(db.Boolean)
+    default = db.Column(db.Boolean)
+
     def __init__(self, code: str, text: str):
-        self.id = code
-        self.text = text
+        self.id = code.strip()
+        self.text = text.strip()
+        self.allowed = False
+        self.default = False
 
     def __repr__(self):
-        return f'<Code {self.id} is {self.text}>'
+        items = [self.text]
+        self.allowed and items.append("allowed")
+        self.default and items.append("default")
+        return f'<Code {self.id} is {", ".join(items)}>'
 
 class Note(db.Model):
     __tablename__ = "notes"
     text = db.Column(db.ForeignKey("texts.id"), primary_key=True)
     code = db.Column(db.ForeignKey("codes.id"), primary_key=True)
     content = db.Column(db.String, nullable=False)
+    verified = db.Column(db.Boolean)
 
     def __init__(self, note: str, code: str, text: str):
         self.text = text
         self.code = code
         self.content = note
+        self.verified = False
 
     def __repr__(self):
         return f'<Note {self.content} is {self.code} for {self.text}>'
