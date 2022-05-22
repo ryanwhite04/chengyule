@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}
-    Login Page
-{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
-<h1>Login</h1>
 <form method="POST">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -23,6 +20,6 @@
     <br/>
     {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
     <br/>
-    <p>Do not have an account? <a href="{{ url_for('register') }}">{{"注册"|_|safe}}</a> instead.</p>
+    <p><a href="{{ url_for('register') }}">{{"注册"|_|safe}}</a></p>
 </form>
 {% endblock %}

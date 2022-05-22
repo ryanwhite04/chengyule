@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}{{title}}{% endblock %}
-
 {% block content %}
-<h1>{{title}}</h1>
 {% for table in tables %}
-<a href="{{ url_for('table’, table=table) }}">{{ table }}</a>
+<a href="{{ url_for('table', table=table) }}">{{ table }}</a>
 {% endfor %}
 {% endblock %}

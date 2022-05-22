@@ -14,7 +14,7 @@
     <h2>{{ game.word|_ }}</h2>
     {% endif %}
     {% for option in options %}
-    <button slot="option">{{option}}</button>
+    <button slot="option" title="{{ option|_ }}">{{option}}</button>
     {% endfor %}
     <section id="share" slot="success">
         <p>{{ "分享"|_(current_language)|title }}</p>

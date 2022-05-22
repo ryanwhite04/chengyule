@@ -1,46 +1,18 @@
 {% extends 'base.html' %}
-
 {% block title %}{{title}}{% endblock %}
 
 {% block content %}
-<h1>{{title}}</h1>
-<h2>{{current_user.is_authenticated}}</h2>
+{% from "macros.html" import selection_puzzle with context %}
 {% if current_user.is_authenticated %}
 <form action="{{ url_for('game', id=game.id) }}" method="post">
     <input id="{{game.id}}" type="hidden" name="play" slot="input">
-    <selection-puzzle for="{{game.id}}" answer="{{game.word}}" guidance cache="{{game.id}}">
-        {% if current_language != "zh" %}
-        <h2>{{ game.word|_ }}</h2>
-        {% endif %}
-        {% for option in options %}
-        <button slot="option">{{option}}</button>
-        {% endfor %}
-    </selection-puzzle>
+    {{ selection_puzzle(game, options)}}
 </form>
 {% else %}
-<selection-puzzle for="{{game.id}}" answer="{{game.word}}" guidance cache="{{game.id}}">
-    {% if current_language != "zh" %}
-    <h2>{{ game.word|_ }}</h2>
-    {% endif %}
-    {% for option in options %}
-    <button slot="option">{{option}}</button>
-    {% endfor %}
-    <a slot="success" href="http://twitter.com/intent/tweet?text={{game.word}}">Share on twitter</a>
-</selection-puzzle>
+{{ selection_puzzle(game, options)}}
 {% endif %}
 {% endblock %}
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='selection-puzzle.js') }}" type="module"></script>
-<script>
-// Provide translations for each option as a tooltip
-const options = [...document.querySelectorAll('selection-puzzle [slot="option"]')]
-const words = options.map(option => option.textContent).join(",")
-fetch(`/translation/${words}`)
-    .then(response => response.json())
-    .then(translations => translations.forEach((translation, i) => {
-        options[i].setAttribute("title", translation)
-    }))
-    .catch(console.error)
-</script>
 {% endblock %}
