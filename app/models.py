@@ -139,7 +139,8 @@ class Code(db.Model):
     __tablename__ = "codes"
     id = db.Column(db.String, primary_key=True)
     text = db.Column(db.ForeignKey("texts.id"))
-
+    acive = db.Column(db.Boolean)
+    
     def __init__(self, code: str, text: str):
         self.id = code
         self.text = text
