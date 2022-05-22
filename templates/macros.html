@@ -1,0 +1,5 @@
+{% macro nav_link(endpoint, text) %}
+<li class="nav-item">
+    <a class="nav-link" href="{{ url_for(endpoint) }}">{{ text|_(current_language)|title }}</a>
+</li>
+{% endmacro %}
