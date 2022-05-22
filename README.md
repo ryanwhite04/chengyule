@@ -1,5 +1,5 @@
 # Purpose/architecture of the web application
-Allows users to have a better understanding at traditional chinese 成语. The nav bar has a "Home" tab which generates a different puzzle, daily, amongst all users, while the "Random" tab generate a random puzzle for users to enjoy. The "Rules" tab explains the game rules and the "Statistics" tab presents user's gaming history -- that is the number of attempts, corrects and fails. Our website can also be translated into different languages. 
+This web application allows users to have a better understanding at traditional chinese 成语. The nav bar has a "Home" tab which generates a different puzzle, daily, amongst all users, while the "Random" tab generates a random puzzle for users to enjoy. The "Rules" tab explains the game rules and the "Statistics" tab presents user's gaming history -- that is the number of attempts, corrects and fails. Our website can also be translated into different languages. 
 
 # Setting up development environment
 
