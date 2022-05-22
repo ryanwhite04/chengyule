@@ -32,7 +32,6 @@ def translate_word(word):
     current = str(current_language)
     key = current_app.config["TRANSLATION_KEY"]
     translated = translate([word], key, current)[0]
-    print(f"{current=} {word=} {translated=}")
     return translated
 
 @app.app_context_processor
