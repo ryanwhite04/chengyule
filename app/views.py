@@ -14,6 +14,7 @@ from flask import (
     current_app,
     Response,
     abort,
+    escape,
 )
 from json import dumps
 from app.forms import Registration, Login
@@ -33,7 +34,7 @@ def translate_word(word, current=None):
         current = str(current_language)
     key = current_app.config["TRANSLATION_KEY"]
     translated = translate([word], key, current)[0]
-    return translated
+    return escape(translated)
 
 @app.app_context_processor
 def inject_language():
