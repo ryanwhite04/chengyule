@@ -157,10 +157,6 @@ def translation(language, words):
         mimetype="application/json",
     )
 
-@app.route("/chengyu/<int:count>/<int:key>")
-def chengyu(count, key):
-    return getPuzzle(select('static/chengyu.json', key or 1, count or 4))
-
 @app.route("/")
 @app.route("/index")
 def daily():
