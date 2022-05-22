@@ -36,21 +36,22 @@
                 </li>
                 {% endif %}
             </ul>
+            <form action="{{ url_for('set_language') }}" method="post">
+                <select name="language" onchange="this.form.submit()">
+                    {% for code, name in get_languages() %}
+                        {% if code == current_language %}
+                        <option selected value="{{code}}">{{name}}</option>
+                        {% else %}
+                        <option value="{{code}}">{{name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <noscript>
+                    <input type="submit" value="Change Language">
+                </noscript>
+            </form>
             <ul class="navbar-nav">
-                <form action="{{ url_for('set_language') }}" method="post">
-                    <select name="language" onchange="this.form.submit()">
-                        {% for code, name in get_languages() %}
-                            {% if code == current_language %}
-                            <option selected value="{{code}}">{{name}}</option>
-                            {% else %}
-                            <option value="{{code}}">{{name}}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                    <noscript>
-                        <input type="submit" value="Change Language">
-                    </noscript>
-                </form>
+
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link">Logged in as {{ current_user.username }}</a>
