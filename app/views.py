@@ -41,7 +41,7 @@ def inject_language():
     current = str(current_language)
     key = current_app.config["TRANSLATION_KEY"]
     def get_languages():
-        allowed = Code.query.all()
+        allowed = [code for code in Code.query.where(Code.allowed).all()]
         names = translate(
             [code.text for code in allowed],
             key,
@@ -59,11 +59,11 @@ def inject_language():
 
 @language.allowed_languages
 def get_allowed_languages():
-    return [code.id for code in Code.query.all()]
+    return [code.id for code in Code.query.where(Code.allowed).all()]
 
 @language.default_language
 def get_default_language():
-    return "en"
+    return Code.query.where(Code.default).first().id
 
 @app.route('/language', methods=["POST"])
 def set_language():
