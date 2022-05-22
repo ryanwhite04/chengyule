@@ -232,3 +232,12 @@ class Cli:
             """
             self.default("languages/allowed", language)
             self.install(db, Code)
+
+        @languages.command()
+        @argument("language", default=None)
+        def translate(language):
+            """
+            Upload all translations in the given language
+            Uploadd all if no language given
+            """
+            self.translate(language, Text, Note, db)
