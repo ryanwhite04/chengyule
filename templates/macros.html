@@ -7,3 +7,21 @@
     {% endif %}
 </li>
 {% endmacro %}
+
+{% macro selection_puzzle(game, options) %}
+<selection-puzzle for="{{game.id}}" answer="{{game.word}}" guidance cache="{{game.id}}">
+    {% if current_language != "zh" %}
+    <h2>{{ game.word|_ }}</h2>
+    {% endif %}
+    {% for option in options %}
+    <button slot="option">{{option}}</button>
+    {% endfor %}
+    <section id="share" slot="success">
+        <p>{{ "分享"|_(current_language)|title }}</p>
+        <ul>
+            <li><a href="https://twitter.com/intent/tweet?text={{word}}">{{ "推特"|_(current_language) }}</a></li>
+            <li><a href="mailto:?subject={{game.word}}">{{ "电子邮件"|_(current_language) }}</a></li>
+        </ul>
+    </section>
+</selection-puzzle>
+{% endmacro %}
