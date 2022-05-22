@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{title}}{% endblock %}
+{% block title %}{{ title |_}}{% endblock %}
 
 {% block content %}
 {% from "macros.html" import selection_puzzle with context %}
