@@ -1,6 +1,6 @@
 {% from "macros.html" import selection_puzzle with context %}
 {% extends 'base.html' %}
-{% block title %}Rules{% endblock %}
+{% block title %}{{ "规则" |_}}{% endblock %}
 
 {% block styles %}
 <style>
@@ -60,7 +60,7 @@
             </p>
         </article>
         <article>
-            <h2>{{ "颜色"|_|title }}</h2>
+            <h2>{{ "颜色"|_(current_language)|title }}</h2>
             <p found>In the chengyu but not in the correct position</p>
             <p correct>In the chengyu and in the correct position</p>
             <p default>Not in the chengyu</p>
