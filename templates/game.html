@@ -25,6 +25,7 @@
     {% for option in options %}
     <button slot="option">{{option}}</button>
     {% endfor %}
+    <a slot="success" href="http://twitter.com/intent/tweet?text={{game.word}}">Share on twitter</a>
 </selection-puzzle>
 {% endif %}
 {% endblock %}
