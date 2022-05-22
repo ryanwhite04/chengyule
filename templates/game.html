@@ -9,7 +9,7 @@
     {{ selection_puzzle(game, options)}}
 </form>
 {% else %}
-{{ selection_puzzle(game, options)}}
+{{ selection_puzzle(game.id, game.word, game.word|_, options)}}
 {% endif %}
 {% endblock %}
 

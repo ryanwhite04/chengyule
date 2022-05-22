@@ -1,33 +1,34 @@
+{% from "macros.html" import selection_puzzle with context %}
 {% extends 'base.html' %}
 {% block title %}Rules{% endblock %}
 
 {% block styles %}
-<style>    
+<style>
     .container {
         display: flex;
-        flex-wrap: wrap; 
+        flex-wrap: wrap;
         text-align: center;
     }
-    
-    .left, .right{
+
+    .left, .right {
         background-color: var(--blue);
         padding: 10px;
         flex: 50%;
     }
-            
+
     @media (max-width: var(--breakpoint-md)) {
         .right, .left {
             flex: 100%;
         }
     }
-    
+
     article {
         background: var(--light);
         margin: 10px;
         padding: 5px;
     }
 
-    article > h2, p {
+    h2, p {
         margin: 5px;
     }
 </style>
@@ -37,62 +38,45 @@
 <div class="container">
     <div class="left">
         <article>
-        <h2>What is Chengyu</h2>
-        <p>Cheng Yu are traditional Chinese idiomatic expressions that consists of four Chinese characters.</p>
+            <h2>成语</h2>
+            <p>成语 ({{ "成语"|_ }}) are traditional Chinese idiomatic expressions that consists of four Chinese characters.
+            </p>
         </article>
         <article>
-        <h2>It's A Chengyu Wordle</h2>
-        <p> Our 成语了 is very similar to wordle. Your task is to guess the chengyu in 4 turns according to 
-            the description writen above the puzzle. There is a line below the puzzle to remind you how many 
-            turns you have left. 
-        </p>
-        <br>
-        <p> You can click on the character to unselect it if you change
-            your mind. You can no longer unselect characters once you select your fourth character (as this 
-            completes your first guess). Try it yourself on the example!
-        </p>
-        <br>
-        <p>
-            The Random tab in the navigator allows you to generate a random puzzle and the Statistics tab shows 
-            your gaming history such as number of plays, how many attempts you made, how many success/fails, etc.
-        </p>
+            <h2>Wordle</h2>
+            <p> Our 成语了 is very similar to wordle. Your task is to guess the chengyu in 4 turns according to
+                the description writen above the puzzle. There is a line below the puzzle to remind you how many
+                turns you have left.
+            </p>
+            <br>
+            <p> You can click on the character to unselect it if you change
+                your mind. You can no longer unselect characters once you select your fourth character (as this
+                completes your first guess). Try it yourself on the example!
+            </p>
+            <br>
+            <p>
+                The Random tab in the navigator allows you to generate a random puzzle and the Statistics tab shows
+                your gaming history such as number of plays, how many attempts you made, how many success/fails, etc.
+            </p>
         </article>
         <article>
-        <h2>Colours</h2>
-        <p found>Yellow -- The character is in the chengyu but not in the correct position</p>
-        <p correct>Green -- The character is in the chengyu and in the correct position</p>
-        <p default>Grey -- The character is not in the chengyu</p>
-        <p>You will not be able to select a grey character again as you know they are not in this chengyu. </p>
+            <h2>{{ "颜色"|_|title }}</h2>
+            <p found>In the chengyu but not in the correct position</p>
+            <p correct>In the chengyu and in the correct position</p>
+            <p default>Not in the chengyu</p>
+            <p>You will not be able to select a grey character again as you know they are not in this chengyu.</p>
         </article>
     </div>
     <div class="right">
         <h2>Example</h2>
         <p>Consider today's "chengyu" being: The first 4 letters of the alphabet</p>
-        <selection-puzzle id="puzzle" disable-incorrect answer="ABCD">
-            <h3>First 4 letters of the alphabet</h3>
-            <button slot="option">A</button>
-            <button slot="option">B</button>
-            <button slot="option">C</button>
-            <button slot="option">D</button>
-            <button slot="option">E</button>
-            <button slot="option">F</button>
-            <button slot="option">G</button>
-            <button slot="option">H</button>
-            <button slot="option">I</button>
-            <button slot="option">J</button>
-            <button slot="option">K</button>
-            <button slot="option">L</button>
-            <button slot="option">M</button>
-            <button slot="option">N</button>
-            <button slot="option">O</button>
-            <button slot="option">P</button>
-            <p slot="success">Nice Job!</p>
-            <p slot="failure">Bad luck.</p>
-        </selection-puzzle>
+        {{ selection_puzzle("example", "ABCD", "First 4 letters of the alphabet", "ABCDEFGHIJKLMNOP") }}
         <article>
-        <p>In this case, C is not in the right position but is in the "chengyu";
-            B in the chengyu and is in right position; H is not in the "chengyu"; and 
-            A is not in the right position but is in the "chengyu".</p>
+            <p>
+                In this case, C is not in the right position but is in the "chengyu";
+                B in the chengyu and is in right position; H is not in the "chengyu"; and
+                A is not in the right position but is in the "chengyu".
+            </p>
         </article>
     </div>
 </div>
@@ -100,11 +84,6 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='selection-puzzle.js') }}" type="module"></script>
-<script type="module">
-    const options = [...document.querySelectorAll('#puzzle [slot="option"]')]
-    options[2].click();
-    options[1].click();
-    options[7].click();
-    options[0].click();
-</script>
+<!-- This will cause the preselected buttons for the puzzle to be chosen -->
+<script>localStorage.setItem("example", JSON.stringify([2, 1, 7, 0]))</script>
 {% endblock %}
