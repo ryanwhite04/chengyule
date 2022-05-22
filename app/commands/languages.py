@@ -19,7 +19,7 @@ class Cli:
             pass
 
         @languages.command()
-        @argument("output", type=File("w", "UTF8"))
+        @argument("output", default="languages/index.json")
         def update(output):
             """
             Update list of available languages
@@ -37,15 +37,19 @@ class Cli:
                     item["language"]: item["name"]
                     for item in languages
                 }
+                if output == "-": output = 1 # set to stdout
+                with open(output, "w") as file:
+                    file.write(dumps(
+                        data,
+                        indent=4,
+                        sort_keys=True,
+                        ensure_ascii=False,
+                    ))
             except KeyError:
                 data = json["error"]["message"]
+                stderr.write(data)
             except: raise
-            output.write(dumps(
-                data,
-                indent=4,
-                sort_keys=True,
-                ensure_ascii=False,
-            ))
+
 
 
         @languages.command()
