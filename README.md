@@ -168,3 +168,26 @@ or just do
 echo DATABASE_URL=postgres:///$(whoami) >> .env
 cat .env
 ```
+
+The app works fine with sqlite, but it's good to test it locally on postgres too since that is what heroku is using
+
+# References
+
+- [alembic](https://alembic.sqlalchemy.org/en/latest/): Database versioning
+- [click](https://click.palletsprojects.com/en/8.1.x/): For the CLI for language and admin stuff
+- [email-validator](https://pypi.org/project/email-validator/): Registration email validation
+- [Flask](https://flask.palletsprojects.com/en/2.1.x/): Main Framework used
+- [Flask-Language](https://flask-language.readthedocs.io/en/latest/): Translation
+- [Flask-Login](https://flask-login.readthedocs.io/en/latest/): User authentication and management
+- [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/): Database revision history
+- [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) Integration with SQLAlchemy
+- [Flask-WTF](https://flask-wtf.readthedocs.io/en/1.0.x/): Integratoin with WTForms
+- [gunicorn](https://gunicorn.org/): Server used on heroku, production level
+- [Jinja2](https://palletsprojects.com/p/jinja/): For templates
+- [Mako](https://www.makotemplates.org/)
+- [psycopg2-binary](https://www.psycopg.org/docs/): For the postgres engine for heroku
+- [python-dotenv](https://pypi.org/project/python-dotenv/): For Environment Variable configuration
+- [requests](https://docs.python-requests.org/en/latest/): TO interact with google translate API aswell as for views/routes
+- [SQLAlchemy](https://docs.sqlalchemy.org/en/14/orm/tutorial.html): Database ORM for flask
+- [Werkzeug](https://werkzeug.palletsprojects.com/en/2.1.x/): For password hashing and other WSGI utilities
+- [WTForms](https://wtforms.readthedocs.io/en/3.0.x/): For the login/registration forms
