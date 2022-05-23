@@ -1,14 +1,88 @@
-# Purpose/architecture of the web application
-This web application allows users to have a better understanding at traditional chinese 成语. The nav bar has a "Home" tab which generates a different puzzle, daily, amongst all users, while the "Random" tab generates a random puzzle for users to enjoy. The "Rules" tab explains the game rules and the "Statistics" tab presents user's gaming history -- that is the number of attempts, corrects and fails. Our website can also be translated into different languages. 
 
-# Setting up development environment
+- [Links](#links)
+- [Purpose](#purpose)
+  - [Rules](#rules)
+  - [Statistics](#statistics)
+  - [Language Support](#language-support)
+  - [Administration Support](#administration-support)
+- [Development](#development)
+  - [Virtual environment](#virtual-environment)
+  - [Dependencies](#dependencies)
+  - [Database](#database)
+  - [Translation [optional]](#translation-optional)
+- [Website](#website)
+- [Testing](#testing)
+  - [Install heroku](#install-heroku)
+- [Running Locally](#running-locally)
+  - [Static website](#static-website)
+  - [Heroku Local](#heroku-local)
+- [Repository Management](#repository-management)
+  - [Workflow](#workflow)
+- [Postgresql](#postgresql)
+- [References](#references)
 
-## Python
-Use at least python 3.9 (3.10 should work too)
 
-to check what version you are using you can use 
+# Links
 
-```python --version```
+- [Heroku](https://chengyule.herokuapp.com/)
+- [Github](https://github.com/ryanwhite04/chengyule)
+
+# Purpose
+
+This web application allows users to have a better understanding at traditional chinese 成语.
+
+Each "chengyu" is a 4 character idiom in chinese.
+
+The puzzle itself is written using the custom web components API now available in most browsers.
+
+The nav bar has a "Home" tab which generates a different puzzle, daily, shared amongst all users, while the "Random" tab generates a random puzzle each time it is clicked.
+
+## Rules
+
+The "Rules" tab explains the game rules and includes an example of the game partially played by leveraging the games ability to restart from a previous state stored in local storage
+
+## Statistics
+
+This tab presents user's gaming history -- that is the number of attempts, corrects and fails, aswell as statistics on all users.
+
+It is only shown to logged in users
+
+Statistics are only shown to users who have account, but anonymous users still have their games cached locally incase they reload the page or want to come back to a game later.
+
+It also includes aggragated usage statistics, how many games played by everyone and so on
+
+## Language Support
+In order to offer clues to users, tooltips are available for all the chinese character options and a translation of the chengyu itself is provided.
+
+These are available in up to 111 languages which can be added by running
+
+```bash
+flask languages add en
+```
+
+or replacing en with any of the other language codes showin in languages/index.json
+
+They can also be added manually by editing "languages/allowed", where each line will add a language to the website, and the first line is the default language. This must be folloed by
+
+```
+flask languages upgrade
+```
+
+in order to take effect
+
+Any translated word is initially fetched from google translation API, but is then cached on the databased for subsequent visits, and any manual translations written into the files in "languages" such as "languages/en.json" are automatically added to the site by
+
+```
+flask languages translate en
+```
+
+for a single language or
+
+```
+flask languages upgrade
+```
+
+to update all languages
 
 ## Administration Support
 
@@ -107,6 +181,7 @@ You can just ```cd``` into the ```static``` directory and run ```python -m http.
 Right now I'm using google's [Lit](https://lit.dev/) web-component library
 It's really nice and makes great reusable web-components at only 5KB.
 Since this isn't on the allowed list of technologies for this assignment it will have to be removed before submission though.
+
 I'll probably just swap to using the browsers inbuilt [Custom Elements](https://web.dev/custom-elements-v1/) which is just missing the automatic getter/setter stuff, the tagged template literal html library and some lifecycle methods, but it's still really good.
 
 I've also linked this static website to netlify so once main is pushed to the github repo you can visit it at [chengyu.netlify.app](https://chengyu.netlify.app)
