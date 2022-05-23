@@ -125,7 +125,10 @@ If you installed heroku, you can run it through that too using
 ```heroku local```
 
 It just looks in the *Procfile* and sees "web: gunicorn app:app" and runs the webapp using gunicorn which is in python dependancies
-I don't see any benefit yet to using this over ```flask run``` though so I wouldn't worry about it
+
+This is useful for debugging any errors that might be causing the remote heroku dynamos to fail
+
+To see remote logs, ```heroku logs --tail``
 
 # Repository Management
 
