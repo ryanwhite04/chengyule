@@ -108,6 +108,10 @@ git push heroku
 # Running Locally
 
 ## Static website
+
+**Deprecation Notice**
+Due to lack of time, support for the static website is dropped, while focussing on the dynamic heroky website
+
 If you just want to mess around with the "selection-puzzle" web component and add some features, you don't need to run flask or anything.
 You can just ```cd``` into the ```static``` directory and run ```python -m http.server``` and visit [localhost:8000](http://localhost:8000) in your browser
 
