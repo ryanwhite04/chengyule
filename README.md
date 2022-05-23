@@ -10,24 +10,23 @@ to check what version you are using you can use
 
 ```python --version```
 
-or
+## Administration Support
 
-```python3 --version```
+In order to become an administrator, create an account and then use the flask admin cli tools
 
-If you are using ubuntu, the default repo only shows up to 3.8, but you can follow these instructions to get 3.9
+```bash
+flask admin update some_cool_username -r 0
+```
 
-```sudo apt update```
-```sudo apt install software-properties-common```
-```sudo add-apt-repository ppa:deadsnakes/ppa```
-```sudo apt install python3.9```
+Will update the "role" to 0 which is maximum (administrator)
 
-then check it worked
+Afterwards, reloading the page you will have access to "administation tab in the navbar
 
-```python3.9 --version```
+This is currently just a list of all tables and rows, but it should be easy to swap rows with forms to allow updating the database from admin panel, ideally into a restful api/ route in it's own blueprint
 
-should return 
+Currently it's just used for easily monitoring changes and vetting translations
 
-```Python 3.9.1+```
+# Development
 
 ## Virtual environment
 
@@ -45,7 +44,7 @@ should return
 
 Make sure database is up to date
 
-```flask db upgrade``` to  upgrade the database
+```flask db upgrade``` to upgrade the database
 
 ## Translation [optional]
 
