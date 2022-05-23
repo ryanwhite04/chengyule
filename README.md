@@ -49,21 +49,11 @@ Make sure database is up to date
 
 ## Translation [optional]
 
-Add a TRANSLATION_KEY key to your .env
+Add a TRANSLATION_KEY key to your .env if there isn't one there already
 
-If you don't have one, you can get one from [here](https://cloud.google.com/translate/docs/setup) or ask me for one
+If you don't have one, you can get one from [here](https://cloud.google.com/translate/docs/setup) or ask me for one, there will be one in .env when this project is submitted
 
-Don't check this into git
-
-Make sure you have at least zh/en installed
-
-```flask languages list``` will show installed languages
-
-If there are missing you can use
-
-```flask languages install languages.json zh``` # Install chinese
-
-```flask languages install languages.json en``` # Install english
+```flask languages upgrade``` To upgrade language support
 
 # Website
 
