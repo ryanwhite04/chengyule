@@ -24,7 +24,7 @@ class Cli:
                     for item in languages
                 }
                 if output == "-": output = 1 # set to stdout
-                with open(output, "w") as file:
+                with open(output, "w", encoding="utf-8") as file:
                     file.write(dumps(
                         data,
                         indent=4,
@@ -48,8 +48,8 @@ class Cli:
             except: raise
         
         def upgrade(db, Text, Code):
-            available = loads(open("languages/index.json").read())
-            settings = open("languages/allowed")
+            available = loads(open("languages/index.json", encoding="utf-8").read())
+            settings = open("languages/allowed", encoding="utf-8")
             default = settings.readline()
             allowed = settings.readlines()
             allowed.append(default)
@@ -72,7 +72,7 @@ class Cli:
             except: raise
 
         def install(db, Code):
-            file = open("languages/allowed")
+            file = open("languages/allowed", encoding="utf-8")
             default = file.readline()
             allowed = file.readlines()
             allowed.append(default)
@@ -96,35 +96,35 @@ class Cli:
                 except: raise
 
         def add(path, code):
-            codes = [line.strip() for line in open(path).readlines()]
-            with open(path, "w") as file:
+            codes = [line.strip() for line in open(path, encoding="utf-8").readlines()]
+            with open(path, "w", encoding="utf-8") as file:
                 if not code in codes:
                     codes.append(code)
                 file.write(u"\n".join(codes))
 
         def remove(path, code):
-            codes = [line.strip() for line in open(path).readlines()]
+            codes = [line.strip() for line in open(path, encoding="utf-8").readlines()]
             if codes[0] == code:
                 print("That is the default, change default first", file=stderr)
             elif code in codes:
                 codes.remove(code)
-                with open(path, "w") as file:
+                with open(path, "w", encoding="utf-8") as file:
                     file.write(u"\n".join(codes))
 
         def default(path, code):
-            codes = [line.strip() for line in open(path).readlines()]
+            codes = [line.strip() for line in open(path, encoding="utf-8").readlines()]
             if codes[0] == code:
                 return
             else:
                 if code in codes: codes.remove(code)
                 codes.insert(0, code)
-                with open(path, "w") as file:
+                with open(path, "w", encoding="utf-8") as file:
                     file.write(u"\n".join(codes))
 
         def translate(language, Text, Note, db):
             translations = {}
             try:
-                translations =  loads(open(f"languages/{language}.json").read())
+                translations =  loads(open(f"languages/{language}.json", encoding="utf-8").read())
             except FileNotFoundError:
                 pass
             for key, value in translations.items():
