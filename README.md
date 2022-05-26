@@ -26,7 +26,7 @@
 ```
 git clone https://github.com/ryanwhite04/chengyule.git
 cd chengyule
-python -m venv venv
+python3 -m venv venv
 . ./venv/bin/activate
 pip install -r requirements.txt
 echo TRANSLATION_KEY=$(heroku config:get TRANSLATION_KEY -a chengyule) >> .env # Optional, only if have heroku
