@@ -31,7 +31,7 @@ python -m venv venv
 pip install -r requirements.txt
 echo TRANSLATION_KEY=$(heroku config:get TRANSLATION_KEY -a chengyule) >> .env # Optional, only if have heroku
 flask db upgrade
-flask language upgrade
+flask languages upgrade
 flask run
 ```
 
