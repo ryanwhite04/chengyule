@@ -32,11 +32,11 @@
             <form action="{{ url_for('set_language') }}" method="post">
                 <input hidden name="next" value="{{ request.endpoint }}">
                 <select name="language" onchange="this.form.submit()">
-                    {% for code, name in get_languages() %}
-                        {% if code == current_language %}
-                        <option selected value="{{code}}">{{name}}</option>
+                    {% for code in get_languages %}
+                        {% if code.id == current_language %}
+                        <option selected value="{{code.id}}">{{code.text|_(code.id)}}</option>
                         {% else %}
-                        <option value="{{code}}">{{name}}</option>
+                        <option value="{{code.id}}">{{code.text|_(code.id)}}</option>
                         {% endif %}
                     {% endfor %}
                 </select>

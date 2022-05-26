@@ -38,23 +38,9 @@ def translate_word(word, current=None):
 
 @app.app_context_processor
 def inject_language():
-    current = str(current_language)
-    key = current_app.config["TRANSLATION_KEY"]
-    def get_languages():
-        allowed = [code for code in Code.query.where(Code.allowed).all()]
-        names = translate(
-            [code.text for code in allowed],
-            key,
-            current,
-        )
-        return [
-            (code.id, names[index])
-            for index, code
-            in enumerate(allowed)
-        ]
     return dict(
         current_language=str(current_language),
-        get_languages=get_languages,
+        get_languages=Code.query.where(Code.allowed).all(),
     )
 
 @language.allowed_languages
