@@ -1,4 +1,4 @@
-
+- [Quick Install](#quick-install)
 - [Links](#links)
 - [Purpose](#purpose)
   - [Rules](#rules)
@@ -21,6 +21,19 @@
 - [Postgresql](#postgresql)
 - [References](#references)
 
+# Quick Install
+
+```
+git clone https://github.com/ryanwhite04/chengyule.git
+cd chengyule
+python -m venv venv
+. ./venv/bin/activate
+pip install -r requirements
+echo TRANSLATION_KEY=$(heroku config:get TRANSLATION_KEY) >> .env # Optional, only if have heroku
+flask db upgrade
+flask language upgrade
+flask run
+```
 
 # Links
 
